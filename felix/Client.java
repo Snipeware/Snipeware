@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.lwjgl.opengl.Display;
+
 import com.google.common.eventbus.EventBus;
 import com.thealtening.AltService;
 
@@ -42,15 +44,21 @@ import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.network.play.client.C13PacketPlayerAbilities;
 import net.minecraft.network.play.client.C18PacketSpectate;
+import net.minecraft.util.Session;
+
 
 public enum Client {
 	
 	INSTANCE;
 
+	//private DiscordRP discordRP = new DiscordRP();
+	
 	private ModuleManager moduleManager;
 	
 	private Bus<Event> eventapi;
-	
+
+	public String user = "";
+
 	private FontManager fontManager;
 	
     private AccountManager accountManager;
@@ -67,11 +75,21 @@ public enum Client {
     
     private File dataFile;
     
-    public String build = "030121";
+    public String build = "1.03";
+    
+    public static final Client getInstance(){
+		return INSTANCE;
+	}
     
 	
 	public void start() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-		directory = new File(Minecraft.getMinecraft().mcDataDir, "Felix");
+		Display.setTitle("Snipeware");
+		
+		Minecraft.getMinecraft().session = new Session("KoljanGamingYT", "", "", "mojang");
+		
+	//	discordRP.start();
+	
+		directory = new File(Minecraft.getMinecraft().mcDataDir, "Snipeware");
 		configDirectory = new File(directory, "configs");
         if (!directory.exists()) {
             directory.mkdir();
@@ -89,7 +107,7 @@ public enum Client {
 		accountManager = new AccountManager(directory);
 		configManager.loadConfigs();
 		moduleManager.loadModules(dataFile);
-		//protection.hook();
+		
 		eventapi.register(this);
 	}
 
@@ -98,6 +116,7 @@ public enum Client {
 	}
 
 	public void stop() {
+		//discordRP.shutdown();
         accountManager.save();
         if (!dataFile.exists()) {
         	try {
@@ -140,6 +159,12 @@ public enum Client {
 	public Bus getEventManager() {
 		return eventapi;
 	}
+	/*
+	public DiscordRP getDiscordRP(){
+		return discordRP;
+	}
+	
+	*/
 	
 	public FontManager getFontManager() {
 		return fontManager;

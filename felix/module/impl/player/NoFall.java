@@ -39,7 +39,10 @@ public class NoFall extends Module {
 		if (!Client.INSTANCE.getModuleManager().getModule("Flight").isEnabled() && mc.thePlayer.fallDistance > 3) {
 			switch (nofallMode.getValue()) {
 			case Watchdog:
-                mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(true));
+                if(mc.thePlayer.fallDistance > 3F){
+                	mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(true));
+                	mc.thePlayer.fallDistance = 0;
+				}
 			case Edit:
 				event.setOnGround(true);
 				break;

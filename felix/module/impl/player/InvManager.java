@@ -44,7 +44,7 @@ public class InvManager extends Module {
     private int lastSlot;
 
     public InvManager() {
-        super("InvCleaner", 0, ModuleCategory.PLAYER);
+        super("InvManager", 0, ModuleCategory.PLAYER);
         addValues(Food, sort, Archery, Sword, InvCleaner, UHC, inventoryOnly, Delay, BlockCap);
     }
 

@@ -2,6 +2,8 @@ package net.minecraft.client.gui;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+
+import felix.Client;
 import felix.gui.alt.gui.GuiAltManager;
 
 import java.io.BufferedReader;
@@ -200,6 +202,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
      * window resizes, the buttonList is cleared beforehand.
      */
     public void initGui() {
+    	//Client.getInstance().getDiscordRP().update("", "idling in the Main Menu");
         this.viewportTexture = new DynamicTexture(256, 256);
         this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
         Calendar calendar = Calendar.getInstance();

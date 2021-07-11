@@ -225,7 +225,8 @@ public class Scaffold extends Module {
         float pitch = 0;
 
         placing = mc.thePlayer.ticksExisted % 3 == 0;
-        if (blockEntry == null) {
+  
+        
             if (lastBlockData != null && event.isPre()) {
                 float[] rotations = getRotationsNeeded(lastBlockData);
                 switch (rotationsMode.getValue()) {
@@ -242,11 +243,18 @@ public class Scaffold extends Module {
                         break;
                     }
                 }
+                if(!mc.gameSettings.keyBindJump.isPressed()) {
                 event.setPitch(rotations[1]);
                 if (rotationYaw.isEnabled()) {
                     event.setYaw(rotations[0]);
                 }
-            }
+                }else {
+                	event.setPitch(90);
+                	 if (rotationYaw.isEnabled()) {
+                         event.setYaw(rotations[0]);
+                     }
+                }
+            
         }
         if (blockEntry == null)
             return;

@@ -50,7 +50,7 @@ public class Disabler extends Module {
 
 	private final ArrayDeque<Packet> list = new ArrayDeque<>();
 	
-	private int watchdogCounter;
+	private int watchdogCounter, currentTrans;
 	private double watchdogMovement;
 	private boolean groundCheck, watchdogPacket;
 
@@ -92,17 +92,10 @@ public class Disabler extends Module {
 				break;
 			}
 			case Watchdog: {
+
 				break;
 			}
 			case Test: {
-				double x = mc.thePlayer.posX;
-				double y = mc.thePlayer.posY;
-				double z = mc.thePlayer.posZ;
-				for (int i = 0; i < 2; ++i) {
-					
-					mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(x, y - 1, z, mc.thePlayer.onGround));
-					mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(x, y - 1, z, mc.thePlayer.onGround));
-				}
 				break;
 			}
 		}
@@ -122,12 +115,13 @@ public class Disabler extends Module {
 				break;
 			}
 			case Watchdog: {
-				if (flagged) {
-					if (!flag) {
-						flag = true;
-						Notifications.getManager().post("Success", "You can do what you want for 5 seconds.",
-								Notifications.Type.SUCCESS);
-					}
+				if (event.getPacket() instanceof C0FPacketConfirmTransaction){
+					C0FPacketConfirmTransaction transaction = (C0FPacketConfirmTransaction) event.getPacket();
+					transaction.uid += (transaction.uid > 0 ? 5 : -5);
+				}
+				if (event.getPacket() instanceof C03PacketPlayer) {
+					if (mc.thePlayer.ticksExisted % 40 == 0)
+						mc.getNetHandler().addToSendQueueNoEvent(new C18PacketSpectate(UUID.randomUUID()));
 				}
 				break;
 			}
@@ -135,7 +129,22 @@ public class Disabler extends Module {
 				break;
 			}
 			case Test: {
+				if (Client.INSTANCE.getModuleManager().aura.target != null && event.getPacket() instanceof C03PacketPlayer) {
+					C03PacketPlayer p = (C03PacketPlayer) event.getPacket();
+					if(p.getRotating()) {
+						float m = (float) (0.005 * mc.gameSettings.mouseSensitivity / 0.005);
+						float f = (float) (m * 0.6 + 0.2);
+						float gcd = (float) (m * m * m * 1.2);
+						p.pitch -= p.pitch % gcd;
+						p.yaw -= p.yaw % gcd;
+					}
+				}
 
+				if (event.getPacket() instanceof C0FPacketConfirmTransaction) {
+					if(currentTrans++ > 0) event.setCancelled(true);
+				} else if(event.getPacket() instanceof C0BPacketEntityAction) {
+					event.setCancelled(true);
+				}
 				break;
 			}
 		}
@@ -162,9 +171,7 @@ public class Disabler extends Module {
 				break;
 			}
 			case Watchdog: {
-				if (playerpacket && !flag) {
-					event.setCancelled(true);
-				}
+
 				break;
 			}
 			case FakeLag: {
@@ -185,12 +192,7 @@ public class Disabler extends Module {
 				break;
 			}
 			case Test: {
-				if (event.getPacket() instanceof C0FPacketConfirmTransaction) {
-					final C0FPacketConfirmTransaction packet = (C0FPacketConfirmTransaction) event.getPacket();
-					if (packet.getUid() < 0) {
-						event.setCancelled(true);
-					}
-				}
+
 				break;
 			}
 		}
@@ -200,9 +202,6 @@ public class Disabler extends Module {
 	public void onMove(final EventMove event) {
 		switch (mode.getValue()) {
 		case Watchdog:
-			if (!flag) {
-				event.setCancelled(true);
-			}
 			break;
 		case FakeLag:
 			break;
@@ -220,6 +219,7 @@ public class Disabler extends Module {
 	@Override
 	public void onEnable() {
 		super.onEnable();
+		currentTrans = 0;
 		if (mc.thePlayer == null)
 			return;
 		flag = false;
@@ -231,21 +231,11 @@ public class Disabler extends Module {
 		case Verus:
 			break;
 		case Watchdog:
-			mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,
-					mc.thePlayer.posY, mc.thePlayer.posZ, true));
-			mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,
-					mc.thePlayer.posY + 0.18D, mc.thePlayer.posZ, true));
-			mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,
-					mc.thePlayer.posY + 0.08D, mc.thePlayer.posZ, true));
 			break;
 		case FakeLag:
 			timer.reset();
 			break;
 		case Test:
-			watchdogPacket = false;
-			watchdogCounter = 0;
-			watchdogMovement = 0;
-			groundCheck = mc.thePlayer.onGround;
 			break;
 		}
 	}

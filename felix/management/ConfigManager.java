@@ -1,5 +1,11 @@
 package felix.management;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,13 +20,6 @@ import felix.value.impl.BooleanValue;
 import felix.value.impl.ColorValue;
 import felix.value.impl.EnumValue;
 import felix.value.impl.NumberValue;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class ConfigManager {
 	

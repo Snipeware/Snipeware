@@ -2,13 +2,17 @@ package felix.module.impl.combat;
 
 import org.lwjgl.input.Keyboard;
 
+import felix.Client;
 import felix.api.annotations.Handler;
 import felix.events.packet.EventPacketReceive;
+import felix.gui.notification.Notifications;
 import felix.module.Module;
+import felix.value.impl.BooleanValue;
 import felix.value.impl.EnumValue;
 import felix.value.impl.NumberValue;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 
@@ -20,9 +24,17 @@ public class AntiVelocity extends Module {
 	
 	private NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100);
 	
+	private BooleanValue flagbackcheck = new BooleanValue("Redesky Check", true);
+	
+	
+    private double motionX;
+    private double motionZ;
+    private double motionY;
+    
+	
 	public AntiVelocity() {
-		super("AntiVelocity", 0, ModuleCategory.COMBAT);
-		addValues(velocityMode, vertical, horizontal);
+		super("Velocity", 0, ModuleCategory.COMBAT);
+		addValues(velocityMode, vertical ,horizontal, flagbackcheck);
 	}
 	
 	public void onEnable() {
@@ -65,10 +77,49 @@ public class AntiVelocity extends Module {
             	event.setCancelled(true);
             }
 			break;
+			
+		case Redesky:
+			
+			
+			
+			setSuffix("Redesky");
+			if (mc.thePlayer.hurtTime == 9) {
+				motionX = mc.thePlayer.motionX;
+				motionZ = mc.thePlayer.motionZ; 
+				motionY = mc.thePlayer.motionY;
+			}
 		}
+		
+		
+		 if (mc.thePlayer.isMoving2()) {
+				
+	        if (mc.thePlayer.hurtTime == 8) {
+	        	
+	        	if(!Client.getInstance().getModuleManager().getModule("LongJump").isEnabled()) {
+	        
+	              mc.thePlayer.motionX = motionX * 0.55;
+	              mc.thePlayer.motionZ = motionZ * 0.55;
+	              mc.thePlayer.motionY = motionY * 0.957;
+	
+	        	}
+	            
+	           }
+	        
+	        if(mc.thePlayer.hurtTime > 0) {
+	        	if (event.getPacket() instanceof S08PacketPlayerPosLook && flagbackcheck.isEnabled()) {
+					toggle();
+					Notifications.getManager().post("Disabled Modules", "Velocity was disabled to prevent flags/errors");
+				}
+	        }
+			
+			
+		}
+		
 	}
 	
+	
+	
 	private enum Mode {
-		Cancel, Customizable;
+		Cancel, Customizable, Redesky;
 	}
 }

@@ -2,6 +2,7 @@ package felix.util.other;
 
 import java.awt.Color;
 
+import felix.Client;
 import felix.module.impl.combat.AntiBot;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -70,6 +71,9 @@ public class PlayerUtil {
 		if (entity instanceof EntityAnimal && !animals) {
 			return false;
 		}
+		if(Client.INSTANCE.getModuleManager().getModule(AntiBot.class).isEnabled() && AntiBot.bots.contains(entity)){
+		    return false;
+        }
 		if (entity == mc.thePlayer || entity.isDead || entity.getHealth() == 0 || mc.thePlayer.getDistanceToEntity(entity) > range) {
 			return false;
 		}

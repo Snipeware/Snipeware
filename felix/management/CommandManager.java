@@ -6,11 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import felix.command.Command;
-import felix.command.impl.Bind;
-import felix.command.impl.Config;
-import felix.command.impl.Help;
-import felix.command.impl.Teleport;
-import felix.command.impl.Toggle;
+import felix.command.impl.*;
 
 public class CommandManager {
 	
@@ -21,6 +17,7 @@ public class CommandManager {
 		commands.put(Teleport.class, new Teleport());
 		commands.put(Toggle.class, new Toggle());
 		commands.put(Config.class, new Config());
+		commands.put(Yanchop.class, new Yanchop());
 		commands.put(Help.class, new Help());
 	}
 	

@@ -53,6 +53,8 @@ public class GuiPasswordField extends Gui {
         String newtext = text.replaceAll(" ", "");
         return newtext;
     }
+    
+    
 
     public String getSelectedtext() {
         int var1 = this.cursorPosition < this.selectionEnd ? this.cursorPosition : this.selectionEnd;

@@ -5,12 +5,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import felix.Client;
 import felix.api.annotations.Handler;
+import felix.events.packet.EventPacketReceive;
 import felix.events.packet.EventPacketSend;
 import felix.events.player.EventMotionUpdate;
 import felix.module.Module;
 import felix.module.impl.movement.Flight;
 import felix.module.impl.movement.Speed;
 import felix.util.other.TimeHelper;
+import felix.util.player.MovementUtils;
 import felix.value.impl.EnumValue;
 import felix.value.impl.NumberValue;
 import net.minecraft.block.Block;
@@ -23,6 +25,7 @@ import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
 
 public class Criticals extends Module {
 	
@@ -45,14 +48,23 @@ public class Criticals extends Module {
 		super("Criticals", 0, ModuleCategory.COMBAT);
 		addValues(mode);
 	}
-    
+
+	@Override
     public void onEnable() {
     	attacking = false;
+    	groundTicks = 0;
+    	timer.reset();
     	super.onEnable();
     }
     
     private enum Mode {
-    	Vanilla, Packet, Pos
+    	Vanilla, Packet, Pos, Watchdog
+    }
+
+    @Handler
+    public void a(EventMotionUpdate event){
+        if (event.isPre())
+            this.groundTicks = MovementUtils.isOnGround() ? this.groundTicks + 1 : 0;
     }
     
 	@Handler
@@ -111,6 +123,32 @@ public class Criticals extends Module {
     		}
     		break;
     	}
+    }
+
+    @Handler
+    public void aa(EventPacketSend event){
+        if (event.getPacket() instanceof C0APacketAnimation && hasTarget()) {
+            if (this.timer.isDelayComplete(500)) {
+                if (this.groundTicks > 1) {
+                    for (double offset : new double[]{0.056f, 0.016f, 0.003f}) {
+                        mc.getNetHandler().addToSendQueueNoEvent(
+                                new C03PacketPlayer.C04PacketPlayerPosition(
+                                        this.mc.thePlayer.posX,
+                                        this.mc.thePlayer.posY + offset + (StrictMath.random() * 0.0003F),
+                                        this.mc.thePlayer.posZ,
+                                        false));
+                    }
+                    this.timer.reset();
+                }
+            }
+        }
+    }
+
+    private boolean hasTarget() {
+        if (Client.INSTANCE.getModuleManager().aura.target != null)
+            return true;
+        final MovingObjectPosition target = mc.objectMouseOver;
+        return target != null && target.entityHit != null;
     }
     
     private boolean shouldCritical() {

@@ -23,6 +23,7 @@ public class Help extends Command {
 		Logger.print(".config");
 		Logger.print(".toggle");
 		Logger.print(".teleport");
+		Logger.print(".yanchop");
 		Logger.print("--------------------------");
 	}
 }

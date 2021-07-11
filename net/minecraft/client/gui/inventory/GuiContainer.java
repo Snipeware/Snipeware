@@ -16,12 +16,14 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 public abstract class GuiContainer extends GuiScreen
 {
@@ -105,6 +107,14 @@ public abstract class GuiContainer extends GuiScreen
         final EventGuiContainer event = new EventGuiContainer();
         Client.INSTANCE.getEventManager().post(event);
         if (event.isCancelled()) return;
+        if(mc.thePlayer.openContainer != null && mc.thePlayer.openContainer instanceof ContainerChest){
+            if(Client.INSTANCE.getModuleManager().chestStealer.silent.getValue()){
+                if(!Mouse.isGrabbed()){
+                    mc.inGameHasFocus = true;
+                    mc.mouseHelper.grabMouseCursor();
+                }
+            }
+        }
         this.drawDefaultBackground();
         int i = this.guiLeft;
         int j = this.guiTop;

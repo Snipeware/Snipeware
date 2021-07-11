@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.HashMap;
 
+import org.lwjgl.opengl.Display;
+
 import felix.Client;
 import felix.gui.click.components.Frame;
 import felix.gui.click.components.GuiButton;
@@ -14,6 +16,7 @@ import felix.gui.click.util.FramePosition;
 import felix.module.Module;
 import felix.module.Module.ModuleCategory;
 import felix.util.font.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.VanillaFontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -59,6 +62,7 @@ public class Panel extends ClickGui {
 		for (ModuleCategory cat : ModuleCategory.values()) {
 			GuiFrame frame;
 			// load frame positions
+			
 			if (framePositions.containsKey(cat.name())) {
 				FramePosition curPos = framePositions.get(cat.name());
 				frame = new GuiFrame(cat.name(), curPos.getPosX(), curPos.getPosY(), curPos.isExpanded());
@@ -80,6 +84,7 @@ public class Panel extends ClickGui {
             if (mc.entityRenderer.theShaderGroup != null) {
                 mc.entityRenderer.theShaderGroup.deleteShaderGroup();
             }
+            Gui.drawRect(0.0, 0.0, Display.getWidth(), Display.getHeight(), new Color(0, 0, 0, 77).getRGB());
             mc.entityRenderer.loadShader(new ResourceLocation("shaders/post/blur.json"));
         }
 		super.initGui();

@@ -7,6 +7,7 @@ import felix.events.render.EventRender2D;
 import felix.gui.click.ClickGui;
 import felix.gui.click.Panel;
 import felix.module.Module;
+import net.minecraft.client.gui.Gui;
 
 public class ClickGUI extends Module {
 	
@@ -16,6 +17,7 @@ public class ClickGUI extends Module {
 	
 	public void onEnable() {
 		toggle();
+		
 		mc.displayGuiScreen(new Panel());
 		super.onEnable();
 	}

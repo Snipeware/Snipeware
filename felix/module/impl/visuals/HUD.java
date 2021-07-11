@@ -59,6 +59,8 @@ private float hue = 1.0F;
   private BooleanValue pulsing = new BooleanValue("Pulsing", true);
   private BooleanValue background = new BooleanValue("Background", false);
   private BooleanValue tabgui = new BooleanValue("TabGUI", true);
+  private BooleanValue fpsspoof = new BooleanValue("Spoof FPS", false);
+  private BooleanValue BPS = new BooleanValue("Show BPS", false);
   private BooleanValue radar = new BooleanValue("Radar", true);
   private BooleanValue arrayList = new BooleanValue("Module List", true);
   private BooleanValue info = new BooleanValue("Info", true);
@@ -69,6 +71,8 @@ private float hue = 1.0F;
   private BooleanValue sideLine = new BooleanValue("Bar", true);
   
   private NumberValue<Float> rainbowSaturation = new NumberValue<>("Rainbow Saturation", 0.6f, 0.1f, 1.0f);
+  
+  public NumberValue<Integer> FpsAdder = new NumberValue<>("FPS+", 100, 100, 10000, 100);
   
   private NumberValue<Float> modListBackgroundAlpha;
   
@@ -81,11 +85,12 @@ private float hue = 1.0F;
   private float xOffset;
   private float yOffset;
   private boolean dragging;
+  public String bps;
   
   public HUD() {
 	  super("HUD", 0, ModuleCategory.VISUALS);
       modListBackgroundAlpha = new NumberValue("BG Alpha", 0.2f, 0.0f, 1.0f, 0.05f);
-      addValues(fontMode, arrayListColor, modListBackgroundAlpha, rainbowSaturation, X, Y, size, colorValue, arrayList, watermark, tabgui, sideLine, radar, info, armorStatus, potionStatus, pulsing, toggleSounds, background);
+      addValues(fontMode, arrayListColor, modListBackgroundAlpha, rainbowSaturation, FpsAdder , X, Y, size, colorValue, arrayList, watermark, fpsspoof , BPS ,tabgui, sideLine, radar, info, armorStatus, potionStatus, pulsing, toggleSounds, background);
       setHidden(true);
   }
   
@@ -126,8 +131,17 @@ private float hue = 1.0F;
       double xDist = player.posX - player.lastTickPosX;
       double zDist = player.posZ - player.lastTickPosZ;
       float d = (float) StrictMath.sqrt(xDist * xDist + zDist * zDist);
-      final String bps = String.format(ChatFormatting.GRAY + " [" + ChatFormatting.WHITE + "%.2f" + " BPS" + ChatFormatting.GRAY + "]", d * 20 * mc.timer.timerSpeed);
-      final String fps = info.isEnabled() ? ChatFormatting.GRAY + "[" + ChatFormatting.WHITE + Minecraft.getDebugFPS() + " FPS" + ChatFormatting.GRAY + "]" : "";
+    
+      int fpse = Minecraft.getDebugFPS();
+      if(fpsspoof.isEnabled()) {
+    	  fpse += FpsAdder.getValue();
+      }
+      if(BPS.isEnabled()) {
+    	  bps = String.format(ChatFormatting.GRAY + " [" + ChatFormatting.WHITE + "%.2f" + " BPS" + ChatFormatting.GRAY + "]" , d * 20 * mc.timer.timerSpeed);
+      }else {
+    	  bps = "";
+      }
+      final String fps = info.isEnabled() ? ChatFormatting.GRAY + " [" + ChatFormatting.WHITE + fpse + " FPS" + ChatFormatting.GRAY + "]" : "";
 	  final FontRenderer fr = Client.INSTANCE.getFontManager().getFont(tahoma ? "Tahoma 20" : "Display 20", false);
 	  final FontRenderer font = Client.INSTANCE.getFontManager().getFont(tahoma ? "Tahoma 20" : "Display 20", false);
 	  final String text = ChatFormatting.GRAY + "X" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posX) + " " + ChatFormatting.GRAY + "Y" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posY) + " " + ChatFormatting.GRAY + "Z" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posZ);
@@ -152,9 +166,12 @@ private float hue = 1.0F;
       boolean vanilla = fontMode.getValue().equals(FontMode.Vanilla);
       if (watermark.isEnabled()) {
     	  if (vanilla) {
-    		  mc.fontRendererObj.drawStringWithShadow("F" + ChatFormatting.WHITE + "elix " + fps + bps, 1, 1, color);
+    		
+    			  mc.fontRendererObj.drawStringWithShadow("S" + ChatFormatting.WHITE + "nipeware" + fps + bps, 1, 1, color);
+    		 
     	  } else {
-    		  font.drawStringWithShadow("F" + ChatFormatting.WHITE + "elix " + fps + bps, 1, 1, color);
+    		  
+    		  font.drawStringWithShadow("S" + ChatFormatting.WHITE + "nipeware" + fps + bps, 1, 1, color);
     	  }
       }
       if (info.isEnabled()) {

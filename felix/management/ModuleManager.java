@@ -36,7 +36,6 @@ import felix.module.impl.movement.InvMove;
 import felix.module.impl.movement.LiquidWalk;
 import felix.module.impl.movement.LongJump;
 import felix.module.impl.movement.NoSlowDown;
-import felix.module.impl.movement.PaperFlight;
 import felix.module.impl.movement.Speed;
 import felix.module.impl.movement.Sprint;
 import felix.module.impl.movement.Step;
@@ -85,6 +84,7 @@ public class ModuleManager {
 	private final Map<Class, Module> modules = new LinkedHashMap<>();
 	public KillAura aura;
 	public Scaffold2 scaffold2;
+	public ChestStealer chestStealer;
 
 	public ModuleManager() {
 		modules.put(Scaffold2.class, scaffold2 = new Scaffold2());
@@ -107,7 +107,7 @@ public class ModuleManager {
 		modules.put(Ambience.class, new Ambience());
 		modules.put(Step.class, new Step());
 		modules.put(AutoArmor.class, new AutoArmor());
-		modules.put(ChestStealer.class, new ChestStealer());
+		modules.put(ChestStealer.class, chestStealer = new ChestStealer());
 		modules.put(InvManager.class, new InvManager());
 		modules.put(Scaffold.class, new Scaffold());
 		modules.put(AntiFall.class, new AntiFall());
@@ -156,7 +156,6 @@ public class ModuleManager {
 		modules.put(BlockOverlay.class, new BlockOverlay());
 		modules.put(ItemESP.class, new ItemESP());
 		modules.put(OutlineESP.class, new OutlineESP());
-		modules.put(PaperFlight.class, new PaperFlight());
 	}
 
 	public Collection<Module> getModules() {

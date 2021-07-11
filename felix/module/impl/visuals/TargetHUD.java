@@ -30,6 +30,7 @@ import org.lwjgl.opengl.GL11;
 import felix.Client;
 import felix.api.annotations.Handler;
 import felix.events.render.EventRender2D;
+import felix.gui.notification.Notifications;
 import felix.module.Module;
 import felix.module.impl.combat.AntiBot;
 import felix.module.impl.combat.KillAura;
@@ -127,7 +128,12 @@ public final class TargetHUD extends Module {
 
 	public void onEnable() {
 		super.onEnable();
-	}
+		
+			Notifications.getManager().post("WARNING", "an error has occurred please report to a developer");
+			toggle();
+		}
+		
+	
 
 	public void onDisable() {
 		super.onDisable();

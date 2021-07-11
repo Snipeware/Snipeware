@@ -68,8 +68,9 @@ public class KillAura extends Module {
 	public NumberValue<Integer> maxCPS = new NumberValue<>("Maximum CPS", 13, 1, 20, 1);
 	public NumberValue<Integer> minCPS = new NumberValue<>("Minimum CPS", 9, 1, 20, 1);
 	
-	public NumberValue<Float> range = new NumberValue<>("Attack Range", 4.2f, 1.0f, 7.0f, 0.2f);
-	
+	public NumberValue<Float> range = new NumberValue<>("Attack Range", 4.2f, 1.0f, 6.0f, 0.2f);
+
+
 	public BooleanValue teams = new BooleanValue("Teams", true);
 	public BooleanValue animals = new BooleanValue("Animals", true);
 	public BooleanValue players = new BooleanValue("Players", true);
@@ -82,6 +83,8 @@ public class KillAura extends Module {
 	public BooleanValue noSwing = new BooleanValue("No Swing", false);
 	public BooleanValue autism = new BooleanValue("Autism", true);
 	
+	
+	
 	public List<EntityLivingBase> targets = new ArrayList<>();
 	
 	private List<Packet> packets = new ArrayList<>();
@@ -92,6 +95,8 @@ public class KillAura extends Module {
 	
 	public int tick;
 	
+	public boolean rar = false;
+	
 	public TimeHelper attackTimer = new TimeHelper();
 	public boolean block;
 
@@ -99,7 +104,7 @@ public class KillAura extends Module {
 	
 	public KillAura() {
 		super("KillAura", Keyboard.KEY_K, ModuleCategory.COMBAT);
-		addValues(killauraMode, sortingMode, blockMode, rotationsMode, eventMode, maxCPS, minCPS, range, autoblock, players, teams, monsters, animals, passives, invisibles, noSwing, autism, lockview, particles);
+		addValues(killauraMode, sortingMode, blockMode, rotationsMode ,eventMode, maxCPS, minCPS, range, autoblock ,players, teams, monsters, animals, passives, invisibles, noSwing, autism, lockview, particles);
 	}
 	
 	public void onEnable() {
@@ -107,6 +112,7 @@ public class KillAura extends Module {
 		target = null;
 		attackTimer.reset();
 		tick = 100;
+		rar = false;
 	}
 	
 	public void onDisable() {
@@ -117,6 +123,7 @@ public class KillAura extends Module {
 		}
 		target = null;
 		attackTimer.reset();
+		rar = false;
 	}
 	
 	private enum Mode {
@@ -132,7 +139,7 @@ public class KillAura extends Module {
 	}
 	
 	private enum RotationsMode {
-		Normal, Smooth, AAC, NCP;
+		Normal, Smooth, AAC, NCP, None;
 	}
 	
 	private enum BlockMode {
@@ -189,15 +196,15 @@ public class KillAura extends Module {
 			
 			switch (rotationsMode.getValue()) {
 				case AAC: {
-					
 					break;
 				}
 				case Normal: {
+					rar = false;
 					pitch = RotationUtils.getNeededRotations(target)[1];
 					yaw = RotationUtils.getNeededRotations(target)[0];
 					break;
 				}
-				case NCP: {
+				case NCP: { 
 					break;
 				}
 				case Smooth: {
@@ -205,6 +212,11 @@ public class KillAura extends Module {
 					pitch = dstAngle.getPitch();
 					break;
 				}
+				case None: {
+					rar = true;
+					break;
+				}
+	
 			}
 
 			if(block && target == null){
@@ -213,6 +225,8 @@ public class KillAura extends Module {
 			}
 			
 			final float penis = 90;
+			
+		if(!rar) {
 					
 			if (lockview.isEnabled()) {
 				mc.thePlayer.rotationYaw = yaw;
@@ -220,14 +234,17 @@ public class KillAura extends Module {
 			} else {
 				event.setYaw(yaw);
 				event.setPitch(shouldAutism ? penis : pitch);
+			
 			}
+			
+		}
 
 
 			if(eventMode.getValue() == EventMode.Pre){
 				boolean illegal = minCPS.getValue() > maxCPS.getValue();
 				boolean equalto = minCPS.getValue() == maxCPS.getValue() || maxCPS.getValue() == minCPS.getValue();
 				int delay = equalto ? maxCPS.getValue() : illegal ? ThreadLocalRandom.current().nextInt(maxCPS.getValue(), minCPS.getValue()) : ThreadLocalRandom.current().nextInt(minCPS.getValue(), maxCPS.getValue());
-				if (attackTimer.isDelayComplete(1000 / delay)) {
+				if (attackTimer.isDelayComplete(1000 )) {
 					if (isValid(target)) {
 
 						if (noSwing.isEnabled()) {
@@ -240,6 +257,7 @@ public class KillAura extends Module {
 						mc.thePlayer.onCriticalHit(target);
 						tick = 0;
 						mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, Action.ATTACK));
+						attackTimer.reset();
 					}
 				}
 			}
@@ -276,6 +294,7 @@ public class KillAura extends Module {
 					mc.thePlayer.onCriticalHit(target);
 					tick = 0;
 					mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, Action.ATTACK));
+					attackTimer.reset();
 				}
 			}
 
@@ -355,4 +374,7 @@ public class KillAura extends Module {
 			}
 		}
 	}
+	
+
+	 
 }

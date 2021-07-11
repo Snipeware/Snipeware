@@ -7,7 +7,7 @@ import felix.value.impl.NumberValue;
 
 public class Timer extends Module {
 	
-	private NumberValue<Float> timerValue = new NumberValue<>("Timer Speed", 1.0f, 0.1f, 10.0f);
+	private NumberValue<Float> timerValue = new NumberValue<>("Timer Speed", 1.0f, 0.1f, 100.0f);
 	
 	public void onEnable() {
 		super.onEnable();

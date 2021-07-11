@@ -32,20 +32,20 @@ import felix.value.impl.NumberValue;
 
 public class ChestStealer extends Module {
 
-	private BooleanValue titleCheck = new BooleanValue("Title Check", true);
-    private BooleanValue autoClose = new BooleanValue("Auto Close", true);
-    private BooleanValue aura = new BooleanValue("Aura", false);
-    private BooleanValue filter = new BooleanValue("Filter", true);
-    private BooleanValue silent = new BooleanValue("Silent", false);
+	public BooleanValue titleCheck = new BooleanValue("Title Check", true);
+    public BooleanValue autoClose = new BooleanValue("Auto Close", true);
+    public BooleanValue aura = new BooleanValue("Aura", false);
+    public BooleanValue filter = new BooleanValue("Filter", true);
+    public BooleanValue silent = new BooleanValue("Silent", false);
     
-    private NumberValue<Integer> delay = new NumberValue<>("Delay", 4, 1, 10, 1);
-    private NumberValue<Double> range = new NumberValue("Aura Range", 5.0, 1.0, 6.0);
+    public NumberValue<Integer> delay = new NumberValue<>("Delay", 4, 1, 10, 1);
+    public NumberValue<Double> range = new NumberValue("Aura Range", 5.0, 1.0, 6.0);
     
     public TimeHelper timer = new TimeHelper();
     
     public TimeHelper auraTimer = new TimeHelper();
     
-    private final Set openedChests = new HashSet();
+    public final Set openedChests = new HashSet();
 
     public ChestStealer() {
         super("ChestStealer", 0, ModuleCategory.PLAYER);
@@ -100,30 +100,25 @@ public class ChestStealer extends Module {
     
     @Handler
     public void onGuiContainer(final EventGuiContainer event) {
-    	if (mc.currentScreen instanceof GuiChest) {
-    		final GuiChest chest = (GuiChest) mc.currentScreen;
-    		if (silent.isEnabled()) {
-    			event.setCancelled(true);
-    		}
-    	}
+
     }
     
-    private void set(Set set, TileEntity chest) {
+    public void set(Set set, TileEntity chest) {
     	if (set.size() > 128) {
     		set.clear();
     	}
     	set.add(chest);
     }
 
-	private Vec3 getVec3(BlockPos pos) {
+	public Vec3 getVec3(BlockPos pos) {
     	return new Vec3((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
     }
     
-    private double getDistToPos(BlockPos pos) {
+    public double getDistToPos(BlockPos pos) {
     	return mc.thePlayer.getDistance((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
     }
 
-	private boolean isChestEmpty(final GuiChest chest) {
+	public boolean isChestEmpty(final GuiChest chest) {
         for (int index = 0; index < chest.getLowerChestInventory().getSizeInventory(); ++index) {
             ItemStack stack = chest.getLowerChestInventory().getStackInSlot(index);
             if (stack != null)
@@ -134,7 +129,7 @@ public class ChestStealer extends Module {
         return true;
     }
 
-    private boolean isInventoryFull() {
+    public boolean isInventoryFull() {
         for (int index = 9; index <= 44; ++index) {
             ItemStack stack = mc.thePlayer.inventoryContainer.getSlot(index).getStack();
             if (stack == null) {

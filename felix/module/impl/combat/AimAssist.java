@@ -46,7 +46,7 @@ public class AimAssist extends Module
         if (event.isPre()) {
             final float var = (float) ThreadLocalRandom.current().nextDouble(0.7f, 0.8f);
             for (final Object theObject : mc.theWorld.loadedEntityList) {
-                if (theObject instanceof EntityPlayer) {
+                if (theObject instanceof EntityPlayer && theObject != mc.thePlayer) {
                     final EntityPlayer entityplayer = (EntityPlayer)theObject;
                     if (swordCheck.isEnabled()) {
                         if (mc.thePlayer.getHeldItem() == null) {

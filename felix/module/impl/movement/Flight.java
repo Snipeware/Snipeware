@@ -79,10 +79,15 @@ public class Flight extends Module {
 	private double moveSpeed;
 	private double moveSpeedMotion = 1F;
 	private int stage = 0, counter;
+	
+	private TimeHelper flytimer = new TimeHelper();
 
 	private TimeHelper timerStopwatch = new TimeHelper();
 
 	private TargetStrafe ts;
+	
+	public double yrarr;
+	
 
 	private float glideAmount2 = 4f;
 
@@ -128,9 +133,14 @@ public class Flight extends Module {
 
 	public void onEnable() {
 		super.onEnable();
+		yrarr = mc.thePlayer.posZ;
+		
+	
+		
 		if (mc.thePlayer == null) return;
 		timerStopwatch.reset();
 		longJumpTimerXD.reset();
+		flytimer.reset();
 		stage = 0;
 		lastDist = 0.0;
 		mc.timer.timerSpeed = 1.0f;
@@ -192,7 +202,7 @@ public class Flight extends Module {
 				MovementUtils.setSpeed(event, 0.08);
 				break;
 			case Motion:
-				event.setY(player.motionY = 0.0);
+				event.setY(player.motionY = -0.0625);
 				if (gameSettings.keyBindJump.isKeyDown()) {
 					event.setY(player.motionY += 1.0);
 				}
@@ -360,9 +370,41 @@ public class Flight extends Module {
 					
 					break;
 				case Gay:
-					double nigger = ThreadLocalRandom.current().nextDouble(1.6, 2.0);
-					mc.thePlayer.motionY = (mc.thePlayer.movementInput.jump ? nigger : mc.thePlayer.movementInput.sneak ? -nigger : 0);
-	                MovementUtils.setMotion(nigger);
+					
+					event.setYaw(90);
+					event.setPitch(90);
+					
+					
+				
+				mc.timer.timerSpeed = 0.8f;
+				
+			
+				mc.thePlayer.motionY = 0;
+					
+					if(flytimer.reach(1500)) {
+						System.out.println("timer done");
+						
+						mc.gameSettings.keyBindForward.pressed = true;
+						mc.thePlayer.motionY = 0;
+						 mc.timer.timerSpeed = 100000f;
+						 double motionX = mc.thePlayer.motionX;
+							double motionZ = mc.thePlayer.motionZ; 
+							
+						      mc.thePlayer.motionX = motionX * 5.55;
+				              mc.thePlayer.motionZ = motionZ * 5.55;
+				            
+							
+					
+						flytimer.reset();
+					}else {
+						mc.thePlayer.motionY = 0;
+						mc.timer.timerSpeed = 0.8f;
+						mc.gameSettings.keyBindForward.pressed = false;
+					}
+					
+					
+				
+					
 					break;
 				default:
 					break;

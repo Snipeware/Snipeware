@@ -7,6 +7,7 @@ import org.lwjgl.input.Mouse;
 import felix.api.annotations.Handler;
 import felix.events.player.EventMotionUpdate;
 import felix.module.Module;
+import felix.util.other.MathUtils;
 import felix.util.other.TimeHelper;
 import felix.value.impl.BooleanValue;
 import felix.value.impl.NumberValue;
@@ -37,7 +38,8 @@ public class AutoClicker extends Module {
     		try {
 	    		boolean illegal = minCPS.getValue() > maxCPS.getValue();
 	    		boolean equalto = minCPS.getValue() == maxCPS.getValue();
-	    		final int cps = equalto ? maxCPS.getValue() : !illegal ? ThreadLocalRandom.current().nextInt(minCPS.getValue(), maxCPS.getValue()) : ThreadLocalRandom.current().nextInt(maxCPS.getValue(), minCPS.getValue());
+	    		//final int cps = equalto ? maxCPS.getValue() : !illegal ? ThreadLocalRandom.current().nextInt(minCPS.getValue(), maxCPS.getValue()) : ThreadLocalRandom.current().nextInt(maxCPS.getValue(), minCPS.getValue());
+	    		int cps = (int) MathUtils.getRandomInRange(minCPS.getValue(), maxCPS.getValue());
 	    		final int delay = 1000 / cps;
 	    		if (timer.reach(delay)) {
 	    			mc.playerController.onStoppedUsingItem(player);
@@ -46,6 +48,7 @@ public class AutoClicker extends Module {
 	    			timer.reset();
 	            }
     		}
+    		
     		catch (final IllegalArgumentException e) {
     			e.printStackTrace();
     		}

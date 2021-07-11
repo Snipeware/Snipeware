@@ -37,8 +37,11 @@ public class Speed extends Module {
 	private double moveSpeed;
 	int stage;
 	int ncpStage;
+	public boolean reset, doSlow;
 
 	private NumberValue<Integer> vanillaSpeed = new NumberValue<>("Vanilla Speed", 4, 1, 10, 1);
+
+	public NumberValue<Float> redeSpeed = new NumberValue<>("Rede Speed", 1.2f, 1.1f, 2f, 0.1f);
 
 	private BooleanValue flagbackcheck = new BooleanValue("Flagback Check", true);
 
@@ -48,12 +51,12 @@ public class Speed extends Module {
 
 	public Speed() {
 		super("Speed", 0, ModuleCategory.MOVEMENT);
-		addValues(mode, vanillaSpeed, flagbackcheck);
+		addValues(mode, vanillaSpeed , redeSpeed , flagbackcheck);
 		stage = 0;
 	}
 
 	private enum Mode {
-		WatchdogHop, WatchdogLowhop, NCP, Vanilla, Test;
+	 Legit, WatchdogHop, WatchdogLowhop, NCP, Vanilla, Redesky, Test, Mineplex;
 	}
 
 	@Handler
@@ -61,6 +64,40 @@ public class Speed extends Module {
 		if (PlayerUtil.isOnLiquid() && Client.INSTANCE.getModuleManager().getModule("liquidwalk").isEnabled())
 			return;
 		switch (mode.getValue()) {
+	
+	
+		
+		
+			case Mineplex: {
+                mc.timer.timerSpeed = 1.0f;
+                if (mc.thePlayer.isMovingOnGround()) {
+                    //mc.timer.timerSpeed = 2.48F;
+                    if (reset)
+                        moveSpeed = 0.95F;
+                    else
+                        moveSpeed += MathUtils.getRandomInRange(0.42, 0.6);
+                    doSlow = true;
+                    reset = false;
+                    event.setY(mc.thePlayer.motionY = 0.42F);
+                    MovementUtils.setSpeed(event, 0.00001);
+                 
+                } else {
+
+                    if (doSlow)
+						nextMotionSpeed = moveSpeed;
+                    doSlow = false;
+                    if (moveSpeed <= 0.8F)
+                        moveSpeed = nextMotionSpeed - 0.01F;
+                    else if (moveSpeed < 2.2F)
+                        moveSpeed = nextMotionSpeed * 0.9823F;
+                    else
+                        moveSpeed = nextMotionSpeed * 0.97F;
+                    moveSpeed = Math.min(moveSpeed + 0.053123F, moveSpeed);
+                    moveSpeed = Math.max(moveSpeed, MovementUtils.getSpeed() + 0.1628F);
+                    MovementUtils.setSpeed(event, moveSpeed);
+                }
+				break;
+			}
 		case WatchdogHop: {
 			moveSpeed = MovementUtils.getSpeed();
 			if (stage < 1) {
@@ -85,7 +122,7 @@ public class Speed extends Module {
 						|| mc.thePlayer.isCollidedVertically) && stage > 0) {
 					stage = ((mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f) ? 1 : 0);
 				}
-				moveSpeed = nextMotionSpeed - nextMotionSpeed / 160.0 - 1.0E-3;
+				moveSpeed = nextMotionSpeed - nextMotionSpeed / 99.0;
 			}
 			moveSpeed = Math.max(moveSpeed, MovementUtils.getSpeed());
 			xMotionSpeed = mc.thePlayer.movementInput.moveForward;
@@ -151,7 +188,7 @@ public class Speed extends Module {
 			break;
 		}
 		case WatchdogLowhop: {
-			if (MathUtils.roundToPlace(mc.thePlayer.posY - (int) mc.thePlayer.posY, 3) == MathUtils.roundToPlace(0.43,
+			if (MathUtils.roundToPlace(mc.thePlayer.posY - (int) mc.thePlayer.posY, 3) == MathUtils.roundToPlace(0.4,
 					3)) {
 				event.setY(mc.thePlayer.motionY = 0.31);
 			} else if (MathUtils.roundToPlace(mc.thePlayer.posY - (int) mc.thePlayer.posY, 3) == MathUtils
@@ -169,7 +206,7 @@ public class Speed extends Module {
 			}
 			if (stage == 1 && (mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f)) {
 			} else if (stage == 2 && (mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f)) {
-				event.setY(mc.thePlayer.motionY = 0.42F);
+				event.setY(mc.thePlayer.motionY = 0.4F);
 				moveSpeed *= 1.45;
 			} else if (stage == 3) {
 				final double difference = 0.72 * (nextMotionSpeed - MovementUtils.getSpeed());
@@ -180,7 +217,7 @@ public class Speed extends Module {
 				if ((collidingList.size() > 0 || mc.thePlayer.isCollidedVertically) && stage > 0) {
 					stage = ((mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f) ? 1 : 0);
 				}
-				moveSpeed = nextMotionSpeed - nextMotionSpeed / 160.0 - 1.0E-3;
+				moveSpeed = nextMotionSpeed - nextMotionSpeed / 99.0;
 			}
 			MovementUtils.setSpeed(event, moveSpeed = Math.max(moveSpeed, MovementUtils.getSpeed()));
 			if (mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f) {
@@ -224,9 +261,44 @@ public class Speed extends Module {
 			} else {
 				mc.timer.timerSpeed = 1.0f;
 			}
-		}
 			break;
 		}
+			
+		case Redesky: {
+			
+			mc.gameSettings.keyBindSprint.pressed = true;
+			
+			if(mc.thePlayer.isMoving()) {
+			mc.gameSettings.keyBindJump.pressed = true;
+			}else {
+				mc.gameSettings.keyBindJump.pressed = false;
+			}
+			
+			mc.timer.timerSpeed = redeSpeed.getValue();
+		
+			
+			break;
+		}
+	
+	case Legit:{
+			
+			mc.gameSettings.keyBindSprint.pressed = true;
+		
+			if(mc.thePlayer.isMoving2()) {
+			
+			mc.gameSettings.keyBindJump.pressed = true;
+			
+			}else {
+			
+				mc.gameSettings.keyBindJump.pressed = false;
+			}
+			
+		
+			
+			break;
+		}
+		}
+	
 	}
 
 	private double getAACSpeed(int stage, int jumps) {
@@ -392,6 +464,8 @@ public class Speed extends Module {
 			moveSpeed = MovementUtils.getSpeed();
 		}
 		nextMotionSpeed = 0.0;
+		doSlow = false;
+		reset = false;
 		stage = 2;
 		mc.timer.timerSpeed = 1.0f;
 		if (ts == null) {
@@ -403,6 +477,12 @@ public class Speed extends Module {
 	@Override
 	public void onDisable() {
 		super.onDisable();
+		mc.gameSettings.keyBindJump.pressed = false;
+		mc.gameSettings.keyBindSprint.pressed = false;
+		doSlow = false;
+		reset = false;
+		mc.timer.timerSpeed = 1;
+		
 	}
 
 	@Handler
@@ -412,7 +492,7 @@ public class Speed extends Module {
 		case WatchdogHop:
 			if (event.getType() == EventMotionUpdate.Type.PRE) {
 					if (MovementUtils.isOnGround(0.001) && mc.thePlayer.isMovingOnGround()) {
-						event.setPosY(event.getPosY() + RandomUtils.nextFloat(0.000964f + MathUtils.randomFloatValue(), 0.00954f + MathUtils.randomFloatValue()));
+						event.setPosY(event.getPosY() +  RandomUtils.nextFloat(0.0004f + MathUtils.randomFloatValue(), 0.00049f + MathUtils.randomFloatValue()));
 					}
 			}
 
@@ -425,7 +505,7 @@ public class Speed extends Module {
 		case WatchdogLowhop:
 			if (event.getType() == EventMotionUpdate.Type.PRE) {
 				if (MovementUtils.isOnGround(0.001) && mc.thePlayer.isMovingOnGround()) {
-					event.setPosY(event.getPosY() + RandomUtils.nextFloat(0.000964f + MathUtils.randomFloatValue(), 0.00954f + MathUtils.randomFloatValue()));
+					event.setPosY(event.getPosY() +  RandomUtils.nextFloat(0.0004f + MathUtils.randomFloatValue(), 0.00049f + MathUtils.randomFloatValue()));
 				}
 			}
 
@@ -435,6 +515,13 @@ public class Speed extends Module {
 				nextMotionSpeed = Math.sqrt(xMotionSpeed * xMotionSpeed + zDist * zDist);
 			}
 			break;
+			case Mineplex:
+				if (event.getType() == EventMotionUpdate.Type.PRE) {
+					xMotionSpeed = mc.thePlayer.posX - mc.thePlayer.prevPosX;
+					zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
+					nextMotionSpeed = Math.sqrt(xMotionSpeed * xMotionSpeed + zDist * zDist);
+				}
+				break;
 		case Vanilla:
 			break;
 		case NCP:

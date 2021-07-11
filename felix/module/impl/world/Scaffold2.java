@@ -83,29 +83,31 @@ public class Scaffold2 extends Module {
     public boolean towering;
 
     public Scaffold2() {
-        super("Scaff is old", 0, ModuleCategory.WORLD);
+        super("Scaffold2", 0, ModuleCategory.WORLD);
         this.addValues(swingProperty, keepYProperty, safeWalkProperty, towerProperty, maxTowerBlocksProperty, blockCountBarProperty, collideProperty, cancelSprintProperty, blockBarColor, delayTicksProperty, blockSlotProperty);
     }
 
 
     @Handler
     public void a(EventPacketSend event){
-        if (event.getPacket() instanceof C03PacketPlayer) {
-            if (this.placeCounter == 0) {
-                C03PacketPlayer nigger = (C03PacketPlayer) event.getPacket();
-                event.setCancelled(true);
-                if (nigger.isMoving())
-                    packets.add(nigger);
-            }else if(this.placeCounter > 0){
-                if(pulseDelay.isDelayComplete(20)) {
-                    for (Packet p : packets) {
-                        mc.getNetHandler().addToSendQueueNoEvent(p);
-                    }
-                    packets.clear();
-                    pulseDelay.reset();
-                } else {
+        if(cancelSprintProperty.getValue() != CancelSprintMode.OFF) {
+            if (event.getPacket() instanceof C03PacketPlayer) {
+                if (this.placeCounter == 0) {
+                    C03PacketPlayer nigger = (C03PacketPlayer) event.getPacket();
                     event.setCancelled(true);
-                    packets.add(event.getPacket());
+                    if (nigger.isMoving())
+                        packets.add(nigger);
+                } else if (this.placeCounter > 0) {
+                    if (pulseDelay.isDelayComplete(20)) {
+                        for (Packet p : packets) {
+                            mc.getNetHandler().addToSendQueueNoEvent(p);
+                        }
+                        packets.clear();
+                        pulseDelay.reset();
+                    } else {
+                        event.setCancelled(true);
+                        packets.add(event.getPacket());
+                    }
                 }
             }
         }
@@ -169,7 +171,7 @@ public class Scaffold2 extends Module {
 
     @Handler
     public void aa(EventMotionUpdate event) {
-        mc.timer.timerSpeed = (float) (1.2 + Math.random() / 10);
+       
         if (event.getType() == EventMotionUpdate.Type.PRE) {
             this.updateBlockCount();
 
