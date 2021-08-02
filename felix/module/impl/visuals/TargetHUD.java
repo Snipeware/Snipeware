@@ -128,9 +128,8 @@ public final class TargetHUD extends Module {
 
 	public void onEnable() {
 		super.onEnable();
-		
-			Notifications.getManager().post("WARNING", "an error has occurred please report to a developer");
-			toggle();
+	 
+	
 		}
 		
 	

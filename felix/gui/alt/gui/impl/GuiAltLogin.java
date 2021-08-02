@@ -19,6 +19,8 @@ import felix.gui.alt.system.Account;
 import felix.util.font.FontRenderer;
 import felix.util.visual.RenderUtil;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Session;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.GuiScreen;
@@ -41,7 +43,12 @@ public final class GuiAltLogin extends GuiScreen {
                 break;
             }
             case 0: {
+            	if(!password.getText().equals("")) {
                 (this.thread = new AccountLoginThread(username.getText(), password.getText())).start();
+            	}else {
+            		Minecraft.getMinecraft().session = new Session( username.getText(), "", "", "mojang");
+            	
+            	}
                 break;
             }
             case 2: {

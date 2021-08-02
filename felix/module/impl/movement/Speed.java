@@ -12,8 +12,11 @@ import felix.events.player.EventMotionUpdate;
 import felix.events.player.EventStep;
 import felix.gui.notification.Notifications;
 import felix.module.Module;
+import felix.module.impl.world.Scaffold2.CancelSprintMode;
+import felix.util.other.Logger;
 import felix.util.other.MathUtils;
 import felix.util.other.PlayerUtil;
+import felix.util.other.TimeHelper;
 import felix.util.player.MovementUtils;
 import felix.value.impl.BooleanValue;
 import felix.value.impl.EnumValue;
@@ -22,7 +25,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockIce;
 import net.minecraft.block.BlockPackedIce;
 import net.minecraft.client.*;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.potion.*;
 import net.minecraft.entity.*;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
@@ -42,22 +50,34 @@ public class Speed extends Module {
 	private NumberValue<Integer> vanillaSpeed = new NumberValue<>("Vanilla Speed", 4, 1, 10, 1);
 
 	public NumberValue<Float> redeSpeed = new NumberValue<>("Rede Speed", 1.2f, 1.1f, 2f, 0.1f);
+	 public final EnumValue<Redemode> redemode = new EnumValue<>("Rede mode", Redemode.Bhop);
 
 	private BooleanValue flagbackcheck = new BooleanValue("Flagback Check", true);
 
+
 	private EnumValue<Mode> mode = new EnumValue<>("Speed Mode", Mode.WatchdogHop);
+	
+	public 	int stageRede = 1;
+	
+	private final TimeHelper Stagetimer = new TimeHelper();
 
 	private TargetStrafe ts;
 
 	public Speed() {
 		super("Speed", 0, ModuleCategory.MOVEMENT);
-		addValues(mode, vanillaSpeed , redeSpeed , flagbackcheck);
+		addValues(mode, vanillaSpeed , redeSpeed ,redemode, flagbackcheck);
 		stage = 0;
 	}
 
 	private enum Mode {
-	 Legit, WatchdogHop, WatchdogLowhop, NCP, Vanilla, Redesky, Test, Mineplex;
+	 Legit, WatchdogHop, WatchdogLowhop, NCP, Strafe, Vanilla, Redesky, Test, Mineplex;
 	}
+	
+	 public enum Redemode {
+	        Bhop,
+	        Ground,
+	        Test
+	    }
 
 	@Handler
 	public void onMove(final EventMove event) {
@@ -229,6 +249,25 @@ public class Speed extends Module {
 			MovementUtils.setSpeed(event, vanillaSpeed.getValue());
 			break;
 		}
+		case Strafe:{
+			mc.gameSettings.keyBindSprint.pressed = true;
+			if(!PlayerUtil.isInLiquid() && mc.thePlayer.isMoving2()) {
+			
+			mc.gameSettings.keyBindJump.pressed = true;
+			
+			}else {
+			
+				mc.gameSettings.keyBindJump.pressed = false;
+			}
+			
+			moveSpeed = Math.max(moveSpeed, MovementUtils.getSpeed());
+	
+				MovementUtils.setSpeed(event, moveSpeed);
+			
+			
+			
+			break;
+		}
 		case NCP: {
 			if (!PlayerUtil.isInLiquid() && mc.thePlayer.isCollidedVertically && MovementUtils.isOnGround(0.01)
 					&& (mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f)) {
@@ -266,6 +305,8 @@ public class Speed extends Module {
 			
 		case Redesky: {
 			
+			if (this.redemode.getValue() == Redemode.Bhop) {
+		
 			mc.gameSettings.keyBindSprint.pressed = true;
 			
 			if(mc.thePlayer.isMoving()) {
@@ -276,7 +317,42 @@ public class Speed extends Module {
 			
 			mc.timer.timerSpeed = redeSpeed.getValue();
 		
+			}else if(this.redemode.getValue() == Redemode.Ground) {
+				
 			
+				
+			if(mc.thePlayer.onGround && mc.thePlayer.isMoving() && !mc.thePlayer.isCollidedHorizontally) {
+				
+				if(stageRede == 1) {
+					mc.timer.timerSpeed = 1.1f;
+						if(Stagetimer.reach(700)) {
+							stageRede = 2;
+							Stagetimer.reset();
+							 
+						}
+					}else if(stageRede == 2) {
+					mc.timer.timerSpeed = 1.0f;
+					if(Stagetimer.reach(400)) {
+						stageRede = 3;
+						Stagetimer.reset();
+					
+					}
+				}else if(stageRede == 3) {
+					mc.timer.timerSpeed = 1.4f;
+					if(Stagetimer.reach(400)) {
+						stageRede = 4;
+						Stagetimer.reset();
+						
+					
+					}
+				}else if(stageRede == 4) {
+					stageRede = 1;
+					Stagetimer.reset();
+				}
+			}else {
+				mc.timer.timerSpeed = 1;
+			}
+			}
 			break;
 		}
 	
@@ -454,6 +530,7 @@ public class Speed extends Module {
 			Notifications.getManager().post("Disabled Modules", "Speed was disabled to prevent flags/errors.");
 		}
 	}
+	
 
 	@Override
 	public void onEnable() {
@@ -520,6 +597,7 @@ public class Speed extends Module {
 					xMotionSpeed = mc.thePlayer.posX - mc.thePlayer.prevPosX;
 					zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
 					nextMotionSpeed = Math.sqrt(xMotionSpeed * xMotionSpeed + zDist * zDist);
+				
 				}
 				break;
 		case Vanilla:

@@ -144,7 +144,9 @@ private float hue = 1.0F;
       final String fps = info.isEnabled() ? ChatFormatting.GRAY + " [" + ChatFormatting.WHITE + fpse + " FPS" + ChatFormatting.GRAY + "]" : "";
 	  final FontRenderer fr = Client.INSTANCE.getFontManager().getFont(tahoma ? "Tahoma 20" : "Display 20", false);
 	  final FontRenderer font = Client.INSTANCE.getFontManager().getFont(tahoma ? "Tahoma 20" : "Display 20", false);
-	  final String text = ChatFormatting.GRAY + "X" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posX) + " " + ChatFormatting.GRAY + "Y" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posY) + " " + ChatFormatting.GRAY + "Z" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posZ);
+	 
+	//  final String text = ChatFormatting.GRAY + "X" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posX) + " " + ChatFormatting.GRAY + "Y" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posY) + " " + ChatFormatting.GRAY + "Z" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posZ);
+	  String text = "This is a beta build and there are many bugs";
       final int ychat = mc.ingameGUI.getChatGUI().getChatOpen() ? 25 : 10;
       int color = 0;
       switch (arrayListColor.getValue()) {
@@ -174,11 +176,12 @@ private float hue = 1.0F;
     		  font.drawStringWithShadow("S" + ChatFormatting.WHITE + "nipeware" + fps + bps, 1, 1, color);
     	  }
       }
+  	color = RenderUtil.getRainbow(6000, (int) (1 * 30), rainbowSaturation.getValue());
       if (info.isEnabled()) {
     	  if (vanilla) {
-    		  mc.fontRendererObj.drawStringWithShadow(text, 1, new ScaledResolution(mc).getScaledHeight() - ychat, new Color(255, 255, 255).getRGB());
+    		  mc.fontRendererObj.drawStringWithShadow(text, 1, new ScaledResolution(mc).getScaledHeight() - ychat, color);
     	  } else {
-    		  font.drawStringWithShadow(text, 1, new ScaledResolution(mc).getScaledHeight() - ychat, new Color(255, 255, 255).getRGB());
+    		  font.drawStringWithShadow(text, 1, new ScaledResolution(mc).getScaledHeight() - ychat, color);
     	  }
       }
   }
@@ -386,7 +389,7 @@ private float hue = 1.0F;
         translate.interpolate(featureX, (y + 1), translationFactor);
       } 
       else {
-        translate.interpolate(width * width, (-listOffset - 1), translationFactor);
+        translate.interpolate(width * width, (-listOffset + 1), translationFactor);
       } 
       double translateX = translate.getX();
       double translateY = translate.getY();

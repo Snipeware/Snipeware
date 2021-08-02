@@ -13,6 +13,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -26,6 +27,8 @@ import felix.events.player.EventMotionUpdate;
 import felix.module.Module;
 import felix.module.impl.combat.KillAura;
 import felix.module.impl.world.Disabler;
+import felix.module.impl.world.Scaffold2.CancelSprintMode;
+import felix.util.other.Logger;
 import felix.util.other.PlayerUtil;
 import felix.util.other.TimeHelper;
 import felix.util.player.MovementUtils;
@@ -41,11 +44,14 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
+import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.client.C0CPacketInput;
 import net.minecraft.network.play.client.C16PacketClientStatus;
@@ -71,9 +77,13 @@ public class Flight extends Module {
 	private BooleanValue timerBoost = new BooleanValue("Timer Boost", false);
 
 	private BooleanValue viewBobbing = new BooleanValue("View Bobbing", false);
+	
+	
 
 	private EventPacketSend packetEvent;
 	private TimeHelper longJumpTimerXD = new TimeHelper();
+	
+
 
 	private double lastDist;
 	private double moveSpeed;
@@ -83,10 +93,15 @@ public class Flight extends Module {
 	private TimeHelper flytimer = new TimeHelper();
 
 	private TimeHelper timerStopwatch = new TimeHelper();
+	
+	private TimeHelper Takatimer = new TimeHelper();
+	private TimeHelper Takatimer2 = new TimeHelper();
 
 	private TargetStrafe ts;
 	
 	public double yrarr;
+	
+	private boolean pines = false;
 	
 
 	private float glideAmount2 = 4f;
@@ -97,11 +112,37 @@ public class Flight extends Module {
 	}
 
 	private enum Mode {
-		Vanilla, Watchdog, Verus, Motion, Test, Gay;
+		Vanilla, Watchdog, Verus, Taka, Motion, Test, Gay;
 	}
+	
+	 @Handler
+	    public void a(EventPacketSend event){
+		 switch (flightMode.getValue()) {
+		 case Taka:
+			final EntityPlayerSP player = mc.thePlayer;
+			if(!mc.gameSettings.keyBindJump.pressed) {
+				player.motionY = 0.0;
+			}else {
+				player.motionY = 0.3;
+			}
+			if(mc.gameSettings.keyBindSneak.pressed) {
+				player.motionY = -0.3;
+			}
+	      if(pines = false) {
+	            if (event.getPacket() instanceof C03PacketPlayer) {
+	            	
+	                    C03PacketPlayer nigger = (C03PacketPlayer) event.getPacket();
+	                    event.setCancelled(true);
+	            }
+	      }
+	            break;
+	                }
+	 }
 
 	public void onDisable() {
 		super.onDisable();
+		Takatimer.reset();
+		
 		switch (flightMode.getValue()) {
 			case Vanilla:
 				mc.thePlayer.capabilities.isFlying = false;
@@ -160,6 +201,8 @@ public class Flight extends Module {
 			case Vanilla:
 				break;
 			case Verus:
+				break;
+			case Taka:
 				break;
 			case Test:
 
@@ -222,6 +265,13 @@ public class Flight extends Module {
 				break;
 			case Verus:
 				break;
+			case Taka:	
+				
+			
+		
+				
+				MovementUtils.setSpeed(event, 1.08);
+				break;
 			case Gay:
 				break;
 			case Test:
@@ -236,6 +286,8 @@ public class Flight extends Module {
 		}
 	}
 
+
+	
 	@Handler
 	public void a(EventCollide event){
 		if(flightMode.getValue() == Mode.Watchdog){
@@ -366,8 +418,40 @@ public class Flight extends Module {
 					player.onGround = true;
 					break;
 				case Motion:
-				case Test:
+				case Taka:
+				
+					event.setPitch(90);
+					event.setYaw(90);
 					
+					if(Takatimer.reach(1000)) {
+						pines = true;
+						Takatimer.reset();
+					}
+					
+					if(Takatimer2.reach(1300)) {
+						pines = true;
+						Takatimer.reset();
+					}
+					
+					if(pines = true) {
+			            int xPos = (int)mc.thePlayer.posX ;
+			               int yPos = (int)mc.thePlayer.posY ;
+			               int zPos = (int)mc.thePlayer.posZ ;
+			               BlockPos blockPos = new BlockPos(xPos, yPos, zPos);
+			               Block block = mc.theWorld.getBlockState(blockPos).getBlock();
+						  mc.getNetHandler().addToSendQueueNoEvent(new C0APacketAnimation());
+		                  mc.getNetHandler().addToSendQueueNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, blockPos, EnumFacing.NORTH));
+		  				BlockPos blockPos1 = new BlockPos(mc.thePlayer.posX, mc.thePlayer.getEntityBoundingBox().minY - 1.0D, mc.thePlayer.posZ);
+						Vec3d vec = new Vec3d(blockPos).addVector(0.4D, 0.4D, 0.4D).mul(0.4F);
+						mc.playerController.onPlayerRightClick3d(mc.thePlayer, mc.theWorld, new ItemStack(Blocks.barrier), blockPos1, EnumFacing.UP, vec);
+
+				
+					
+						event.setPosY(999);
+						event.setLastPosX(-999);
+						event.setLastPosY(-999);
+						event.setLastPosZ(-999);
+					}
 					break;
 				case Gay:
 					
@@ -377,11 +461,11 @@ public class Flight extends Module {
 					
 				
 				mc.timer.timerSpeed = 0.8f;
-				
+			
 			
 				mc.thePlayer.motionY = 0;
 					
-					if(flytimer.reach(1500)) {
+					if(flytimer.reach(3000)) {
 						System.out.println("timer done");
 						
 						mc.gameSettings.keyBindForward.pressed = true;
@@ -390,9 +474,16 @@ public class Flight extends Module {
 						 double motionX = mc.thePlayer.motionX;
 							double motionZ = mc.thePlayer.motionZ; 
 							
-						      mc.thePlayer.motionX = motionX * 5.55;
-				              mc.thePlayer.motionZ = motionZ * 5.55;
-				            
+						      mc.thePlayer.motionX = motionX * 10.55;
+				              mc.thePlayer.motionZ = motionZ * 10.55;
+				              if(!mc.thePlayer.onGround) {
+				              mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ, false));
+				              }else {
+				            	    mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, true));
+				              }
+				             
+				             
+				             
 							
 					
 						flytimer.reset();

@@ -77,7 +77,6 @@ options.viewBobbing.tooltip.2=Para mejores resultados, desactivar cundo utilice 
 options.guiScale.tooltip.1=Escala de interfaz.
 options.guiScale.tooltip.2=Entre más pequeño podría ser más rápido.
 
-options.vbo=VBO
 options.vbo.tooltip.1=Vertex Buffer Objects (OpenGL).
 options.vbo.tooltip.2=Utiliza un modelo alternativo de renderizado que incrementa
 options.vbo.tooltip.3=la velocidad de 5 a 10%% que el renderizado habitual.
@@ -209,12 +208,12 @@ of.options.CLEAR_WATER.tooltip.1=Al sumergirse en ella.
 of.options.CLEAR_WATER.tooltip.2=  NO – Agua normal.
 of.options.CLEAR_WATER.tooltip.3=  SÍ – Agua más transparente.
 
-of.options.RANDOM_ENTITIES=Mobs aleatorios
-of.options.RANDOM_ENTITIES.tooltip.1=Mobs aleaotrios.
-of.options.RANDOM_ENTITIES.tooltip.2=  NO – Sin skins aleatorios de mobs. (rápido)
-of.options.RANDOM_ENTITIES.tooltip.3=  SÍ – Skins de mobs aleatorios. (lento)
-of.options.RANDOM_ENTITIES.tooltip.4=Esta opción habilita el uso de skins aleatorias para mobs por
-of.options.RANDOM_ENTITIES.tooltip.5=lo que requiere de un paquete de texturas que los contenga.
+of.options.RANDOM_MOBS=Mobs aleatorios
+of.options.RANDOM_MOBS.tooltip.1=Mobs aleaotrios.
+of.options.RANDOM_MOBS.tooltip.2=  NO – Sin skins aleatorios de mobs. (rápido)
+of.options.RANDOM_MOBS.tooltip.3=  SÍ – Skins de mobs aleatorios. (lento)
+of.options.RANDOM_MOBS.tooltip.4=Esta opción habilita el uso de skins aleatorias para mobs por
+of.options.RANDOM_MOBS.tooltip.5=lo que requiere de un paquete de texturas que los contenga.
 
 of.options.BETTER_GRASS=Pasto bonito
 of.options.BETTER_GRASS.tooltip.1=Modifica como se ven los lados de los bloques de tierra con pasto.

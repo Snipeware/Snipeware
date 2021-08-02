@@ -5,28 +5,31 @@ import felix.api.annotations.Handler;
 import felix.events.player.EventMotionUpdate;
 import felix.module.Module;
 import felix.module.impl.movement.Flight;
+import felix.util.other.Logger;
 import felix.value.impl.NumberValue;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.AxisAlignedBB;
 
 public class AntiFall extends Module {
 
-    public NumberValue<Float> distance = new NumberValue<>("Distance", 6F, 1F, 10F, 1F);
+    public NumberValue<Float> distance = new NumberValue<>("Distance", 6F, 1F, 10F, 3F);
 
     public AntiFall() {
-        super("AntiFall", 0, ModuleCategory.WORLD);
-        setHidden(true);
+        super("AntiVoid", 0, ModuleCategory.WORLD);
+     
         addValues(distance);
     }
 
     @Handler
-    public void onEvent(final EventMotionUpdate eventMotion) {
+	public void onMotionUpdate(final EventMotionUpdate eventMotion) {
         if (eventMotion.isPre()) {
-            if (mc.thePlayer.fallDistance > distance.getValue() && !Client.INSTANCE.getModuleManager().getModule(Flight.class).isEnabled()) {
-                if (!isBlockUnder()) {
-                    mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 12, mc.thePlayer.posZ, false));
-                    mc.thePlayer.fallDistance = 0;
-                }
+      
+            if (mc.thePlayer.fallDistance > distance.getValue() && !isBlockUnder()) {
+            	
+                eventMotion.setPosX(-999);
+                eventMotion.setPosY(-999);
+                eventMotion.setPosZ(-999);
+                mc.thePlayer.fallDistance = 0;
             }
         }
     }

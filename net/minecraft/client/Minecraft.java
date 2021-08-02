@@ -289,6 +289,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private final String launchedVersion;
     private final Proxy proxy;
     private ISaveFormat saveLoader;
+    
+    public ServerData lastServerData;
 
     /**
      * This is set to fpsCounter every debug screen update, and is shown on the debug screen. It's also sent as part of
@@ -635,7 +637,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private void createDisplay() throws LWJGLException
     {
         Display.setResizable(true);
-        Display.setTitle("Minecraft 1.8.9");
+        Display.setTitle("Snipeware");
+        
 
         try
         {

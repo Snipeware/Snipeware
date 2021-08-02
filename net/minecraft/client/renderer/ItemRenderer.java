@@ -428,8 +428,7 @@ public class ItemRenderer
                                         GL11.glTranslatef(-1.0f, -0.1f, 0.2f);
                                         GlStateManager.scale(1.5, 1.5, 1.5);
                                         break;
-                                    }
-                                    case Sensation: {
+                                    } case Sensation: {
                                         GlStateManager.translate(0.56f, -0.52f, -0.71999997f);
                                         GlStateManager.translate(0.0f, (0 * -0.6f), 0.0f);
                                         GlStateManager.rotate(45.0f, 0.0f, 1.0f, 0.0f);

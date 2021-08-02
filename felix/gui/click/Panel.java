@@ -44,8 +44,8 @@ public class Panel extends ClickGui {
 	// colors
 	public static int fontColor = Color.white.getRGB();
 	public static int grey40_240 = new Color(40, 40, 40, 195).getRGB();
-	public static int black195 = new Color(28, 28, 28, 255).getRGB();
-	public static int black100 = new Color(50, 50, 50, 255).getRGB();
+	public static int black195 = new Color(58, 28, 28, 255).getRGB();
+	public static int black100 = new Color(60, 50, 50, 255).getRGB();
 	
 	/**
 	 * Initializes Panel

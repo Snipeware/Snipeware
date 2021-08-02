@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import felix.module.impl.movement.Speed;
+import felix.util.other.Logger;
 import felix.util.other.MathUtils;
 import net.minecraft.network.PacketThreadUtil;
 import org.apache.commons.lang3.RandomUtils;
@@ -51,6 +52,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
 public class KillAura extends Module {
@@ -83,6 +85,7 @@ public class KillAura extends Module {
 	public BooleanValue noSwing = new BooleanValue("No Swing", false);
 	public BooleanValue autism = new BooleanValue("Autism", true);
 	
+	public static float rangee;
 	
 	
 	public List<EntityLivingBase> targets = new ArrayList<>();
@@ -138,12 +141,12 @@ public class KillAura extends Module {
 		Health, Range, Angle, FOV;
 	}
 	
-	private enum RotationsMode {
+	public enum RotationsMode {
 		Normal, Smooth, AAC, NCP, None;
 	}
 	
 	private enum BlockMode {
-		NCP, Vanilla;
+		NCP, Vanilla, Fake;
 	}
 	
 	public boolean hasSword() {
@@ -154,9 +157,11 @@ public class KillAura extends Module {
 	public void onMotionUpdate(final EventMotionUpdate event) {
 		setSuffix(killauraMode.getValueAsString());
 		
+		rangee = range.getValue();
+		
 		final Scaffold scaffold = (Scaffold) Client.INSTANCE.getModuleManager().getModule("scaffold");
 		if (scaffold != null) {
-			if (scaffold.isEnabled() && scaffold.hasSafetyEnabled()) 
+			if (scaffold.isEnabled()) 
 				return;
 		}
 		getTargets();
@@ -244,7 +249,7 @@ public class KillAura extends Module {
 				boolean illegal = minCPS.getValue() > maxCPS.getValue();
 				boolean equalto = minCPS.getValue() == maxCPS.getValue() || maxCPS.getValue() == minCPS.getValue();
 				int delay = equalto ? maxCPS.getValue() : illegal ? ThreadLocalRandom.current().nextInt(maxCPS.getValue(), minCPS.getValue()) : ThreadLocalRandom.current().nextInt(minCPS.getValue(), maxCPS.getValue());
-				if (attackTimer.isDelayComplete(1000 )) {
+				if (attackTimer.isDelayComplete(1000 / delay)) {
 					if (isValid(target)) {
 
 						if (noSwing.isEnabled()) {
@@ -257,6 +262,12 @@ public class KillAura extends Module {
 						mc.thePlayer.onCriticalHit(target);
 						tick = 0;
 						mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, Action.ATTACK));
+						/*
+							float pines = mc.thePlayer.getDistanceToEntity(target) - 3.0f;
+							if(pines > 0) {
+							Logger.print(String.valueOf(pines));
+							}
+						 */
 						attackTimer.reset();
 					}
 				}
@@ -272,6 +283,9 @@ public class KillAura extends Module {
 					}
 					case Vanilla: {
 						mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem());
+						break;
+					}case Fake:{
+						block = true;
 						break;
 					}
 				}
@@ -294,7 +308,14 @@ public class KillAura extends Module {
 					mc.thePlayer.onCriticalHit(target);
 					tick = 0;
 					mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, Action.ATTACK));
+				/*
+						float pines = mc.thePlayer.getDistanceToEntity(target) - 3.0f;
+						if(pines > 0) {
+						Logger.print(String.valueOf(pines));
+						}
+						 */
 					attackTimer.reset();
+				
 				}
 			}
 
@@ -357,6 +378,12 @@ public class KillAura extends Module {
 			case Vanilla: {
 				break;
 			}
+			case Fake:{
+				if (!block && autoblock.isEnabled() && target != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+				block = true;
+				}
+				break;
+			}
 		}
 	}
 
@@ -370,6 +397,12 @@ public class KillAura extends Module {
 				break;
 			}
 			case Vanilla: {
+				break;
+			}
+			case Fake:{
+				if (block && autoblock.isEnabled() && target != null) {
+				block = true;
+				}
 				break;
 			}
 		}

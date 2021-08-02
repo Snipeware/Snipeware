@@ -16,8 +16,8 @@ public class CommandManager {
 		commands.put(Bind.class, new Bind());
 		commands.put(Teleport.class, new Teleport());
 		commands.put(Toggle.class, new Toggle());
+		commands.put(ign.class, new ign());
 		commands.put(Config.class, new Config());
-		commands.put(Yanchop.class, new Yanchop());
 		commands.put(Help.class, new Help());
 	}
 	

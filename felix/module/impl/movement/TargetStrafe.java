@@ -9,6 +9,7 @@ import felix.events.player.EventMotionUpdate;
 import felix.events.render.EventRender3D;
 import felix.module.Module;
 import felix.module.impl.combat.KillAura;
+import felix.util.other.Logger;
 import felix.util.visual.RenderUtil;
 import felix.value.impl.BooleanValue;
 import felix.value.impl.NumberValue;
@@ -27,12 +28,13 @@ public final class TargetStrafe extends Module {
 	public TargetStrafe() {
 		super("TargetStrafe", 0, ModuleCategory.MOVEMENT);
 		setHidden(true);
-		addValues(radius, holdspace, render);
+		addValues(radius, holdspace, render, Third);
 	}
 
 	public final NumberValue<Double> radius = new NumberValue<>("Radius", 2.0D, 0.1D, 4.0D, 0.1D);
-    public final BooleanValue holdspace = new BooleanValue("Hold Space", true);
-    private final BooleanValue render = new BooleanValue("Render", true);
+    public final BooleanValue holdspace = new BooleanValue("Hold Space", false);
+    private final BooleanValue render = new BooleanValue("Render", false);
+    private final BooleanValue Third = new BooleanValue("Third Person", false);
 
     private final List<Vector3f> points = new ArrayList<>();
 
@@ -40,18 +42,22 @@ public final class TargetStrafe extends Module {
 
     @Handler
     public void onMotionUpdate(final EventMotionUpdate event) {
+
         if (event.isPre()) {
             if (mc.thePlayer.isCollidedHorizontally) {
+            
                 direction = (byte) -direction;
                 return;
             }
 
             if (mc.gameSettings.keyBindLeft.isKeyDown()) {
+            	
                 direction = 1;
                 return;
             }
 
             if (mc.gameSettings.keyBindRight.isKeyDown())
+         
                 direction = -1;
         }
     }
@@ -96,18 +102,50 @@ public final class TargetStrafe extends Module {
     	final KillAura killAura = (KillAura) Client.INSTANCE.getModuleManager().getModule(KillAura.class);
     	final Speed speed = (Speed) Client.INSTANCE.getModuleManager().getModule(Speed.class);
     	final Flight flight = (Flight) Client.INSTANCE.getModuleManager().getModule(Flight.class);
+     
+    	if(Third.isEnabled()) {
+    		if(Client.getInstance().getModuleManager().getModule("Speed").isEnabled()) {
+    	
+    	if(mc.thePlayer.getDistanceToEntity(killAura.target) < KillAura.rangee - 0.2f) {
+    
+			mc.gameSettings.thirdPersonView = 1;
+		}else {
+	
+			mc.gameSettings.thirdPersonView = 0;
+		}
+    	
+    	if(killAura.target.getHealth() < 1) {
+    		
+    	
+    		mc.gameSettings.thirdPersonView = 0;
+    		
+    	}
+    	if(killAura.targets.equals(null)) {
+    	
+    		mc.gameSettings.thirdPersonView = 0;
+    		
+    	}
+    	
+    }else {
+    
+    	
+    	mc.gameSettings.thirdPersonView = 0;
+    
+    	}
+    	}
+    	
     	for (Entity entity : mc.theWorld.getLoadedEntityList()) {
     		boolean colorchange = speed.isEnabled() || flight.isEnabled();
     		int color = 0;
         	if (killAura.target == entity && colorchange && !this.holdspace.isEnabled()) {
         		color = Color.green.getRGB();
         	}
-        	else if (killAura.target == entity && colorchange && this.holdspace.isEnabled() && mc.gameSettings.keyBindJump.isKeyDown()) {
-        		color = Color.green.getRGB();
-        	} else {
+        
         		color = Color.white.getRGB();
-        	}
-	    	if (render.isEnabled() && entity != null && entity instanceof EntityPlayer && entity != mc.thePlayer && killAura.target == entity) {
+        
+    
+	    	if (Client.getInstance().getModuleManager().getModule("TargetStrafe").isEnabled()  && render.isEnabled() && killAura.target == entity) {
+
 	    		drawLinesAroundPlayer(entity, mc.getRenderManager(), radius.getValue(), event.getPartialTicks(), 12, 3f, Color.black.getRGB());
 	    		drawLinesAroundPlayer(entity, mc.getRenderManager(), radius.getValue(), event.getPartialTicks(), 12, 2, color);
 	        }

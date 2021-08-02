@@ -11,9 +11,12 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 
 import felix.Client;
 import felix.gui.alt.gui.GuiAltManager;
+import felix.module.Module;
 import felix.util.font.FontRenderer;
 import felix.util.visual.RenderUtil;
+import felix.util.visual.Translate;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -85,9 +88,11 @@ public class ClientMainMenu extends GuiMainMenu {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    	
     	mc.getTextureManager().bindTexture(new ResourceLocation("minecraft", "background.png"));
     	Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0f, 0.0f, this.width, this.height, (float)this.width, (float)this.height);
-        this.drawGradientRect(0, height - 100, width, height, 0, -16777216);
+        this.drawGradientRect(0, height - 150, width, height, 0, -16777216);
+ 
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         GlStateManager.pushMatrix();
         
@@ -100,17 +105,17 @@ public class ClientMainMenu extends GuiMainMenu {
         
         final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 21", true);
         final String welcome = "Welcome back";
-        final String build = "Snipeware";
-      
+        final String build = "Snipeware (this is a beta and there are many bugs)";
+       
         
         fr.drawStringWithShadow(welcome, (float)(this.width - fr.getWidth(welcome) - 13), (float)(this.height - 24), -1);
         fr.drawStringWithShadow(build, (float)(this.width - fr.getWidth(build)) / 50, (float)(this.height - 24), -1);
      
+       
         
         //RenderUtil.drawImage(new ResourceLocation("minecraft", "language.png"), width / 3 + 397, height / 4 + 48 - 159, 25, 25);
         //RenderUtil.drawImage(new ResourceLocation("minecraft", "options.png"), width / 3 + 506, height / 4 + 48 - 159, 26, 26);
-        
-        
+      
         changelogs.add("Added changelogs.");
         changelogs.add("Being cool.");
         
@@ -118,4 +123,8 @@ public class ClientMainMenu extends GuiMainMenu {
         GlStateManager.popMatrix();
         
     }
+	private int count(int i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

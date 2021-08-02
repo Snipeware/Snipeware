@@ -108,6 +108,14 @@ public class RotationUtils {
 		}
 		return new float[] { yaw, pitch };
 	}
+	
+	 public static Vec3 getVectorForRotation(final float[] rotation) {
+	        float yawCos = MathHelper.cos(-rotation[0] * 0.017453292F - (float) Math.PI);
+	        float yawSin = MathHelper.sin(-rotation[0] * 0.017453292F - (float) Math.PI);
+	        float pitchCos = -MathHelper.cos(-rotation[1] * 0.017453292F);
+	        float pitchSin = MathHelper.sin(-rotation[1] * 0.017453292F);
+	        return new Vec3(yawSin * pitchCos, pitchSin, yawCos * pitchCos);
+	    }
 
 	public static float[] getBowAngles(final Entity entity) {
 		final double xDelta = (entity.posX - entity.lastTickPosX) * 0.4;

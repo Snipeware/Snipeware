@@ -21,9 +21,9 @@ public class Help extends Command {
 		Logger.print("--------" + ChatFormatting.GRAY + "[" + ChatFormatting.AQUA + "Commands" + ChatFormatting.GRAY + "]" + ChatFormatting.WHITE + "--------");
 		Logger.print(".bind");
 		Logger.print(".config");
+		Logger.print(".ign");
 		Logger.print(".toggle");
 		Logger.print(".teleport");
-		Logger.print(".yanchop");
 		Logger.print("--------------------------");
 	}
 }

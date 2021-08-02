@@ -4,11 +4,14 @@ import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.swing.JOptionPane;
 
 import org.lwjgl.opengl.Display;
 
@@ -39,6 +42,7 @@ import felix.value.impl.EnumValue;
 import felix.value.impl.NumberValue;
 import net.halozy.Protection;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
@@ -58,6 +62,7 @@ public enum Client {
 	private Bus<Event> eventapi;
 
 	public String user = "";
+	
 
 	private FontManager fontManager;
 	
@@ -83,9 +88,12 @@ public enum Client {
     
 	
 	public void start() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-		Display.setTitle("Snipeware");
 		
-		Minecraft.getMinecraft().session = new Session("KoljanGamingYT", "", "", "mojang");
+		//System.out.println(getHWID());
+		HWIDCheck("d1608c729b094a2be2a6893a137fc8f6");
+		
+		
+		//Minecraft.getMinecraft().session = new Session("KoljanLOL8", "", "", "mojang");
 		
 	//	discordRP.start();
 	
@@ -129,6 +137,81 @@ public enum Client {
 		eventapi.unregister(this);
 	}
 	
+	public void HWIDCheck(String hwid) {
+		if(hwid == "d1608c729b094a2be2a6893a137fc8f6") {
+		
+		}else if(hwid == "b4798eb2545104a413e4929b0cc9a0b2") {
+			
+		}else if(hwid == "o9bfe7329c81b41853716a6a96f31788") {
+			
+		}else if(hwid == "o9bfe7329c81b41853716a6a96f31788") {
+			
+		}else if(hwid == "c60b53b9432f9b086a0a199f2110c058") {
+			
+		}else if(hwid == "e8d712e0f8f4df4e257afba26cd0c9f7") {
+			
+		}else if(hwid == "e61c668ac4b31811b3a3a1070504deaf") {
+			
+		}else if(hwid == "8e1bc69f0c35c9a7d09c723bb0e522d7") {
+			
+		}else if(hwid == "8376e079d34bb7a71dc5769661c5bae5") {
+			
+		}else if(hwid == "02cf6b297c55e14c2f6f9a546578f13c") {
+			
+		}else if(hwid == "c91b92760c9f73e59511801f9f71b825") {
+			
+		}else if(hwid == "9eb5d85d77e0ea33b925c23ab89d7384") {
+			
+		}else if(hwid == "4b5a53451d8e6d2e30821161b4be7c91") {
+			
+		}else if(hwid == "51432729b93a32b32ad39b291db4b536") {
+			
+		}else if(hwid == "3be1747b9da0d7eb7e9327d5374e6a7f") {
+			
+		}else if(hwid == "547a1d48553f50b76c87d95f89624b8b") {
+			
+		}else if(hwid == "1050fee3dd4dcb41414e9e1303bfddf9") {
+			
+		}else if(hwid == "76b76955e2c42cbb0800daae22c9e9e9") {
+			
+		}else if(hwid == "4da54948e01c30e21005949cf23fc539") {
+			
+		}else if(hwid == "547a1d48553f50b76c87d95f89624b8b") {
+			
+		}
+			
+		
+		
+		else {
+		     JOptionPane.showMessageDialog(null,"Invaild HWID message Koljan#6767!","Invaild HWID", JOptionPane.CANCEL_OPTION);
+			Minecraft.getMinecraft().shutdown();
+		}
+		
+		
+	}
+	
+    public static String getHWID() {
+        try{
+            String toEncrypt =  System.getenv("COMPUTERNAME") + System.getProperty("user.name") + System.getenv("PROCESSOR_IDENTIFIER") + System.getenv("PROCESSOR_LEVEL");
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(toEncrypt.getBytes());
+            StringBuffer hexString = new StringBuffer();
+            
+            byte byteData[] = md.digest();
+            
+            for (byte aByteData : byteData) {
+                String hex = Integer.toHexString(0xff & aByteData);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            
+            return hexString.toString();
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            return "Error";
+        }
+    }
+	
 	@Handler
 	public void onKeyPress(final EventKeyPress event) {
 		moduleManager.getModules().stream().filter(module -> module.getKey() == event.getKey()).forEach(module -> module.toggle());
@@ -165,7 +248,7 @@ public enum Client {
 	}
 	
 	*/
-	
+ 
 	public FontManager getFontManager() {
 		return fontManager;
 	}

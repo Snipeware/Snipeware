@@ -9,6 +9,8 @@ import felix.gui.notification.Notifications;
 import felix.events.packet.EventPacketReceive;
 import felix.events.player.EventMotionUpdate;
 import felix.module.Module;
+import felix.util.other.Logger;
+import felix.util.other.TimeHelper;
 import felix.util.player.MovementUtils;
 import felix.value.impl.BooleanValue;
 import felix.value.impl.EnumValue;
@@ -24,11 +26,12 @@ public class LongJump extends Module {
 
     
 	private EnumValue<Mode> mode = new EnumValue<>("Mode", Mode.Vanilla);
-	private BooleanValue flagbackcheck = new BooleanValue("Flagback Check", true);
+	private BooleanValue flagbackcheck = new BooleanValue("Flagback check", true);
+
     
     public LongJump() {
         super("LongJump", 0, ModuleCategory.MOVEMENT);
-        addValues(mode , flagbackcheck );
+        addValues(mode , flagbackcheck);
     }
 
     
@@ -49,6 +52,8 @@ public class LongJump extends Module {
     @Override
     public void onDisable() {
         super.onDisable();
+        boolean autodisable = false;
+      
         mc.timer.timerSpeed = 1.0f;
         mc.gameSettings.keyBindJump.pressed = false;
     }
@@ -86,7 +91,7 @@ public class LongJump extends Module {
     public void onMove(final EventMove event) {
     	switch (mode.getValue()) {
     	case Vanilla:{
-    	
+    		setSuffix(mode.getValueAsString());
         if (stage == 1) {
             mc.thePlayer.cameraYaw = 0.03f;
             movementSpeed = 0;
@@ -115,8 +120,10 @@ public class LongJump extends Module {
     	break;
     	}
     	case Redesky:{
+
+    		
     		setSuffix(mode.getValueAsString());
-    		mc.thePlayer.chasingPosY = cameraY;
+    	
     		
     		mc.thePlayer.setSprinting(true);
     		if(mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
@@ -128,7 +135,7 @@ public class LongJump extends Module {
     			
     			mc.gameSettings.keyBindJump.pressed = true;
     			
-
+    			
     	
     		}else {
     			
@@ -136,13 +143,12 @@ public class LongJump extends Module {
     		}
     		
     		
-    		if(!mc.thePlayer.onGround) {
-    			MovementUtils.setMotion(MovementUtils.getSpeed() + 0.05);
     		
-    		}
-	
     		
+    		
+    		break;
     	}
+    	
     		
     }
     }

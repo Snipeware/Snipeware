@@ -7,6 +7,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import felix.Client;
+import felix.api.annotations.Handler;
 import felix.gui.alt.gui.GuiAltManager;
 import felix.gui.alt.gui.impl.GuiAlteningLogin;
 import felix.gui.alt.system.Account;
@@ -21,12 +22,14 @@ public class AccountLoginThread extends Thread {
 
     private String email, password;
 
-    private String status = "Waiting for login...";
+    public static String status = "Waiting for login...";
 
     public AccountLoginThread(String email, String password) {
         this.email = email;
         this.password = password;
     }
+
+  
 
     @Override
     public void run() {

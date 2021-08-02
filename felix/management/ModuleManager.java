@@ -29,7 +29,6 @@ import felix.module.impl.combat.KillAura;
 import felix.module.impl.combat.Reach;
 import felix.module.impl.combat.Regen;
 import felix.module.impl.combat.WTap;
-import felix.module.impl.movement.AutoMLG;
 import felix.module.impl.movement.FastLadder;
 import felix.module.impl.movement.Flight;
 import felix.module.impl.movement.InvMove;
@@ -52,6 +51,7 @@ import felix.module.impl.player.KillSay;
 import felix.module.impl.player.NoFall;
 import felix.module.impl.player.NoRotate;
 import felix.module.impl.player.Safewalk;
+import felix.module.impl.player.Test;
 import felix.module.impl.player.Zoot;
 import felix.module.impl.visuals.BlockAnimation;
 import felix.module.impl.visuals.BlockOverlay;
@@ -84,10 +84,13 @@ public class ModuleManager {
 	private final Map<Class, Module> modules = new LinkedHashMap<>();
 	public KillAura aura;
 	public Scaffold2 scaffold2;
+	public Scaffold scaffold;
+
 	public ChestStealer chestStealer;
 
 	public ModuleManager() {
 		modules.put(Scaffold2.class, scaffold2 = new Scaffold2());
+		modules.put(Scaffold.class, new Scaffold());
 		modules.put(Sprint.class, new Sprint());
 		modules.put(HUD.class, new HUD());
 		modules.put(NoSlowDown.class, new NoSlowDown());
@@ -109,7 +112,6 @@ public class ModuleManager {
 		modules.put(AutoArmor.class, new AutoArmor());
 		modules.put(ChestStealer.class, chestStealer = new ChestStealer());
 		modules.put(InvManager.class, new InvManager());
-		modules.put(Scaffold.class, new Scaffold());
 		modules.put(AntiFall.class, new AntiFall());
 		modules.put(AutoPot.class, new AutoPot());
 		modules.put(LongJump.class, new LongJump());
@@ -149,13 +151,14 @@ public class ModuleManager {
 		modules.put(LiquidWalk.class, new LiquidWalk());
 		modules.put(AutoSoup.class, new AutoSoup());
 		modules.put(FastLadder.class, new FastLadder());
-		modules.put(AutoMLG.class, new AutoMLG());
 		modules.put(AutoPlay.class, new AutoPlay());
 		modules.put(Hitboxes.class, new Hitboxes());
 		modules.put(AutoHead.class, new AutoHead());
 		modules.put(BlockOverlay.class, new BlockOverlay());
 		modules.put(ItemESP.class, new ItemESP());
 		modules.put(OutlineESP.class, new OutlineESP());
+		modules.put(Test.class, new Test());
+
 	}
 
 	public Collection<Module> getModules() {

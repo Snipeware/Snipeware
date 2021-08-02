@@ -88,7 +88,7 @@ public class AntiVelocity extends Module {
 				motionZ = mc.thePlayer.motionZ; 
 				motionY = mc.thePlayer.motionY;
 			}
-		}
+		
 		
 		
 		 if (mc.thePlayer.isMoving2()) {
@@ -97,10 +97,10 @@ public class AntiVelocity extends Module {
 	        	
 	        	if(!Client.getInstance().getModuleManager().getModule("LongJump").isEnabled()) {
 	        
-	              mc.thePlayer.motionX = motionX * 0.55;
-	              mc.thePlayer.motionZ = motionZ * 0.55;
+	              mc.thePlayer.motionX = motionX * 0.85;
+	              mc.thePlayer.motionZ = motionZ * 0.85;
 	              mc.thePlayer.motionY = motionY * 0.957;
-	
+	              
 	        	}
 	            
 	           }
@@ -112,9 +112,11 @@ public class AntiVelocity extends Module {
 				}
 	        }
 			
-			
-		}
+		 }
+		 break;
 		
+		}
+	
 	}
 	
 	

@@ -116,34 +116,7 @@ public class Scaffold2 extends Module {
 
     @Handler
     public void a(EventRender2D event) {
-        if (blockCountBarProperty.getValue()) {
-            ScaledResolution sr = new ScaledResolution(mc);
-            int blockCount = 0;
-            for (int i = 0; i < 45; ++i) {
-                if (!mc.thePlayer.inventoryContainer.getSlot(i).getHasStack())
-                    continue;
-                ItemStack is = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
-                Item item = is.getItem();
-                if (!(is.getItem() instanceof ItemBlock) || !InventoryUtils.isValidBlock(((ItemBlock) item).getBlock(), false))
-                    continue;
-                blockCount += is.stackSize;
-            }
-            int color = new Color(255, 0, 0).getRGB();
-            int bgcolor = new Color(1,1,1).getRGB();
-            if (blockCount >= 64 && 128 > blockCount) {
-                color = new Color(255, 255, 0).getRGB();
-            } else if (blockCount >= 128) {
-                color = new Color(0, 255, 0).getRGB();
-            }
-
-            GlStateManager.pushMatrix();
-            mc.fontRendererObj.drawString(Integer.toString(blockCount), (sr.getScaledWidth() >> 1)  - mc.fontRendererObj.getStringWidth(Integer.toString(blockCount)) / 2 + 1, (sr.getScaledHeight() >> 1) - 15, bgcolor);
-            mc.fontRendererObj.drawString(Integer.toString(blockCount), (sr.getScaledWidth() >> 1)  - mc.fontRendererObj.getStringWidth(Integer.toString(blockCount)) / 2 - 1, (sr.getScaledHeight() >> 1) - 15, bgcolor);
-            mc.fontRendererObj.drawString(Integer.toString(blockCount), (sr.getScaledWidth() >> 1)  - mc.fontRendererObj.getStringWidth(Integer.toString(blockCount)) / 2, (sr.getScaledHeight() >> 1) - 15 + 1, bgcolor);
-            mc.fontRendererObj.drawString(Integer.toString(blockCount), (sr.getScaledWidth() >> 1)  - mc.fontRendererObj.getStringWidth(Integer.toString(blockCount)) / 2, (sr.getScaledHeight() >> 1) - 15 - 1, bgcolor);
-            mc.fontRendererObj.drawString(Integer.toString(blockCount), (sr.getScaledWidth() >> 1)  - mc.fontRendererObj.getStringWidth(Integer.toString(blockCount)) / 2, (sr.getScaledHeight() >> 1) - 15, color);
-            GlStateManager.popMatrix();
-        }
+      
     }
 
     @Handler

@@ -1,5 +1,6 @@
 package felix.module.impl.world;
 
+import felix.Client;
 import felix.api.annotations.Handler;
 import felix.events.packet.EventPacketReceive;
 import felix.events.player.EventMotionUpdate;
