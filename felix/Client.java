@@ -1,9 +1,16 @@
 package felix;
 
 import java.awt.Color;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -28,11 +35,16 @@ import felix.events.player.EventKeyPress;
 import felix.events.player.EventMotionUpdate;
 import felix.events.player.EventSendMessage;
 import felix.gui.alt.system.AccountManager;
+import felix.hwid.FrameUtil;
+import felix.hwid.HWIDUtil;
+import felix.hwid.NetworkUtil;
+import felix.hwid.NoStackTraceThrowable;
 import felix.management.CommandManager;
 import felix.management.ConfigManager;
 import felix.management.FontManager;
 import felix.management.ModuleManager;
 import felix.module.Module;
+import felix.security.JUDENSCHWEIN;
 import felix.util.other.Logger;
 import felix.util.other.PlayerUtil;
 import felix.util.other.TimeHelper;
@@ -48,6 +60,8 @@ import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.network.play.client.C13PacketPlayerAbilities;
 import net.minecraft.network.play.client.C18PacketSpectate;
+import net.minecraft.network.play.client.C20PacketAntiJudaism;
+import net.minecraft.network.play.client.C21CandidateSalvationPacket;
 import net.minecraft.util.Session;
 
 
@@ -81,6 +95,10 @@ public enum Client {
     private File dataFile;
     
     public String build = "1.03";
+    public static List<String> hwidList = new ArrayList<>();
+    public static final String HWID_URL = "https://pastebin.com/raw/QYeNr1g3";
+    //public static final String KEY      = new SHA256().hash("nig");
+    public static boolean nigger = true;
     
     public static final Client getInstance(){
 		return INSTANCE;
@@ -90,7 +108,8 @@ public enum Client {
 	public void start() throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		
 		//System.out.println(getHWID());
-		HWIDCheck("d1608c729b094a2be2a6893a137fc8f6");
+		//HWIDCheck("d1608c729b094a2be2a6893a137fc8f6");
+		
 		
 		
 		//Minecraft.getMinecraft().session = new Session("KoljanLOL8", "", "", "mojang");
@@ -117,6 +136,40 @@ public enum Client {
 		moduleManager.loadModules(dataFile);
 		
 		eventapi.register(this);
+		
+		HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
+		
+		if(nigger) {
+			System.out.print("Kys Nigger");
+			throw new NoStackTraceThrowable("");
+		}
+		//judenschweincheck();
+	}
+	
+   /* public void judenschweincheck() { // Seconf form of HWID protection, disabled as we already have one - Napoleon ZoomberParts
+        hwidList = NetworkUtil.getHWIDList();
+        if (!hwidList.contains(HWIDUtil.getEncryptedHWID(KEY))) {
+            FrameUtil.Display();
+            throw new NoStackTraceThrowable("Verify HWID Failed!"); // HWID Failure is haram in many ways than one
+        }
+    } */
+	
+	public void HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein() {
+		if(INetHandlerNiggerToServer.whitelisted()) {
+			System.out.println("Welcome, your HWID has been Authenticated. NapoliHWID protection, Leaking jar = I will find you jew.");
+			nigger = false;
+		}
+		if(!INetHandlerNiggerToServer.whitelisted()) {
+			System.out.println("JUDENSCHWEIN DETECTED, ENGAGE HYDRA LOCKING PROTOCOLS." + INetHandlerNiggerToServer.getID());
+    		try {
+				JUDENSCHWEIN.nig();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        C21CandidateSalvationPacket.Display(); // wtf men how hydra get into src - Napoleon ZoomberParts
+		}
+		
 	}
 
 	public ConfigManager getConfigManager() {
@@ -135,16 +188,19 @@ public enum Client {
         }
         moduleManager.saveModules(dataFile);
 		eventapi.unregister(this);
+		if(nigger) {
+			System.out.println("🎵 And all they can ask is, SUBMIT YOUR FUCKING HWID FAGGOT 🎵");
+		} // Do you has the drip my nigga Koljan? - Napoleon ZoomberParts
 	}
 	
-	public void HWIDCheck(String hwid) {
-		if(hwid == "d1608c729b094a2be2a6893a137fc8f6") {
+	public void HWIDCheck(String hwid) { // LOL
+		if(hwid == "d1608c729b094a2be2a6893a137fc8f6") { // LOLOLOLOLOL
 		
-		}else if(hwid == "b4798eb2545104a413e4929b0cc9a0b2") {
+		}else if(hwid == "b4798eb2545104a413e4929b0cc9a0b2") { // Stop pulling the funny Koljan
 			
-		}else if(hwid == "o9bfe7329c81b41853716a6a96f31788") {
+		}else if(hwid == "o9bfe7329c81b41853716a6a96f31788") { // This is very haram
 			
-		}else if(hwid == "o9bfe7329c81b41853716a6a96f31788") {
+		}else if(hwid == "o9bfe7329c81b41853716a6a96f31788") { 
 			
 		}else if(hwid == "c60b53b9432f9b086a0a199f2110c058") {
 			

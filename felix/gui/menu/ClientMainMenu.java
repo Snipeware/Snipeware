@@ -12,9 +12,9 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import felix.Client;
 import felix.gui.alt.gui.GuiAltManager;
 import felix.module.Module;
-import felix.util.font.FontRenderer;
 import felix.util.visual.RenderUtil;
 import felix.util.visual.Translate;
+import font.FontRenderer;
 
 import java.awt.Color;
 import java.io.IOException;

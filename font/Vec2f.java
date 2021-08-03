@@ -1,4 +1,4 @@
-package felix.util.font;
+package font;
 
 public class Vec2f {
 

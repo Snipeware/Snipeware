@@ -12,7 +12,7 @@ import felix.Client;
 import felix.gui.alt.gui.GuiAltManager;
 import felix.gui.alt.gui.components.GuiPasswordField;
 import felix.gui.alt.system.Account;
-import felix.util.font.FontRenderer;
+import font.FontRenderer;
 
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 

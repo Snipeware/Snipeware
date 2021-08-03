@@ -6,9 +6,8 @@ import com.thealtening.domain.Account;
 
 import felix.Client;
 import felix.gui.alt.gui.thread.AccountLoginThread;
-import felix.util.font.FontRenderer;
-
 import felix.util.visual.RenderUtil;
+import font.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;

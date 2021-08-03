@@ -18,7 +18,7 @@ import felix.gui.alt.gui.impl.GuiAlteningLogin;
 import felix.gui.alt.gui.thread.AccountLoginThread;
 import felix.gui.alt.system.Account;
 import felix.gui.menu.ClientMainMenu;
-import felix.util.font.FontRenderer;
+import font.FontRenderer;
 
 import java.awt.event.WindowEvent;
 import java.io.IOException;

@@ -1,8 +1,8 @@
 package felix.gui.menu;
 
 import felix.Client;
-import felix.util.font.FontRenderer;
 import felix.util.visual.RenderUtil;
+import font.FontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;

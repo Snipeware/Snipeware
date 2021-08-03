@@ -34,12 +34,12 @@ import felix.gui.notification.Notifications;
 import felix.module.Module;
 import felix.module.impl.combat.AntiBot;
 import felix.module.impl.combat.KillAura;
-import felix.util.font.FontRenderer;
 import felix.util.other.MathUtils;
 import felix.util.other.PlayerUtil;
 import felix.util.other.TimeHelper;
 import felix.util.visual.RenderUtil;
 import felix.value.impl.BooleanValue;
+import font.FontRenderer;
 
 public final class TargetHUD extends Module {
 

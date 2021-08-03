@@ -39,11 +39,11 @@ import felix.events.render.EventRender2D;
 import felix.events.render.EventRenderNametag;
 import felix.gui.click.Panel;
 import felix.module.Module;
-import felix.util.font.FontRenderer;
 import felix.util.other.PlayerUtil;
 import felix.util.visual.RenderUtil;
 import felix.value.impl.BooleanValue;
 import felix.value.impl.EnumValue;
+import font.FontRenderer;
 
 public final class ESP2D extends Module {
 	

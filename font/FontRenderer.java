@@ -1,4 +1,4 @@
-package felix.util.font;
+package font;
 
 import net.minecraft.client.gui.VanillaFontRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;

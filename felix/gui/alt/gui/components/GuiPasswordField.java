@@ -1,6 +1,6 @@
 package felix.gui.alt.gui.components;
 
-import felix.util.font.FontRenderer;
+import font.FontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;

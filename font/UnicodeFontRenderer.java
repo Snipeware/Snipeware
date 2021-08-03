@@ -1,4 +1,4 @@
-package felix.util.font;
+package font;
 
 import java.awt.Color;
 import java.awt.Font;

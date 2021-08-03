@@ -11,10 +11,10 @@ import felix.gui.click.Panel;
 import felix.gui.click.components.listeners.ComponentListener;
 import felix.gui.click.util.ClickUtil;
 import felix.module.Module;
-import felix.util.font.FontRenderer;
 import felix.util.other.MathUtils;
 import felix.util.other.TimeHelper;
 import felix.util.visual.RenderUtil;
+import font.FontRenderer;
 import net.minecraft.client.gui.VanillaFontRenderer;
 
 

@@ -15,7 +15,7 @@ import felix.gui.click.listeners.ComponentsListener;
 import felix.gui.click.util.FramePosition;
 import felix.module.Module;
 import felix.module.Module.ModuleCategory;
-import felix.util.font.FontRenderer;
+import font.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.VanillaFontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;

@@ -16,9 +16,9 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import felix.Client;
 import felix.gui.alt.gui.GuiAltManager;
 import felix.gui.alt.system.Account;
-import felix.util.font.FontRenderer;
 import felix.util.visual.Colors;
 import felix.util.visual.RenderUtil;
+import font.FontRenderer;
 
 public class GuiAccountList extends GuiSlot {
 

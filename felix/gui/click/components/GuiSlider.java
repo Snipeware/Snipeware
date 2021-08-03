@@ -13,8 +13,8 @@ import felix.gui.click.components.listeners.ValueListener;
 import felix.gui.click.util.ClickUtil;
 import felix.gui.click.util.MathUtil;
 import felix.management.FontManager;
-import felix.util.font.FontRenderer;
 import felix.util.visual.RenderUtil;
+import font.FontRenderer;
 import net.minecraft.client.gui.VanillaFontRenderer;
 import net.minecraft.util.MathHelper;
 

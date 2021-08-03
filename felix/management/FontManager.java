@@ -9,9 +9,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import org.lwjgl.opengl.GL11;
 
-import felix.util.font.FontRenderer;
-import felix.util.font.TTFFontRenderer;
-import felix.util.font.UnicodeFontRenderer;
+import font.FontRenderer;
+import font.TTFFontRenderer;
+import font.UnicodeFontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 

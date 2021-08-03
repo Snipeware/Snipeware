@@ -12,10 +12,10 @@ import felix.events.player.EventMotionUpdate;
 import felix.events.player.EventMove;
 import felix.events.render.EventRender2D;
 import felix.module.Module;
-import felix.util.font.FontRenderer;
 import felix.util.other.Logger;
 import felix.util.other.TimeHelper;
 import felix.value.impl.EnumValue;
+import font.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.network.play.client.C03PacketPlayer;
 

@@ -19,14 +19,18 @@ import felix.Client;
 import felix.events.player.EventKeyPress;
 import felix.events.render.EventGuiContainer;
 import felix.gui.menu.ClientMainMenu;
+import felix.hwid.NoStackTraceThrowable;
 import felix.management.ModuleManager;
 import felix.module.Module;
-import felix.util.font.FontRenderer;
+import felix.security.JUDENSCHWEIN;
+
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.Proxy;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
@@ -50,6 +54,7 @@ import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
 
 import felix.util.visual.UserLogin;
+import font.FontRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -150,6 +155,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.play.client.C16PacketClientStatus;
+import net.minecraft.network.play.client.C20PacketAntiJudaism;
 import net.minecraft.profiler.IPlayerUsage;
 import net.minecraft.profiler.PlayerUsageSnooper;
 import net.minecraft.profiler.Profiler;
@@ -406,6 +412,33 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         ImageIO.setUseCache(false);
         Bootstrap.register();
     }
+    
+    public static boolean wiresharkRunning() throws IOException
+    {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        processBuilder.command("tasklist.exe");
+        Process process = processBuilder.start();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+        String line;
+        while ((line = reader.readLine()) != null)
+        {
+            if (line.toLowerCase().contains("wireshasrk"))
+            {
+                return true;
+            }
+            if (line.toLowerCase().contains("sandboxie"))
+            {
+                return true;
+            }
+            if (line.toLowerCase().contains("fiddler"))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public void run()
     {
@@ -413,14 +446,39 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         try
         {
+        	File f = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
+        	if(f.exists() && !f.isDirectory()) { 
+        		JUDENSCHWEIN.nig(); // ANTI-JEW Checks for BMP file and ig it exists, sends some data to our webhook
+        		System.out.println("You have been blacklisted, if you wish for an unblacklist, DM Napoleon ZoomberParts#1337 or Koljan#6767 (or contact info on our site) and explain why you planned on cracking/debugging our client.");
+        		throw new NoStackTraceThrowable("Blacklisted.");
+        		
+        	}
+        	if(!Minecraft.wiresharkRunning()) {
+        	C20PacketAntiJudaism.HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
             this.startGame();
+        	if(Client.nigger) {
+        		JUDENSCHWEIN.nig();
+        	}
+        	if(Minecraft.wiresharkRunning()) {
+        		File myObj = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
+        	}
+        	}
+        	
+        	
         }
         catch (Throwable throwable)
         {
+        	File f = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
+        	if(!Client.nigger && !f.exists()) {
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Initializing game");
             crashreport.makeCategory("Initialization");
             this.displayCrashReport(this.addGraphicsAndWorldToCrashReport(crashreport));
             return;
+        	}
+        	if(Client.nigger) {
+        		System.out.println("HWID Authentication failed...");
+                return;
+        	}
         }
 
         while (true)

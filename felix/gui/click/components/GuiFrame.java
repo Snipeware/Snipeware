@@ -9,8 +9,8 @@ import felix.Client;
 import felix.gui.click.ClickGui;
 import felix.gui.click.Panel;
 import felix.gui.click.util.ClickUtil;
-import felix.util.font.FontRenderer;
 import felix.util.visual.RenderUtil;
+import font.FontRenderer;
 import net.minecraft.client.gui.VanillaFontRenderer;
 
 /**

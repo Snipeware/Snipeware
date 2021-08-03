@@ -7,8 +7,8 @@ import net.minecraft.client.gui.GuiButton;
 import java.awt.*;
 
 import felix.Client;
-import felix.util.font.FontRenderer;
 import felix.util.visual.RenderUtil;
+import font.FontRenderer;
 
 public class Button extends GuiButton {
 

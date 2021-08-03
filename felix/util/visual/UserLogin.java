@@ -16,7 +16,8 @@ import java.util.Scanner;
 import felix.Client;
 import felix.gui.alt.gui.components.GuiPasswordField;
 import felix.gui.menu.ClientMainMenu;
-import felix.util.font.FontRenderer;
+import font.FontRenderer;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 

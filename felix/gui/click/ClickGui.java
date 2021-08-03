@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import felix.Client;
 import felix.gui.click.components.Frame;
 import felix.management.FontManager;
-import felix.util.font.FontRenderer;
+import font.FontRenderer;
 import net.minecraft.client.gui.VanillaFontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;

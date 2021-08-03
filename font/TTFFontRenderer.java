@@ -6,7 +6,7 @@
  *  org.lwjgl.opengl.GL11
  *  org.lwjgl.util.vector.Vector2f
  */
-package felix.util.font;
+package font;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;

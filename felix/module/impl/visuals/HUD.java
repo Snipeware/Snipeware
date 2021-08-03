@@ -39,7 +39,6 @@ import felix.events.player.EventKeyPress;
 import felix.events.render.EventRender2D;
 import felix.gui.click.Panel;
 import felix.module.Module;
-import felix.util.font.FontRenderer;
 import felix.util.other.PlayerUtil;
 import felix.util.visual.RenderUtil;
 import felix.util.visual.Translate;
@@ -47,6 +46,7 @@ import felix.value.impl.BooleanValue;
 import felix.value.impl.ColorValue;
 import felix.value.impl.EnumValue;
 import felix.value.impl.NumberValue;
+import font.FontRenderer;
 
 public class HUD extends Module {
  

@@ -9,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import felix.Client;
-import felix.util.font.FontRenderer;
 import felix.util.visual.Colors;
 import felix.util.visual.RenderUtil;
+import font.FontRenderer;
 
 import java.awt.*;
 import java.util.List;

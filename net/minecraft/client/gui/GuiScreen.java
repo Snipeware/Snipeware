@@ -6,9 +6,9 @@ import com.google.common.collect.Sets;
 
 import felix.Client;
 import felix.gui.click.Panel;
-import felix.util.font.FontRenderer;
 import felix.util.visual.Colors;
 import felix.util.visual.RenderUtil;
+import font.FontRenderer;
 
 import java.awt.Color;
 import java.awt.Toolkit;
