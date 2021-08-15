@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.mojang.authlib.GameProfile;
 import com.mojang.util.UUIDTypeAdapter;
 
-import felix.gui.menu.ClientMainMenu;
+import Snipeware.gui.menu.ClientMainMenu;
 
 import java.net.Proxy;
 import net.minecraft.client.Minecraft;

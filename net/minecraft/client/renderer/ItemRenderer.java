@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer;
 
-import felix.module.impl.combat.KillAura;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -33,9 +32,10 @@ import net.optifine.reflect.Reflector;
 import net.optifine.shaders.Shaders;
 import org.lwjgl.opengl.GL11;
 
-import felix.Client;
-import felix.module.impl.visuals.BlockAnimation;
-import felix.util.other.TimeHelper;
+import Snipeware.Client;
+import Snipeware.module.impl.combat.KillAura;
+import Snipeware.module.impl.visuals.BlockAnimation;
+import Snipeware.util.other.TimeHelper;
 
 public class ItemRenderer
 {

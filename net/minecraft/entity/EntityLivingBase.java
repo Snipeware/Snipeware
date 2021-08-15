@@ -4,10 +4,10 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
 
-import felix.Client;
-import felix.events.player.EventJump;
-import felix.events.player.EventMoveOnLadder;
-import felix.module.impl.visuals.BlockAnimation;
+import Snipeware.Client;
+import Snipeware.events.player.EventJump;
+import Snipeware.events.player.EventMoveOnLadder;
+import Snipeware.module.impl.visuals.BlockAnimation;
 
 import java.util.Collection;
 import java.util.Iterator;

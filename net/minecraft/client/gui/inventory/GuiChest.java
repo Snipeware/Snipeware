@@ -1,7 +1,7 @@
 package net.minecraft.client.gui.inventory;
 
-import felix.Client;
-import felix.events.render.EventGuiContainer;
+import Snipeware.Client;
+import Snipeware.events.render.EventGuiContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.ContainerChest;

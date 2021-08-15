@@ -2,18 +2,18 @@ package net.minecraft.client.renderer.entity;
 
 import com.google.common.collect.Lists;
 
-import felix.Client;
-import felix.events.Event;
-import felix.events.player.EventMotionUpdate;
-import felix.events.render.EventRenderEntity;
-import felix.events.render.EventRenderNametag;
-import felix.module.impl.combat.KillAura;
-import felix.module.impl.player.ChestStealer;
-import felix.module.impl.visuals.Chams;
-import felix.module.impl.visuals.OutlineESP;
-import felix.module.impl.world.Scaffold;
-import felix.util.visual.OutlineUtils;
-import felix.util.visual.RenderUtil;
+import Snipeware.Client;
+import Snipeware.events.Event;
+import Snipeware.events.player.EventMotionUpdate;
+import Snipeware.events.render.EventRenderEntity;
+import Snipeware.events.render.EventRenderNametag;
+import Snipeware.module.impl.combat.KillAura;
+import Snipeware.module.impl.player.ChestStealer;
+import Snipeware.module.impl.visuals.Chams;
+import Snipeware.module.impl.visuals.OutlineESP;
+import Snipeware.module.impl.world.Scaffold;
+import Snipeware.util.visual.OutlineUtils;
+import Snipeware.util.visual.RenderUtil;
 import me.tojatta.api.utilities.angle.Angle;
 import me.tojatta.api.utilities.angle.AngleUtility;
 

@@ -4,8 +4,8 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 
-import felix.Client;
-import felix.module.impl.movement.NoSlowDown;
+import Snipeware.Client;
+import Snipeware.module.impl.movement.NoSlowDown;
 
 import java.util.Collection;
 import java.util.List;

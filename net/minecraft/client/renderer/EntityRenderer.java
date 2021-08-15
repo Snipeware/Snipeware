@@ -4,11 +4,11 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 
-import felix.Client;
-import felix.events.render.EventRender3D;
-import felix.gui.menu.ClientMainMenu;
-import felix.module.impl.combat.Reach;
-import felix.module.impl.visuals.NoHurtCam;
+import Snipeware.Client;
+import Snipeware.events.render.EventRender3D;
+import Snipeware.gui.menu.ClientMainMenu;
+import Snipeware.module.impl.combat.Reach;
+import Snipeware.module.impl.visuals.NoHurtCam;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;

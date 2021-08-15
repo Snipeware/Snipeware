@@ -8,8 +8,8 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Mouse;
 
-import felix.gui.alt.gui.components.GuiAccountList;
-import felix.util.visual.RenderUtil;
+import Snipeware.gui.alt.gui.components.GuiAccountList;
+import Snipeware.util.visual.RenderUtil;
 
 public abstract class GuiSlot
 {

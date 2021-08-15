@@ -19,7 +19,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import felix.Client;
+import Snipeware.Client;
 
 public class GuiConnecting extends GuiScreen
 {

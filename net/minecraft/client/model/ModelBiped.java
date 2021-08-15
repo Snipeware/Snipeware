@@ -1,7 +1,7 @@
 package net.minecraft.client.model;
 
-import felix.Client;
-import felix.module.impl.visuals.Chams;
+import Snipeware.Client;
+import Snipeware.module.impl.visuals.Chams;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;

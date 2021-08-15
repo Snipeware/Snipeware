@@ -2,8 +2,8 @@ package net.minecraft.client.renderer.entity;
 
 import org.lwjgl.opengl.GL11;
 
-import felix.Client;
-import felix.module.impl.visuals.Chams;
+import Snipeware.Client;
+import Snipeware.module.impl.visuals.Chams;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelPlayer;

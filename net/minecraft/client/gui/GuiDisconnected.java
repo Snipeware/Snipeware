@@ -11,9 +11,9 @@ import net.minecraft.util.Session;
 
 import java.util.Random;
 
-import felix.Client;
-import felix.gui.alt.gui.GuiAltManager;
-import felix.gui.menu.ClientMainMenu;
+import Snipeware.Client;
+import Snipeware.gui.alt.gui.GuiAltManager;
+import Snipeware.gui.menu.ClientMainMenu;
 
 public class GuiDisconnected extends GuiScreen
 {

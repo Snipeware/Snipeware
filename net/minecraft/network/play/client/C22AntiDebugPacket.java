@@ -2,8 +2,8 @@ package net.minecraft.network.play.client;
 
 import javax.swing.*;
 
-import felix.INetHandlerNiggerToServer;
-import felix.hwid.NoStackTraceThrowable;
+import Snipeware.INetHandlerNiggerToServer;
+import Snipeware.hwid.NoStackTraceThrowable;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;

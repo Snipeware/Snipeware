@@ -5,9 +5,9 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
 
-import felix.Client;
-import felix.events.packet.EventPacketSend;
-import felix.gui.menu.ClientMainMenu;
+import Snipeware.Client;
+import Snipeware.events.packet.EventPacketSend;
+import Snipeware.gui.menu.ClientMainMenu;
 import io.netty.buffer.Unpooled;
 import java.io.File;
 import java.io.IOException;

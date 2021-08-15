@@ -2,9 +2,9 @@ package net.minecraft.client.renderer.entity;
 
 import java.util.Random;
 
-import felix.Client;
-import felix.module.impl.visuals.ItemPhysic;
-import felix.util.visual.ClientPhysic;
+import Snipeware.Client;
+import Snipeware.module.impl.visuals.ItemPhysic;
+import Snipeware.util.visual.ClientPhysic;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureMap;

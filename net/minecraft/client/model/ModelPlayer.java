@@ -1,7 +1,7 @@
 package net.minecraft.client.model;
 
-import felix.Client;
-import felix.events.render.EventModelUpdate;
+import Snipeware.Client;
+import Snipeware.events.render.EventModelUpdate;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

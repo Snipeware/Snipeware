@@ -1,11 +1,12 @@
 package net.minecraft.util;
 
-import felix.Client;
-import felix.module.impl.movement.InvMove;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.settings.GameSettings;
 import org.lwjgl.input.Keyboard;
+
+import Snipeware.Client;
+import Snipeware.module.impl.movement.InvMove;
 
 public class MovementInputFromOptions extends MovementInput
 {

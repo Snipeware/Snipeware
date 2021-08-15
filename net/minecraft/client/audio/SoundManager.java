@@ -6,6 +6,8 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+
+import Snipeware.rar.*;
 import io.netty.util.internal.ThreadLocalRandom;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +34,6 @@ import paulscode.sound.SoundSystemException;
 import paulscode.sound.SoundSystemLogger;
 import paulscode.sound.Source;
 import paulscode.sound.codecs.CodecJOrbis;
-import felix.rar.*;
 
 public class SoundManager
 {

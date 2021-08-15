@@ -1,7 +1,7 @@
 package net.minecraft.client.multiplayer;
 
-import felix.Client;
-import felix.events.player.EventBlockDamaged;
+import Snipeware.Client;
+import Snipeware.events.player.EventBlockDamaged;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

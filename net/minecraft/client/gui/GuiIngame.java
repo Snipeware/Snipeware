@@ -4,9 +4,9 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
-import felix.Client;
-import felix.events.render.EventRender2D;
-import felix.gui.notification.Notifications;
+import Snipeware.Client;
+import Snipeware.events.render.EventRender2D;
+import Snipeware.gui.notification.Notifications;
 
 import java.util.Collection;
 import java.util.List;

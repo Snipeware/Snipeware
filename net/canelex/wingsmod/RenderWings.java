@@ -6,13 +6,13 @@ import java.awt.Color;
 
 import org.lwjgl.opengl.GL11;
 
-import felix.api.annotations.Handler;
-import felix.events.render.EventRender3D;
-import felix.module.Module;
-import felix.module.impl.visuals.DragonWings;
-import felix.util.visual.RenderUtil;
-import felix.value.impl.BooleanValue;
-import felix.value.impl.NumberValue;
+import Snipeware.api.annotations.Handler;
+import Snipeware.events.render.EventRender3D;
+import Snipeware.module.Module;
+import Snipeware.module.impl.visuals.DragonWings;
+import Snipeware.util.visual.RenderUtil;
+import Snipeware.value.impl.BooleanValue;
+import Snipeware.value.impl.NumberValue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelBase;

@@ -4,10 +4,10 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import felix.Client;
-import felix.gui.click.Panel;
-import felix.util.visual.Colors;
-import felix.util.visual.RenderUtil;
+import Snipeware.Client;
+import Snipeware.gui.click.Panel;
+import Snipeware.util.visual.Colors;
+import Snipeware.util.visual.RenderUtil;
 import font.FontRenderer;
 
 import java.awt.Color;

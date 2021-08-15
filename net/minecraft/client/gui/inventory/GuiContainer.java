@@ -2,8 +2,8 @@ package net.minecraft.client.gui.inventory;
 
 import com.google.common.collect.Sets;
 
-import felix.Client;
-import felix.events.render.EventGuiContainer;
+import Snipeware.Client;
+import Snipeware.events.render.EventGuiContainer;
 
 import java.io.IOException;
 import java.util.Set;

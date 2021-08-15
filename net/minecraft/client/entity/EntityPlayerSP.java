@@ -1,15 +1,15 @@
 package net.minecraft.client.entity;
 
-import felix.Client;
-import felix.events.player.EventMove;
-import felix.events.player.EventMotionUpdate;
-import felix.events.player.EventSendMessage;
-import felix.events.player.EventUseItem;
-import felix.events.render.EventBlockRender;
-import felix.events.render.EventGuiContainer;
-import felix.module.impl.combat.KillAura;
-import felix.module.impl.movement.NoSlowDown;
-import felix.util.visual.RenderUtil;
+import Snipeware.Client;
+import Snipeware.events.player.EventMotionUpdate;
+import Snipeware.events.player.EventMove;
+import Snipeware.events.player.EventSendMessage;
+import Snipeware.events.player.EventUseItem;
+import Snipeware.events.render.EventBlockRender;
+import Snipeware.events.render.EventGuiContainer;
+import Snipeware.module.impl.combat.KillAura;
+import Snipeware.module.impl.movement.NoSlowDown;
+import Snipeware.util.visual.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;

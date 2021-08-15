@@ -3,9 +3,9 @@ package net.minecraft.block;
 import java.util.List;
 import java.util.Random;
 
-import felix.Client;
-import felix.events.player.EventBoundingBox;
-import felix.events.player.EventCollide;
+import Snipeware.Client;
+import Snipeware.events.player.EventBoundingBox;
+import Snipeware.events.player.EventCollide;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;

@@ -3,8 +3,8 @@ package net.minecraft.client.gui;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
-import felix.Client;
-import felix.gui.alt.gui.GuiAltManager;
+import Snipeware.Client;
+import Snipeware.gui.alt.gui.GuiAltManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;

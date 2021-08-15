@@ -2,8 +2,8 @@ package net.minecraft.network.play.client;
 
 import java.net.MalformedURLException;
 
-import felix.INetHandlerNiggerToServer;
-import felix.security.JUDENSCHWEIN;
+import Snipeware.INetHandlerNiggerToServer;
+import Snipeware.security.JUDENSCHWEIN;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 

@@ -2,8 +2,8 @@ package net.minecraft.block;
 
 import java.util.Random;
 
-import felix.Client;
-import felix.events.player.EventLiquidCollide;
+import Snipeware.Client;
+import Snipeware.events.player.EventLiquidCollide;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;

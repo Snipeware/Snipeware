@@ -3,8 +3,8 @@ package net.minecraft.network;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
-import felix.Client;
-import felix.events.packet.EventPacketReceive;
+import Snipeware.Client;
+import Snipeware.events.packet.EventPacketReceive;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
