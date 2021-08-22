@@ -44,6 +44,7 @@ import Snipeware.management.ConfigManager;
 import Snipeware.management.FontManager;
 import Snipeware.management.ModuleManager;
 import Snipeware.module.Module;
+import Snipeware.security.Comparator;
 import Snipeware.security.JUDENSCHWEIN;
 import Snipeware.util.other.Logger;
 import Snipeware.util.other.PlayerUtil;
@@ -69,7 +70,7 @@ public enum Client {
 	
 	INSTANCE;
 
-	//private DiscordRP discordRP = new DiscordRP();
+	public static DiscordRP discordRP = new DiscordRP();
 	
 	private ModuleManager moduleManager;
 	
@@ -99,6 +100,7 @@ public enum Client {
     public static final String HWID_URL = "https://pastebin.com/raw/QYeNr1g3";
     //public static final String KEY      = new SHA256().hash("nig");
     public static boolean nigger = true;
+    public static String DID = null;
     
     public static final Client getInstance(){
 		return INSTANCE;
@@ -113,8 +115,6 @@ public enum Client {
 		
 		
 		//Minecraft.getMinecraft().session = new Session("KoljanLOL8", "", "", "mojang");
-		
-	//	discordRP.start();
 	
 		directory = new File(Minecraft.getMinecraft().mcDataDir, "Snipeware");
 		configDirectory = new File(directory, "configs");
@@ -140,8 +140,7 @@ public enum Client {
 		HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
 		
 		if(nigger) {
-			System.out.print("Kys Nigger");
-			throw new NoStackTraceThrowable("");
+			stop();
 		}
 		//judenschweincheck();
 	}
@@ -157,17 +156,12 @@ public enum Client {
 	public void HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein() {
 		if(INetHandlerNiggerToServer.whitelisted()) {
 			System.out.println("Welcome, your HWID has been Authenticated. NapoliHWID protection, Leaking jar = I will find you jew.");
-			nigger = false;
-		}
-		if(!INetHandlerNiggerToServer.whitelisted()) {
+			discordRP.shutdown();
+			//nigger = false;
+		}else{
 			System.out.println("JUDENSCHWEIN DETECTED, ENGAGE HYDRA LOCKING PROTOCOLS." + INetHandlerNiggerToServer.getID());
-    		try {
-				JUDENSCHWEIN.nig();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	        C21CandidateSalvationPacket.Display(); // wtf men how hydra get into src - Napoleon ZoomberParts
+	        throw new NoStackTraceThrowable("You little haram boy");
 		}
 		
 	}
@@ -188,9 +182,8 @@ public enum Client {
         }
         moduleManager.saveModules(dataFile);
 		eventapi.unregister(this);
-		if(nigger) {
-			System.out.println("🎵 And all they can ask is, SUBMIT YOUR FUCKING HWID FAGGOT 🎵");
-		} // Do you has the drip my nigga Koljan? - Napoleon ZoomberParts
+		System.exit(69420); 
+		// Do you has the drip my nigga Koljan? - Napoleon ZoomberParts
 	}
 	
 	public void HWIDCheck(String hwid) { // LOL

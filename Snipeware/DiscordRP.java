@@ -14,22 +14,19 @@ public class DiscordRP {
 
         this.created = System.currentTimeMillis();
 
-        DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler(new ReadyCallback(){
-
-            @Override
-            public void apply(DiscordUser user){
-                System.out.println("Welcome");
-                update("Starting up...", "");
-            }
-
+        DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler((user) -> {
+            System.out.println("Welcome " + user.username + "#" + user.discriminator + ".");
+            DiscordRichPresence.Builder presence = new DiscordRichPresence.Builder("");
+            DiscordRPC.discordUpdatePresence(presence.build());
+            Client.DID = user.userId.toString();
         }).build();
+        DiscordRPC.discordInitialize("415885161457123338", handlers, false);
+        DiscordRPC.discordRegister("415885161457123338", "");
 
-        DiscordRPC.discordInitialize("861739582290788432", handlers, true);
-
+        
         new Thread("Discord RPC Callback"){
             @Override
             public void run() {
-
                 while(running){
                     DiscordRPC.discordRunCallbacks();
                 }

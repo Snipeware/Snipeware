@@ -1,26 +1,16 @@
 package net.minecraft.network.play.client;
 
-import java.net.MalformedURLException;
-
+import Snipeware.Client;
 import Snipeware.INetHandlerNiggerToServer;
-import Snipeware.security.JUDENSCHWEIN;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
+import Snipeware.security.Comparator;
 
 public class C20PacketAntiJudaism {
 	
 	public static void HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein() {
 		if(INetHandlerNiggerToServer.whitelisted()) {
-			//System.out.println("Welcome");
-		}
-		if(!INetHandlerNiggerToServer.whitelisted()) {
+		}else {
 			System.out.println("JUDENSCHWEIN DETECTED, ENGAGE HYDRA LOCKING PROTOCOLS." + INetHandlerNiggerToServer.getID());
-    		try {
-				JUDENSCHWEIN.nig();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Client.nigger = true;
 	        C21CandidateSalvationPacket.Display();
 	        
 		}
