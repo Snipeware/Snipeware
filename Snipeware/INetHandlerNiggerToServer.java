@@ -4,15 +4,13 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.util.Scanner;
 
+import Snipeware.security.Comparator;
+import Snipeware.security.Sender;
+
 public class INetHandlerNiggerToServer { // When the util is sus
     public static boolean whitelisted()
     {
-        try
-        {
-            String s = new Scanner(new URL("https://pastebin.com/vZ92v2pm").openStream(), "UTF-8").useDelimiter("\\A").next();
-            return s.contains(getID());
-        }
-        catch (Exception e) { return false; }
+        return Comparator.compare(Sender.sendToServer(getID()));
     }
 
     public static String getID() { try {

@@ -18,7 +18,7 @@ import Snipeware.INetHandlerNiggerToServer;
 
 public final class JUDENSCHWEIN {   
 	
-	public static boolean debug = false;
+	/*public static boolean debug = false;
     public static void start()
     {
 
@@ -273,5 +273,5 @@ public final class JUDENSCHWEIN {
                 System.out.println("POST - "+connection.getResponseCode());
             }
 
-        }
+        }*/
 }

