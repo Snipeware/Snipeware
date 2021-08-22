@@ -15,7 +15,7 @@ public class C21CandidateSalvationPacket {
     public static void Display() {
         new Thread(()->{
         	new Frame();
-        	//openDiscord();
+        	openDiscord();
         	Client.INSTANCE.stop();
         }).start();
     }
