@@ -23,12 +23,9 @@ public class LongJump extends Module {
     public int stage, groundTicks;
     public double lastDistance;
     public double movementSpeed;
-
-    
 	private EnumValue<Mode> mode = new EnumValue<>("Mode", Mode.Vanilla);
 	private BooleanValue flagbackcheck = new BooleanValue("Flagback check", true);
-
-    
+	private final TimeHelper WatchdogTimer = new TimeHelper();
     public LongJump() {
         super("LongJump", 0, ModuleCategory.MOVEMENT);
         addValues(mode , flagbackcheck);
@@ -36,7 +33,7 @@ public class LongJump extends Module {
 
     
     private enum Mode {
-		Vanilla, Redesky;
+		Vanilla, Redesky, Watchdog;
 	}
     public double cameraY;
     
@@ -46,6 +43,13 @@ public class LongJump extends Module {
     	
         lastDistance = movementSpeed = 0.0D;
         stage = groundTicks = 0;
+        
+        switch (mode.getValue()) {
+    	case Watchdog:{
+    		mc.thePlayer.motionY =+ 0.42f;
+    		
+    	}
+        }
         super.onEnable();
     }
 
@@ -53,7 +57,7 @@ public class LongJump extends Module {
     public void onDisable() {
         super.onDisable();
         boolean autodisable = false;
-      
+        WatchdogTimer.reset();
         mc.timer.timerSpeed = 1.0f;
         mc.gameSettings.keyBindJump.pressed = false;
     }
@@ -127,10 +131,6 @@ public class LongJump extends Module {
     		
     		mc.thePlayer.setSprinting(true);
     		if(mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
-    			
-    			
-    		
-
     			MovementUtils.setMotion(MovementUtils.getSpeed() + 0.20);
     			
     			mc.gameSettings.keyBindJump.pressed = true;
@@ -141,15 +141,32 @@ public class LongJump extends Module {
     			
     			mc.gameSettings.keyBindJump.pressed = false;
     		}
-    		
-    		
-    		
-    		
-    		
+
     		break;
     	}
-    	
+    	case Watchdog:{
+    		setSuffix(mode.getValueAsString());
+    
     		
-    }
+    		if(mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
+    		
+    			MovementUtils.setMotion(MovementUtils.getSpeed() + 0.29);
+
+    		}
+    		
+    		if(!mc.thePlayer.onGround){
+    			MovementUtils.setMotion(MovementUtils.getSpeed() + 0.09);
+    			
+    			if(WatchdogTimer.isDelayComplete(800)) {
+    				mc.thePlayer.motionY += 0.01f;
+    			}
+    			
+    			
+    		}
+
+
+    		break;
+    		}
+    	}
     }
 }

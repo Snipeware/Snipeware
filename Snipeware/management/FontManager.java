@@ -47,18 +47,13 @@ public class FontManager {
 				fonts.put("Fatality " + i, unicode ? new UnicodeFontRenderer(myFont) : new TTFFontRenderer(myFont));
 			}
 			
-			for (int i : new int[] { 2, 4, 6, 8, 10, 12, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 34, 35, 36, 38,
-					40, 42, 44, 46, 48, 50, 52 }) {
-				InputStream istream = getClass().getResourceAsStream("/assets/minecraft/fonts/burbank.ttf");
-				Font myFont = Font.createFont(Font.PLAIN, istream);
-				myFont = myFont.deriveFont(Font.PLAIN, i);
-				fonts.put("burbank " + i, unicode ? new UnicodeFontRenderer(myFont) : new TTFFontRenderer(myFont));
-			}
+		
 
 			for (int i : new int[] { 2, 4, 6, 8, 10, 12, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40,
 					42, 44, 46, 48, 50, 52 }) {
 				fonts.put("Tahoma " + i, unicode ? new UnicodeFontRenderer(new Font("Tahoma", Font.PLAIN, i)) : new TTFFontRenderer(new Font("Tahoma", Font.PLAIN, i)));
 			}
+
 
 			fonts.put("Verdana 12", new UnicodeFontRenderer(new Font("Verdana", Font.PLAIN, 12)));
 

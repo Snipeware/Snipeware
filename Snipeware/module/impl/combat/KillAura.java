@@ -15,6 +15,7 @@ import Snipeware.api.annotations.Handler;
 import Snipeware.events.packet.EventPacketSend;
 import Snipeware.events.player.EventMotionUpdate;
 import Snipeware.events.render.EventRender3D;
+import Snipeware.gui.notification.Notifications;
 import Snipeware.module.Module;
 import Snipeware.module.impl.movement.Speed;
 import Snipeware.module.impl.world.Scaffold;
@@ -28,6 +29,7 @@ import Snipeware.value.impl.BooleanValue;
 import Snipeware.value.impl.EnumValue;
 import Snipeware.value.impl.NumberValue;
 import font.Vec2f;
+import io.netty.util.NetUtil;
 import me.tojatta.api.utilities.angle.Angle;
 import me.tojatta.api.utilities.angle.AngleUtility;
 import me.tojatta.api.utilities.vector.impl.Vector3;
@@ -112,6 +114,7 @@ public class KillAura extends Module {
 	
 	public void onEnable() {
 		super.onEnable();
+
 		target = null;
 		attackTimer.reset();
 		tick = 100;
@@ -146,7 +149,7 @@ public class KillAura extends Module {
 	}
 	
 	private enum BlockMode {
-		NCP, Vanilla, Fake;
+		Watchdog, NCP, Vanilla, Fake;
 	}
 	
 	public boolean hasSword() {
@@ -251,7 +254,7 @@ public class KillAura extends Module {
 				int delay = equalto ? maxCPS.getValue() : illegal ? ThreadLocalRandom.current().nextInt(maxCPS.getValue(), minCPS.getValue()) : ThreadLocalRandom.current().nextInt(minCPS.getValue(), maxCPS.getValue());
 				if (attackTimer.isDelayComplete(1000 / delay)) {
 					if (isValid(target)) {
-
+				
 						if (noSwing.isEnabled()) {
 							mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C0APacketAnimation());
 						}
@@ -277,6 +280,10 @@ public class KillAura extends Module {
 
 			if (autoblock.isEnabled() && target != null && hasSword()) {
 				switch (blockMode.getValue()) {
+				case Watchdog:{
+					block = true;
+					break;
+				}
 					case NCP: {
 						//mc.thePlayer.setItemInUse(mc.thePlayer.getHeldItem(), mc.thePlayer.getHeldItem().getMaxItemUseDuration());
 						break;
@@ -362,6 +369,14 @@ public class KillAura extends Module {
 	
 	private void block() {
 		switch (blockMode.getValue()) {
+		case Watchdog:{
+			if (!block && autoblock.isEnabled() && target != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+				block = true;
+				   mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.INTERACT));
+                   mc.getNetHandler().addToSendQueueNoEvent(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
+			break;
+			}
+		}
 			case NCP: {
 				if (!block && autoblock.isEnabled() && target != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
 					block = true;
@@ -389,6 +404,13 @@ public class KillAura extends Module {
 
 	private void unblock() {
 		switch (blockMode.getValue()) {
+		case Watchdog:{
+			if (block && autoblock.isEnabled() && target != null) {
+				block = false;
+				mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+			}
+		}
+		
 			case NCP: {
 				if (block && autoblock.isEnabled() && target != null) {
 					block = false;

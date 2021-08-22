@@ -56,7 +56,7 @@ public class Speed extends Module {
 	private BooleanValue flagbackcheck = new BooleanValue("Flagback Check", true);
 
 
-	private EnumValue<Mode> mode = new EnumValue<>("Speed Mode", Mode.WatchdogHop);
+	private EnumValue<Mode> mode = new EnumValue<>("Speed Mode", Mode.Watchdog);
 	
 	public 	int stageRede = 1;
 	
@@ -71,7 +71,7 @@ public class Speed extends Module {
 	}
 
 	private enum Mode {
-	 Legit, WatchdogHop, WatchdogLowhop, NCP, Strafe, Vanilla, Redesky, Test, Mineplex;
+	 Legit, Watchdog, NCP, Strafe, Vanilla, Redesky, Test, Mineplex;
 	}
 	
 	 public enum Redemode {
@@ -85,10 +85,7 @@ public class Speed extends Module {
 		if (PlayerUtil.isOnLiquid() && Client.INSTANCE.getModuleManager().getModule("liquidwalk").isEnabled())
 			return;
 		switch (mode.getValue()) {
-	
-	
-		
-		
+
 			case Mineplex: {
                 mc.timer.timerSpeed = 1.0f;
                 if (mc.thePlayer.isMovingOnGround()) {
@@ -119,131 +116,10 @@ public class Speed extends Module {
                 }
 				break;
 			}
-		case WatchdogHop: {
-			moveSpeed = MovementUtils.getSpeed();
-			if (stage < 1) {
-				++stage;
-				nextMotionSpeed = 0.0;
-			}
-			if (stage == 2 && (mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f)
-					&& mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround) {
-				xMotionSpeed = 0.42F;
-				if (mc.thePlayer.isPotionActive(Potion.jump)) {
-					xMotionSpeed += (mc.thePlayer.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1f;
-				}
-				event.setY(mc.thePlayer.motionY = xMotionSpeed);
-				moveSpeed *= 1.64;
-			} else if (stage == 3) {
-				xMotionSpeed = 0.72
-						* (nextMotionSpeed - MovementUtils.getSpeed());
-				moveSpeed = nextMotionSpeed - xMotionSpeed;
-			} else {
-				if ((mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer,
-						mc.thePlayer.boundingBox.offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0
-						|| mc.thePlayer.isCollidedVertically) && stage > 0) {
-					stage = ((mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f) ? 1 : 0);
-				}
-				moveSpeed = nextMotionSpeed - nextMotionSpeed / 99.0;
-			}
-			moveSpeed = Math.max(moveSpeed, MovementUtils.getSpeed());
-			xMotionSpeed = mc.thePlayer.movementInput.moveForward;
-			zDist = mc.thePlayer.movementInput.moveStrafe;
-			float rotationYaw = mc.thePlayer.rotationYaw;
-			if (xMotionSpeed == 0.0 && zDist == 0.0) {
-				// mc.thePlayer.setPosition(mc.thePlayer.posX + 1.0, mc.thePlayer.posY,
-				// mc.thePlayer.posZ + 1.0);
-				// mc.thePlayer.setPosition(mc.thePlayer.prevPosX, mc.thePlayer.posY,
-				// mc.thePlayer.prevPosZ);
-				event.setX(0.0);
-				event.setZ(0.0);
-			} else if (xMotionSpeed != 0.0) {
-				if (zDist >= 1.0) {
-					rotationYaw += ((xMotionSpeed > 0.0) ? -45.0f : 45.0f);
-					zDist = 0.0;
-				} else if (zDist <= -1.0) {
-					rotationYaw += ((xMotionSpeed > 0.0) ? 45.0f : -45.0f);
-					zDist = 0.0;
-				}
-				if (xMotionSpeed > 0.0) {
-					xMotionSpeed = 1.0;
-				} else if (xMotionSpeed < 0.0) {
-					xMotionSpeed = -1.0;
-				}
-			}
-			final double cos = Math.cos(Math.toRadians(rotationYaw + 90.0f));
-			final double sin = Math.sin(Math.toRadians(rotationYaw + 90.0f));
-			final double x = (xMotionSpeed * moveSpeed * cos + zDist * moveSpeed * sin) * 0.987;
-			final double z = (xMotionSpeed * moveSpeed * sin - zDist * moveSpeed * cos) * 0.987;
-			if (Math.abs(x) < 1.0 && Math.abs(z) < 1.0) {
-				event.setX(x);
-				event.setZ(z);
-			}
-			mc.thePlayer.stepHeight = 0.6f;
-			if (xMotionSpeed == 0.0 && zDist == 0.0) {
-				event.setX(0.0);
-				event.setZ(0.0);
-				// mc.thePlayer.setPosition(mc.thePlayer.posX + 1.0, mc.thePlayer.posY,
-				// mc.thePlayer.posZ + 1.0);
-				// mc.thePlayer.setPosition(mc.thePlayer.prevPosX, mc.thePlayer.posY,
-				// mc.thePlayer.prevPosZ);
-			} else if (xMotionSpeed != 0.0) {
-				if (zDist >= 1.0) {
-					final float n = rotationYaw + ((xMotionSpeed > 0.0) ? -45.0f : 45.0f);
-					zDist = 0.0;
-				} else if (zDist <= -1.0) {
-					final float n2 = rotationYaw + ((xMotionSpeed > 0.0) ? 45.0f : -45.0f);
-					zDist = 0.0;
-				}
-				if (xMotionSpeed > 0.0) {
-					xMotionSpeed = 1.0;
-				} else if (xMotionSpeed < 0.0) {
-					xMotionSpeed = -1.0;
-				}
-			}
-			++stage;
-
-
-			if (mc.thePlayer.isMoving()) {
-				MovementUtils.setSpeed(event, moveSpeed);
-			}
-			break;
-		}
-		case WatchdogLowhop: {
-			if (MathUtils.roundToPlace(mc.thePlayer.posY - (int) mc.thePlayer.posY, 3) == MathUtils.roundToPlace(0.4,
-					3)) {
-				event.setY(mc.thePlayer.motionY = 0.31);
-			} else if (MathUtils.roundToPlace(mc.thePlayer.posY - (int) mc.thePlayer.posY, 3) == MathUtils
-					.roundToPlace(0.71, 3)) {
-				event.setY(mc.thePlayer.motionY = 0.04);
-			} else if (MathUtils.roundToPlace(mc.thePlayer.posY - (int) mc.thePlayer.posY, 3) == MathUtils
-					.roundToPlace(0.75, 3)) {
-				event.setY(mc.thePlayer.motionY = -0.2);
-			} else if (MathUtils.roundToPlace(mc.thePlayer.posY - (int) mc.thePlayer.posY, 3) == MathUtils
-					.roundToPlace(0.55, 3)) {
-				event.setY(mc.thePlayer.motionY = -0.14);
-			} else if (MathUtils.roundToPlace(mc.thePlayer.posY - (int) mc.thePlayer.posY, 3) == MathUtils
-					.roundToPlace(0.41, 3)) {
-				event.setY(mc.thePlayer.motionY = -0.2);
-			}
-			if (stage == 1 && (mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f)) {
-			} else if (stage == 2 && (mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f)) {
-				event.setY(mc.thePlayer.motionY = 0.4F);
-				moveSpeed *= 1.45;
-			} else if (stage == 3) {
-				final double difference = 0.72 * (nextMotionSpeed - MovementUtils.getSpeed());
-				moveSpeed = nextMotionSpeed - difference;
-			} else {
-				final List collidingList = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer,
-						mc.thePlayer.boundingBox.offset(0.0, mc.thePlayer.motionY, 0.0));
-				if ((collidingList.size() > 0 || mc.thePlayer.isCollidedVertically) && stage > 0) {
-					stage = ((mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f) ? 1 : 0);
-				}
-				moveSpeed = nextMotionSpeed - nextMotionSpeed / 99.0;
-			}
-			MovementUtils.setSpeed(event, moveSpeed = Math.max(moveSpeed, MovementUtils.getSpeed()));
-			if (mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f) {
-				++stage;
-			}
+		case Watchdog: {
+			
+            MovementUtils.setSpeed(event, 0.26);
+			
 			break;
 		}
 		case Vanilla: {
@@ -253,20 +129,12 @@ public class Speed extends Module {
 		case Strafe:{
 			mc.gameSettings.keyBindSprint.pressed = true;
 			if(!PlayerUtil.isInLiquid() && mc.thePlayer.isMoving2()) {
-			
-			mc.gameSettings.keyBindJump.pressed = true;
-			
+			mc.gameSettings.keyBindJump.pressed = true;	
 			}else {
-			
 				mc.gameSettings.keyBindJump.pressed = false;
 			}
 			
-			moveSpeed = Math.max(moveSpeed, MovementUtils.getSpeed());
-	
-				MovementUtils.setSpeed(event, moveSpeed);
-			
-			
-			
+				MovementUtils.setSpeed(event, MovementUtils.getSpeed());
 			break;
 		}
 		case NCP: {
@@ -567,39 +435,16 @@ public class Speed extends Module {
 	public void onMotionUpdate(final EventMotionUpdate event) {
 		setSuffix(mode.getValueAsString());
 		switch (mode.getValue()) {
-		case WatchdogHop:
-			if (event.getType() == EventMotionUpdate.Type.PRE) {
-					if (MovementUtils.isOnGround(0.001) && mc.thePlayer.isMovingOnGround()) {
-						event.setPosY(event.getPosY() +  RandomUtils.nextFloat(0.0004f + MathUtils.randomFloatValue(), 0.00049f + MathUtils.randomFloatValue()));
-					}
-			}
-
-			if (event.getType() == EventMotionUpdate.Type.PRE) {
-				xMotionSpeed = mc.thePlayer.posX - mc.thePlayer.prevPosX;
-				zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
-				nextMotionSpeed = Math.sqrt(xMotionSpeed * xMotionSpeed + zDist * zDist);
-			}
-			break;
-		case WatchdogLowhop:
-			if (event.getType() == EventMotionUpdate.Type.PRE) {
-				if (MovementUtils.isOnGround(0.001) && mc.thePlayer.isMovingOnGround()) {
-					event.setPosY(event.getPosY() +  RandomUtils.nextFloat(0.0004f + MathUtils.randomFloatValue(), 0.00049f + MathUtils.randomFloatValue()));
-				}
-			}
-
-			if (event.getType() == EventMotionUpdate.Type.PRE) {
-				xMotionSpeed = mc.thePlayer.posX - mc.thePlayer.prevPosX;
-				zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
-				nextMotionSpeed = Math.sqrt(xMotionSpeed * xMotionSpeed + zDist * zDist);
-			}
-			break;
-			case Mineplex:
-				if (event.getType() == EventMotionUpdate.Type.PRE) {
-					xMotionSpeed = mc.thePlayer.posX - mc.thePlayer.prevPosX;
-					zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
-					nextMotionSpeed = Math.sqrt(xMotionSpeed * xMotionSpeed + zDist * zDist);
-				
-				}
+		case Watchdog:
+			if (mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
+                if(mc.thePlayer.isCollidedHorizontally) {
+                    mc.thePlayer.motionY = 0.42f;
+                }else {
+                    mc.thePlayer.motionY = 0.3f;
+                }
+                mc.timer.timerSpeed = 1.2F;
+            }
+		
 				break;
 		case Vanilla:
 			break;

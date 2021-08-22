@@ -87,7 +87,7 @@ private float hue = 1.0F;
   private boolean dragging;
   public String bps;
   
- public String Clientname = "Baconware";
+
   
   public HUD() {
 	  super("HUD", 0, ModuleCategory.VISUALS);
@@ -174,9 +174,8 @@ private float hue = 1.0F;
     			  mc.fontRendererObj.drawStringWithShadow("S" + ChatFormatting.WHITE + "nipeware" + fps + bps, 1, 1, color);
     		 
     	  } else {
-    		  String first = Clientname.substring(0, 1);
-    		  String second = Clientname.substring(1);
-    		  font.drawStringWithShadow(first + ChatFormatting.WHITE + second + fps + bps, 1, 1, color);
+    
+    		  font.drawStringWithShadow("S" + ChatFormatting.WHITE + "nipeware" + fps + bps, 1, 1, color);
     	  }
       }
   	color = RenderUtil.getRainbow(6000, (int) (1 * 30), rainbowSaturation.getValue());

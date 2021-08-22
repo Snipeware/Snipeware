@@ -45,6 +45,7 @@ import Snipeware.module.Module;
 import Snipeware.module.impl.movement.Speed.Redemode;
 import Snipeware.module.impl.player.Safewalk;
 import Snipeware.util.other.InventoryUtils;
+import Snipeware.util.other.MathUtils;
 import Snipeware.util.other.TimeHelper;
 import Snipeware.util.player.MovementUtils;
 import Snipeware.util.player.Rotation;
@@ -77,6 +78,7 @@ private final List<Block> badBlocks = Arrays.asList(Blocks.air, Blocks.water, Bl
 private BlockData blockData;
 private BooleanValue safewalk = new BooleanValue("Safewalk", true);
 private BooleanValue keepsprint = new BooleanValue("Sprint", false);
+private BooleanValue Jump = new BooleanValue("Jump", false);
 private BooleanValue silient = new BooleanValue("Silent", true);
 private BooleanValue tower  = new BooleanValue("Tower", false);
 private BooleanValue keeprots = new BooleanValue("Keep Rotations", true);
@@ -103,20 +105,14 @@ private final TimeHelper timer = new TimeHelper();
 float oldPitch = 0;
 private RotationUtils RayCastUtil;
 
-public final EnumValue<ScafMode> scafMode  = new EnumValue<>("SC-Mode", ScafMode.Normal);
 private EnumValue<TowerMode> towerMode  = new EnumValue<>("TowerMode", TowerMode.Hypixel);
 
 
 public Scaffold() {
     super("Scaffold", 0, ModuleCategory.WORLD);
-    this.addValues(towerMode, scafMode, safewalk, keepsprint, silient, blockCountBarProperty, tower, keeprots, Swing, keepy ,eagle, edge, raycast, TimerBoost , delay, eageOffset);
+    this.addValues(towerMode, safewalk, keepsprint, Jump, silient, blockCountBarProperty, tower, keeprots, Swing, keepy ,eagle, edge, raycast, TimerBoost , delay, eageOffset);
 }
 
-private enum ScafMode {
-	Normal,
-	Hypixel,
-	
-	}
 
 private enum TowerMode {
 	Hypixel, Packet
@@ -168,12 +164,12 @@ int ticks = 0;
 
 @Handler
 public void onMotionUpdate(final EventMotionUpdate event) {
-	if(!mc.gameSettings.keyBindJump.pressed && mc.thePlayer.onGround) {
+//	if(!mc.gameSettings.keyBindJump.pressed) {
 	 mc.timer.timerSpeed = TimerBoost.getValue();
-	}else{
-		mc.timer.timerSpeed = 1;
-	}
-    setSuffix ( scafMode.getValueAsString () ); 
+	//}else{
+		//mc.timer.timerSpeed = 1;
+//	}
+    setSuffix ("Normal"); 
 
             int slot = this.getSlot ();
             stopWalk = (getBlockCount () == 0 || slot == -1) && safewalk.getValue ().booleanValue ();
@@ -183,6 +179,12 @@ public void onMotionUpdate(final EventMotionUpdate event) {
 
                 return;
             }
+            
+            if(Jump.isEnabled() && mc.thePlayer.isMoving2()) {
+            	mc.gameSettings.keyBindJump.pressed = true;
+            }else{
+             	mc.gameSettings.keyBindJump.pressed = false;
+            }
            
             this.blockData = getBlockData ();
             if (this.blockData == null) {
@@ -191,7 +193,7 @@ public void onMotionUpdate(final EventMotionUpdate event) {
 
             // tower and towermove
             if (mc.gameSettings.keyBindJump.isKeyDown () && tower.getValue ().booleanValue () && !mc.thePlayer.isMoving () && !mc.thePlayer.isPotionActive ( Potion.jump )) {
-                setSuffix ( scafMode.getValueAsString () );
+              
                 switch (towerMode.getValueAsString ()) { 
                     case "Hypixel":
                         EntityPlayerSP player = mc.thePlayer;
@@ -239,34 +241,19 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 
               
                 
-            	if (this.scafMode.getValue() == ScafMode.Hypixel) {
+
                 
                 if(!mc.gameSettings.keyBindJump.pressed) {
                 
-                event.setYaw(mc.thePlayer.rotationYaw - 170);
+                event.setYaw(yaw + 0.5f);
                 event.setPitch(79);
                 }else {
-                	  event.setYaw(mc.thePlayer.rotationYaw - 190);
-                      event.setPitch(90);
+                	  event.setYaw(yaw);
+                      event.setPitch(79);
                 }
                
                 
-            	}else if(this.scafMode.getValue() == ScafMode.Normal) {
-                
-             
-                    if(!mc.gameSettings.keyBindJump.pressed) {
-                        
-                        event.setYaw(mc.thePlayer.rotationYaw - 180);
-                        event.setPitch(79);
-                        }else {
-                        	  event.setYaw(mc.thePlayer.rotationYaw - 180);
-                              event.setPitch(90);
-                        }
-                
-                
-                  
-               
-                }
+        
              
 
 
@@ -294,38 +281,24 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 }
             } else {
             
-            	if (this.scafMode.getValue() == ScafMode.Hypixel) {
-            	
+            
+            	    yaw = getRotations(blockData.getPosition(), blockData.getFacing())[0];
+                    pitch = limitedRotation.getPitch ();
             	if(!mc.gameSettings.keyBindJump.pressed) {
                 if (keeprots.getValue ().booleanValue ()) {
-                    event.setYaw(mc.thePlayer.rotationYaw - 170);
+                    event.setYaw(yaw);
                     event.setPitch(79);
                 }
             	}else {
             		if (keeprots.getValue ().booleanValue ()) {
-                        event.setYaw(mc.thePlayer.rotationYaw - 190);
-                        event.setPitch(90);
+                        event.setYaw(yaw);
+                        event.setPitch(79);
                     }
             	}
-            	}else if(this.scafMode.getValue() == ScafMode.Normal) {
-            	   
-            	
-            
-            			if(!mc.gameSettings.keyBindJump.pressed) {
-                            if (keeprots.getValue ().booleanValue ()) {
-                                event.setYaw(mc.thePlayer.rotationYaw - 180);
-                                event.setPitch(79);
-                            }
-                        	}else {
-                        		if (keeprots.getValue ().booleanValue ()) {
-                                    event.setYaw(mc.thePlayer.rotationYaw - 180);
-                                    event.setPitch(90);
-                                }
-                        	}
-            	
+          
             		  
             	  }
-            }
+            
     }
     mc.thePlayer.rotationYawHead = event.getYaw ();
     //mc.thePlayer.rotationPitchHead = event.getPitch();
@@ -379,7 +352,7 @@ public void onMotionUpdate1(final EventMotionUpdate event) {
                 if (currentPos != null) {
                     if (timer.reach ( this.delay.getValue () ) && rotated) {
                         if (mc.thePlayer.getCurrentEquippedItem () != null && mc.thePlayer.getCurrentEquippedItem ().getItem () instanceof ItemBlock) {
-                            if (mc.playerController.onPlayerRightClick ( mc.thePlayer, mc.theWorld, mc.thePlayer.getCurrentEquippedItem (), currentPos, currentFacing, new Vec3 ( currentPos.getX () * 0.5, currentPos.getY () * 0.5, currentPos.getZ () * 0.5 ) )) {
+                        		mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), this.blockData.blockPos, this.blockData.getFacing(), new Vec3(this.blockData.blockPos.getY() + MathUtils.getRandomInRange(1.0E8, 8.0E8) * 1.0E-9, this.blockData.blockPos.getY() + MathUtils.getRandomInRange(1.0E8, 8.0E8) * 1.0E-9, this.blockData.blockPos.getZ() + MathUtils.getRandomInRange(1.0E8, 8.0E8) * 1.0E-9));
                                 timer.reset ();
                                 if (Swing.getValue ().booleanValue ()) {
                                     mc.thePlayer.swingItem ();
@@ -394,7 +367,7 @@ public void onMotionUpdate1(final EventMotionUpdate event) {
         }
     }
 }
-}
+
 
 private boolean getPlaceBlock(final BlockPos pos, final EnumFacing facing) {
     final Vec3 eyesPos = new Vec3( mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
@@ -472,9 +445,9 @@ public static Color rainbow(int delay) {
 }
 
 public static float[] getRotations(BlockPos block, EnumFacing face) {
-    double x = block.getX() + 0.5 - Minecraft.getMinecraft().thePlayer.posX +  (double) face.getFrontOffsetX()/2;
-    double z = block.getZ() + 0.5 - Minecraft.getMinecraft().thePlayer.posZ +  (double) face.getFrontOffsetZ()/2;
-    double y = (block.getY() + 0.5);
+    double x = block.getX() + 0.5 - Minecraft.getMinecraft().thePlayer.posX;
+    double z = block.getZ() + 0.5 - Minecraft.getMinecraft().thePlayer.posZ;
+    double y = (block.getY() + 0.2);
     double d1 = Minecraft.getMinecraft().thePlayer.posY + Minecraft.getMinecraft().thePlayer.getEyeHeight() - y;
     double d3 = MathHelper.sqrt_double(x * x + z * z);
     float yaw = (float) (Math.atan2(z, x) * 180.0D / Math.PI) - 90.0F;
@@ -615,6 +588,7 @@ private float[] aimAtLocation(BlockPos paramBlockPos, EnumFacing paramEnumFacing
 @Override
 public void onDisable() {
     super.onDisable();
+    mc.gameSettings.keyBindJump.pressed = false;
     this.setSneaking(false);
     mc.timer.timerSpeed = 1f;
 }

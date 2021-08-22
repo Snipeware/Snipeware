@@ -39,31 +39,40 @@ import Snipeware.util.other.PlayerUtil;
 import Snipeware.util.other.TimeHelper;
 import Snipeware.util.visual.RenderUtil;
 import Snipeware.value.impl.BooleanValue;
+import Snipeware.value.impl.ColorValue;
+import Snipeware.value.impl.EnumValue;
 import font.FontRenderer;
 
 public final class TargetHUD extends Module {
 
 	private final TimeHelper animationStopwatch = new TimeHelper();
 	private double healthBarWidth;
-
+	  private EnumValue<FontMode> fontMode = new EnumValue<>("Font Mode", FontMode.Normal);
 	private final BooleanValue showPlayers = new BooleanValue("Show Players", true);
 	private final BooleanValue showMonsters = new BooleanValue("Show Monsters", true);
 	private final BooleanValue showInvisibles = new BooleanValue("Show Invisibles", true);
 	private final BooleanValue showAnimals = new BooleanValue("Show Animals", true);
 	private final BooleanValue showPassives = new BooleanValue("Show Passives", true);
-
+	  private ColorValue colorValue = new ColorValue("Color", new Color(255, 255, 255).getRGB());
 	private double x, y;
 
 	public TargetHUD() {
 		super("TargetHUD", 0, ModuleCategory.VISUALS);
 		setHidden(true);
-		addValues(showPlayers, showMonsters, showAnimals, showInvisibles, showPassives);
+		addValues(fontMode,showPlayers, showMonsters, showAnimals, showInvisibles, showPassives, colorValue);
 	}
 
+	
+	  private enum FontMode {
+		  Normal, Vanilla;
+	  }
 	@Handler
     public void onRender2D(final EventRender2D event) {
         final VanillaFontRenderer fr = mc.fontRendererObj;
         final KillAura killAura = (KillAura) Client.INSTANCE.getModuleManager().getModule(KillAura.class);
+     
+    	  final FontRenderer font = Client.INSTANCE.getFontManager().getFont("Display 20", false);
+  	  final FontRenderer font2 = Client.INSTANCE.getFontManager().getFont("Display 30", false);
         boolean guichat = mc.currentScreen instanceof GuiChat;
         EntityLivingBase entityPlayer = guichat ? mc.thePlayer : killAura.target;
         if (mc.thePlayer != null && killAura.target != null || guichat) {
@@ -77,7 +86,7 @@ public final class TargetHUD extends Module {
 	            int mouseX = Mouse.getX() * var141 / mc.displayWidth;
 	            int mouseY = var151 - Mouse.getY() * var151 / mc.displayHeight - 1;
 	            
-	            GlStateManager.enableBlend();
+	
 	            
 	            final float n = 2;
 	            scaledResolution2.scaledWidth *= (int)(1.0f / n);
@@ -92,25 +101,34 @@ public final class TargetHUD extends Module {
 	            }
 	            String string = String.format("%.1f", entityPlayer.getHealth() / 2.0f);
 	            
-	            GlStateManager.pushMatrix();
-	            GlStateManager.scale(n, n, n);
-	            mc.fontRendererObj.drawStringWithShadow(string.replace(".0", ""), (float)(n3 - 121), (float)(n2 - 93), RenderUtil.drawHealth(entityPlayer));
-	            mc.fontRendererObj.drawStringWithShadow("\u2764", n3 - 130, n2 - 94, RenderUtil.drawHealth(entityPlayer));
+	    
+	            if(!(fontMode.getValue() == fontMode.getValue().Vanilla)) {
+	      	  font2.drawStringWithShadow(string.replace(".0", ""), (float)(n3 + 35), (float)(n2 + 15),colorValue.getValue());
+	            }else {
+	            	GlStateManager.pushMatrix();
+	            	GlStateManager.scale(n, n, n);
+	        
+	            mc.fontRendererObj.drawStringWithShadow(string.replace(".0", ""), (float)(n3 - 132), (float)(n2 - 93), colorValue.getValue());
 	            GlStateManager.popMatrix();
+	            }
+
 	            final double n4 = 137.0f / entityPlayer.getMaxHealth() * (double)Math.min(entityPlayer.getHealth(), entityPlayer.getMaxHealth());
 	            if (animationStopwatch.isDelayComplete(15)) {
 	                healthBarWidth = RenderUtil.animate(n4, healthBarWidth, 0.05);
 	                animationStopwatch.reset();
 	            }
-	            RenderUtil.drawRect((float)n3 + 2f, (float)n2 + (float)34, 138, (float)3.5, (RenderUtil.darker(new Color(RenderUtil.drawHealth(entityPlayer)), 0.35f).getRGB()));
+	            RenderUtil.drawRect((float)n3 + 2f, (float)n2 + (float)34, 138, (float)3.5, RenderUtil.darker(colorValue.getColor(), 0.35f).getRGB());
 	            float less = entityPlayer.getHealth() == 0 || entityPlayer.getHealth() == entityPlayer.getMaxHealth() ? 0 : 4f;
-	            RenderUtil.drawRect((float)n3 + 2f, (float)n2 + (float)34, (float)healthBarWidth + (float)0.9, (float)3.5, (RenderUtil.drawHealth(entityPlayer.getHealth(), entityPlayer.getMaxHealth()).getRGB()));
-	            RenderUtil.drawRect((float)n3 + 2f, (float)n2 + (float)34, n4 + (float)0.9, (float)3.5, (RenderUtil.drawHealth(entityPlayer)));
+	            RenderUtil.drawRect((float)n3 + 2f, (float)n2 + (float)34, (float)healthBarWidth + (float)0.9, (float)3.5 , RenderUtil.brighter(colorValue.getColor(), 0.35f).getRGB());
+	            RenderUtil.drawRect((float)n3 + 2f, (float)n2 + (float)34, n4 + (float)0.9, (float)3.5, (colorValue.getValue()));
 	            
 	            final String name = entityPlayer instanceof EntityPlayer ? ((EntityPlayer) entityPlayer).getGameProfile().getName() : killAura.target.getDisplayName().getFormattedText();
 	            GlStateManager.enableBlend();
-	
-	            mc.fontRendererObj.drawStringWithShadow(name, (float)(n3 + 35), (float)(n2 + 3), -855638017);
+	            if(!(fontMode.getValue() == fontMode.getValue().Vanilla)) {
+	            	font.drawStringWithShadow(name, (float)(n3 + 35), (float)(n2 + 3), -855638017);
+	            }else {
+	                mc.fontRendererObj.drawStringWithShadow(name, (float)(n3 + 35), (float)(n2 + 3), -855638017);
+	            }
 	            if (entityPlayer instanceof EntityPlayer) {
 	            	mc.getTextureManager().bindTexture(((AbstractClientPlayer) entityPlayer).getLocationSkin());
 		            GlStateManager.enableBlend();
