@@ -46,8 +46,9 @@ public class LongJump extends Module {
         
         switch (mode.getValue()) {
     	case Watchdog:{
+    		if(mc.thePlayer.onGround) {
     		mc.thePlayer.motionY =+ 0.42f;
-    		
+    		}
     	}
         }
         super.onEnable();
@@ -156,8 +157,9 @@ public class LongJump extends Module {
     		
     		if(!mc.thePlayer.onGround){
     			MovementUtils.setMotion(MovementUtils.getSpeed() + 0.09);
-    			
     			if(WatchdogTimer.isDelayComplete(800)) {
+    	
+    				MovementUtils.setMotion(MovementUtils.getSpeed() + 0.07);
     				mc.thePlayer.motionY += 0.01f;
     			}
     			

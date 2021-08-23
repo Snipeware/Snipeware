@@ -101,10 +101,9 @@ private static BlockPos currentPos;
 private EnumFacing currentFacing;
 private boolean rotated = false;
 private final TimeHelper timer = new TimeHelper();
-
+private boolean HasStoped;
 float oldPitch = 0;
 private RotationUtils RayCastUtil;
-
 private EnumValue<TowerMode> towerMode  = new EnumValue<>("TowerMode", TowerMode.Hypixel);
 
 
@@ -170,7 +169,7 @@ public void onMotionUpdate(final EventMotionUpdate event) {
 		//mc.timer.timerSpeed = 1;
 //	}
     setSuffix ("Normal"); 
-
+   
             int slot = this.getSlot ();
             stopWalk = (getBlockCount () == 0 || slot == -1) && safewalk.getValue ().booleanValue ();
             isPlaceTick = keeprots.getValue ().booleanValue () ? blockData != null && slot != -1 : blockData != null && slot != -1 && mc.theWorld.getBlockState ( new BlockPos ( mc.thePlayer ).add ( 0, -1, 0 ) ).getBlock () == Blocks.air;
@@ -179,13 +178,14 @@ public void onMotionUpdate(final EventMotionUpdate event) {
 
                 return;
             }
-            
-            if(Jump.isEnabled() && mc.thePlayer.isMoving2()) {
+            if(Jump.isEnabled()) {
+            if(mc.thePlayer.isMoving2()) {
             	mc.gameSettings.keyBindJump.pressed = true;
-            }else{
-             	mc.gameSettings.keyBindJump.pressed = false;
+ 
+            	}else {
+            		mc.gameSettings.keyBindJump.pressed = false;
+            	}
             }
-           
             this.blockData = getBlockData ();
             if (this.blockData == null) {
                 return;
@@ -214,20 +214,8 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                             mc.thePlayer.sendQueue.addToSendQueue ( new C03PacketPlayer.C04PacketPlayerPosition ( mc.thePlayer.posX, mc.thePlayer.posY + 0.41999998688698, mc.thePlayer.posZ, false ) );
                             mc.thePlayer.sendQueue.addToSendQueue ( new C03PacketPlayer.C04PacketPlayerPosition ( mc.thePlayer.posX, mc.thePlayer.posY + 0.7531999805212, mc.thePlayer.posZ, false ) );
                         }
-                    case "Cubecraft":
-                        count++;
-                        mc.thePlayer.motionX = 0;
-                        mc.thePlayer.motionZ = 0;
-                        mc.thePlayer.jumpMovementFactor = 0;
-                        if (MovementUtils.isOnGround ( 2 ))
-                            if (count == 1) {
-                                mc.thePlayer.motionY = 0.41;
-                            } else {
-
-                                mc.thePlayer.motionY = 0.47;
-                                count = 0;
-                            }
                 }
+            
 
             } else {
                 towerTimer.reset ();
@@ -252,12 +240,6 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                       event.setPitch(79);
                 }
                
-                
-        
-             
-
-
-
             rotated = false;
             currentPos = null;
             currentFacing = null;

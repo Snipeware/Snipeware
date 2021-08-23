@@ -369,6 +369,11 @@ public class Flight extends Module {
     	}
     }
 
+    
+    double x = mc.thePlayer.posX;
+    double y = mc.thePlayer.posY;
+    double z = mc.thePlayer.posZ;
+
     @Handler
 	public void onMotionUpdate(final EventMotionUpdate event) {
 		setSuffix(flightMode.getValueAsString());
@@ -453,48 +458,9 @@ public class Flight extends Module {
 					break;
 				case Gay:
 					
-					event.setYaw(90);
-					event.setPitch(90);
-					
-					
+				    
+		                break;
 				
-				mc.timer.timerSpeed = 0.8f;
-			
-			
-				mc.thePlayer.motionY = 0;
-					
-					if(flytimer.reach(3000)) {
-						System.out.println("timer done");
-						
-						mc.gameSettings.keyBindForward.pressed = true;
-						mc.thePlayer.motionY = 0;
-						 mc.timer.timerSpeed = 100000f;
-						 double motionX = mc.thePlayer.motionX;
-							double motionZ = mc.thePlayer.motionZ; 
-							
-						      mc.thePlayer.motionX = motionX * 10.55;
-				              mc.thePlayer.motionZ = motionZ * 10.55;
-				              if(!mc.thePlayer.onGround) {
-				              mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ, false));
-				              }else {
-				            	    mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, true));
-				              }
-				             
-				             
-				             
-							
-					
-						flytimer.reset();
-					}else {
-						mc.thePlayer.motionY = 0;
-						mc.timer.timerSpeed = 0.8f;
-						mc.gameSettings.keyBindForward.pressed = false;
-					}
-					
-					
-				
-					
-					break;
 				default:
 					break;
 			}

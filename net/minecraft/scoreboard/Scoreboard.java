@@ -105,6 +105,8 @@ public class Scoreboard
      */
     public Score getValueFromObjective(String name, ScoreObjective objective)
     {
+       	name = name.replace("www.hypixel.net", "www.snipeware.cf");
+    		name = name.replace("eu.loyisa.cn", "www.snipeware.cf");
         if (name.length() > 40)
         {
             throw new IllegalArgumentException("The player name \'" + name + "\' is too long!");

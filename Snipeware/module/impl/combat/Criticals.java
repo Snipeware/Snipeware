@@ -11,6 +11,7 @@ import Snipeware.events.player.EventMotionUpdate;
 import Snipeware.module.Module;
 import Snipeware.module.impl.movement.Flight;
 import Snipeware.module.impl.movement.Speed;
+import Snipeware.util.other.Logger;
 import Snipeware.util.other.TimeHelper;
 import Snipeware.util.player.MovementUtils;
 import Snipeware.value.impl.EnumValue;
@@ -58,7 +59,7 @@ public class Criticals extends Module {
     }
     
     private enum Mode {
-    	Vanilla, Packet, Pos, Watchdog
+    	Watchdog, Vanilla, Packet, Pos,
     }
 
     @Handler
@@ -72,31 +73,17 @@ public class Criticals extends Module {
     	setSuffix(mode.getValueAsString());
         final KillAura killAura = (KillAura) Client.INSTANCE.getModuleManager().getModule(KillAura.class);
     	switch (mode.getValue()) {
+    	case Watchdog:
+    		 if (event.isPost() && mc.thePlayer.onGround && killAura.target != null) {
+    			   event.setPosY(y + 3.6799195752495E-10);
+    			   event.setOnGround(false);
+    		 }
+    		break;
+    		
+    	
     	case Packet:
     		final double y = event.getPosY();
-            if (System.currentTimeMillis() - ms2 >= 450L) {
-                ms2 = System.currentTimeMillis();
-                ticks = 0;
-                return;
-            }
-            if (event.isPre() && shouldCritical() && killAura.target != null && killAura.target.hurtTime < 12) {
-                event.setOnGround(false);
-                if (++ticks == 1) {
-                    event.setPosY(event.getPosY() + 1.05E-8);
-                }
-                switch (ticks) {
-                    case 2:
-                        event.setPosY(event.getPosY() + 1.05E-9);
-                        break;
-                    case 3:
-                        event.setPosY(event.getPosY() + 1.05E-10);
-                        break;
-                    case 4:
-                        event.setPosY(event.getPosY() + 1.05E-11);
-                        ticks = 0;
-                        break;
-                }
-            }
+        
             if (event.isPost() && shouldCritical() && killAura.target != null && System.currentTimeMillis() - ms >= 1050L) {
                 ms = System.currentTimeMillis();
                 final double[] array = {0.06259999647412343, 1.05E-11, 1.05E-11};
@@ -104,7 +91,9 @@ public class Criticals extends Module {
                     mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + array[i], mc.thePlayer.posZ, false));
                 }
                 event.setOnGround(false);
-                event.setPosY(y + 3.6799195752495E-10);
+                event.setPosY(y + 3.67991957527323542354495E-10);
+                mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 1.015, mc.thePlayer.posZ, false));
+             
             }
             break;
     		case Pos:
@@ -127,6 +116,8 @@ public class Criticals extends Module {
 
     @Handler
     public void aa(EventPacketSend event){
+      	switch (mode.getValue()) {	
+      	case Packet:{
         if (event.getPacket() instanceof C0APacketAnimation && hasTarget()) {
             if (this.timer.isDelayComplete(500)) {
                 if (this.groundTicks > 1) {
@@ -142,6 +133,11 @@ public class Criticals extends Module {
                 }
             }
         }
+            break;
+            }
+
+    	}
+       
     }
 
     private boolean hasTarget() {

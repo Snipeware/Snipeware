@@ -95,9 +95,14 @@ public final class TargetHUD extends Module {
 	            final int n2 = scaledResolution.getScaledHeight() / 2 + 200;
 	            final int n3 = scaledResolution.getScaledWidth() / 2 + 300;
 	            RenderUtil.drawRect(n3 + 1f, n2 + 1, 140.0, 37.6, new Color(25, 25, 25, 210).getRGB());
+	          
+	         
 	            if (Mouse.isButtonDown(0) && guichat) {
+	            	
 	            	setX(mouseX - 300);
 	            	setY(mouseY - 200);
+	            	
+	            	
 	            }
 	            String string = String.format("%.1f", entityPlayer.getHealth() / 2.0f);
 	            
