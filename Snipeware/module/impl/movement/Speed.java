@@ -71,7 +71,7 @@ public class Speed extends Module {
 	}
 
 	private enum Mode {
-	 Legit, Watchdog, NCP, Strafe, Vanilla, Redesky, Test, Mineplex;
+	 Legit, Watchdog,WatchdogLow, NCP, Strafe, Vanilla, Redesky, Test, Mineplex;
 	}
 	
 	 public enum Redemode {
@@ -116,7 +116,14 @@ public class Speed extends Module {
                 }
 				break;
 			}
-		case Watchdog: {
+			case Watchdog: {
+				  MovementUtils.setSpeed(event, 0.29);
+				 
+				break;
+			}
+			
+			
+		case WatchdogLow: {
 			
             MovementUtils.setSpeed(event, 0.26);
 			
@@ -436,6 +443,13 @@ public class Speed extends Module {
 		setSuffix(mode.getValueAsString());
 		switch (mode.getValue()) {
 		case Watchdog:
+			 if (mc.thePlayer.onGround && mc.thePlayer.isMoving2()) {
+				  mc.thePlayer.motionY = 0.42f;
+			  }
+			  mc.timer.timerSpeed = 1.2F;
+			break;
+		
+		case WatchdogLow:
 			if (mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
                 if(mc.thePlayer.isCollidedHorizontally) {
                     mc.thePlayer.motionY = 0.42f;

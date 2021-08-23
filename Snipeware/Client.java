@@ -1,28 +1,19 @@
 package Snipeware;
 
-import java.awt.Color;
-
-import java.io.IOException;
-import java.net.Socket;
-import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import org.lwjgl.opengl.Display;
-
-import com.google.common.eventbus.EventBus;
 import com.thealtening.AltService;
 
 import Snipeware.api.annotations.Handler;
@@ -30,40 +21,16 @@ import Snipeware.api.bus.Bus;
 import Snipeware.api.bus.BusImpl;
 import Snipeware.command.Command;
 import Snipeware.events.Event;
-import Snipeware.events.packet.EventPacketSend;
 import Snipeware.events.player.EventKeyPress;
-import Snipeware.events.player.EventMotionUpdate;
 import Snipeware.events.player.EventSendMessage;
 import Snipeware.gui.alt.system.AccountManager;
-import Snipeware.hwid.FrameUtil;
-import Snipeware.hwid.HWIDUtil;
-import Snipeware.hwid.NetworkUtil;
 import Snipeware.hwid.NoStackTraceThrowable;
 import Snipeware.management.CommandManager;
 import Snipeware.management.ConfigManager;
 import Snipeware.management.FontManager;
 import Snipeware.management.ModuleManager;
-import Snipeware.module.Module;
-import Snipeware.security.Comparator;
-import Snipeware.security.JUDENSCHWEIN;
-import Snipeware.util.other.Logger;
-import Snipeware.util.other.PlayerUtil;
-import Snipeware.util.other.TimeHelper;
-import Snipeware.value.Value;
-import Snipeware.value.impl.BooleanValue;
-import Snipeware.value.impl.EnumValue;
-import Snipeware.value.impl.NumberValue;
-import net.halozy.Protection;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C00PacketKeepAlive;
-import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
-import net.minecraft.network.play.client.C13PacketPlayerAbilities;
-import net.minecraft.network.play.client.C18PacketSpectate;
-import net.minecraft.network.play.client.C20PacketAntiJudaism;
 import net.minecraft.network.play.client.C21CandidateSalvationPacket;
-import net.minecraft.util.Session;
 
 
 public enum Client {
@@ -106,15 +73,18 @@ public enum Client {
 		return INSTANCE;
 	}
     
+    public static void copyToClipboard(String s) {
+        StringSelection selection = new StringSelection(s);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+    }
 	
 	public void start() throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		
-		//System.out.println(getHWID());
-		//HWIDCheck("d1608c729b094a2be2a6893a137fc8f6");
 		
 		
 		
-		//Minecraft.getMinecraft().session = new Session("KoljanLOL8", "", "", "mojang");
+		//Minecraft.getMinecraft().session = new Session("KoljanLOL17", "", "", "mojang");
 	
 		directory = new File(Minecraft.getMinecraft().mcDataDir, "Snipeware");
 		configDirectory = new File(directory, "configs");
@@ -136,13 +106,16 @@ public enum Client {
 		moduleManager.loadModules(dataFile);
 		
 		eventapi.register(this);
-		
+		/*
 		HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
-		
+	
 		if(nigger) {
+			 copyToClipboard(INetHandlerNiggerToServer.getID());
 			stop();
 		}
-		//judenschweincheck();
+*/
+		  
+		 
 	}
 	
    /* public void judenschweincheck() { // Seconf form of HWID protection, disabled as we already have one - Napoleon ZoomberParts
@@ -151,8 +124,8 @@ public enum Client {
             FrameUtil.Display();
             throw new NoStackTraceThrowable("Verify HWID Failed!"); // HWID Failure is haram in many ways than one
         }
-    } */
-	
+    } 
+	*/
 	public void HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein() {
 		if(INetHandlerNiggerToServer.whitelisted()) {
 			System.out.println("Welcome, your HWID has been Authenticated. NapoliHWID protection, Leaking jar = I will find you jew.");
@@ -186,58 +159,7 @@ public enum Client {
 		// Do you has the drip my nigga Koljan? - Napoleon ZoomberParts
 	}
 	
-	public void HWIDCheck(String hwid) { // LOL
-		if(hwid == "d1608c729b094a2be2a6893a137fc8f6") { // LOLOLOLOLOL
-		
-		}else if(hwid == "b4798eb2545104a413e4929b0cc9a0b2") { // Stop pulling the funny Koljan
-			
-		}else if(hwid == "o9bfe7329c81b41853716a6a96f31788") { // This is very haram
-			
-		}else if(hwid == "o9bfe7329c81b41853716a6a96f31788") { 
-			
-		}else if(hwid == "c60b53b9432f9b086a0a199f2110c058") {
-			
-		}else if(hwid == "e8d712e0f8f4df4e257afba26cd0c9f7") {
-			
-		}else if(hwid == "e61c668ac4b31811b3a3a1070504deaf") {
-			
-		}else if(hwid == "8e1bc69f0c35c9a7d09c723bb0e522d7") {
-			
-		}else if(hwid == "8376e079d34bb7a71dc5769661c5bae5") {
-			
-		}else if(hwid == "02cf6b297c55e14c2f6f9a546578f13c") {
-			
-		}else if(hwid == "c91b92760c9f73e59511801f9f71b825") {
-			
-		}else if(hwid == "9eb5d85d77e0ea33b925c23ab89d7384") {
-			
-		}else if(hwid == "4b5a53451d8e6d2e30821161b4be7c91") {
-			
-		}else if(hwid == "51432729b93a32b32ad39b291db4b536") {
-			
-		}else if(hwid == "3be1747b9da0d7eb7e9327d5374e6a7f") {
-			
-		}else if(hwid == "547a1d48553f50b76c87d95f89624b8b") {
-			
-		}else if(hwid == "1050fee3dd4dcb41414e9e1303bfddf9") {
-			
-		}else if(hwid == "76b76955e2c42cbb0800daae22c9e9e9") {
-			
-		}else if(hwid == "4da54948e01c30e21005949cf23fc539") {
-			
-		}else if(hwid == "547a1d48553f50b76c87d95f89624b8b") {
-			
-		}
-			
-		
-		
-		else {
-		     JOptionPane.showMessageDialog(null,"Invaild HWID message Koljan#6767!","Invaild HWID", JOptionPane.CANCEL_OPTION);
-			Minecraft.getMinecraft().shutdown();
-		}
-		
-		
-	}
+	//fuck you napoleon removed that shit :kek:
 	
     public static String getHWID() {
         try{

@@ -62,15 +62,20 @@ public class AutoArmor extends Module {
                 } else {
                     C16PacketClientStatus p = new C16PacketClientStatus(EnumState.OPEN_INVENTORY_ACHIEVEMENT);
                     mc.thePlayer.sendQueue.addToSendQueue(p);
+                   	if(timer.isDelayComplete(delay.getValue().longValue() * 50)) {
                     drop(4 + type);
+                    timer.reset();
+                   	}
                 }
             }
             for (int i = 9; i < 45; i++) {
                 if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
                     ItemStack is = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
                     if (isBestArmor(is, type) && getProtection(is) > 0) {
+                    	if(timer.isDelayComplete(delay.getValue().longValue() * 50)) {
                         shiftClick(i);
                         timer.reset();
+                    	}
                         if ((delay.getValue()).longValue() > 0)
                             return;
                     }
