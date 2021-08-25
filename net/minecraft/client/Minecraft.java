@@ -17,6 +17,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.thealtening.domain.User;
 
 import Snipeware.Client;
+import Snipeware.INetHandlerNiggerToServer;
 import Snipeware.events.player.EventKeyPress;
 import Snipeware.events.render.EventGuiContainer;
 import Snipeware.gui.menu.ClientMainMenu;
@@ -27,6 +28,9 @@ import Snipeware.security.JUDENENCHAMBERDEGASSO;
 import Snipeware.security.JUDENSCHWEIN;
 import Snipeware.util.visual.UserLogin;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -415,6 +419,14 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         Bootstrap.register();
     }
     
+    
+    public static void copyToClipboard(String s) {
+        StringSelection selection = new StringSelection(s);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+    }
+	
+    
     public static boolean wiresharkRunning() throws IOException
     {
         ProcessBuilder processBuilder = new ProcessBuilder();
@@ -481,6 +493,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             return;
         	}
         	if(Client.nigger) {
+        		 copyToClipboard(INetHandlerNiggerToServer.getID());
         		System.out.println("HWID Authentication failed...");
                 return;
         	}
@@ -2409,7 +2422,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
         networkmanager.sendPacket(new C00PacketLoginStart(this.getSession().getProfile()));
         this.myNetworkManager = networkmanager;
-     //   Client.getInstance().getDiscordRP().update("Playing Singleplayer", "In Game");
+        Client.getInstance().getDiscordRP().update("Playing Singleplayer", "In Game");
     }
 
     /**

@@ -12,6 +12,7 @@ import Snipeware.module.Module;
 import Snipeware.module.impl.movement.Flight;
 import Snipeware.module.impl.movement.Speed;
 import Snipeware.util.other.Logger;
+import Snipeware.util.other.MathUtils;
 import Snipeware.util.other.TimeHelper;
 import Snipeware.util.player.MovementUtils;
 import Snipeware.value.impl.EnumValue;
@@ -34,9 +35,9 @@ public class Criticals extends Module {
     
     boolean attacking;
 	private TimeHelper timer = new TimeHelper();
+	private TimeHelper Watchdogtimer = new TimeHelper();
 
 	int stage, count;
-	double y;
 	private int groundTicks;
 	
     private long ms;
@@ -44,7 +45,7 @@ public class Criticals extends Module {
     private boolean c;
     private long ms2;
     private long ms3;
-	
+	private double WatchdogY;
 	public Criticals() {
 		super("Criticals", 0, ModuleCategory.COMBAT);
 		addValues(mode);
@@ -55,6 +56,7 @@ public class Criticals extends Module {
     	attacking = false;
     	groundTicks = 0;
     	timer.reset();
+    	Watchdogtimer.reset();
     	super.onEnable();
     }
     
@@ -70,12 +72,14 @@ public class Criticals extends Module {
     
 	@Handler
     public void onMotionUpdate(final EventMotionUpdate event) {
-    	setSuffix(mode.getValueAsString());
+		setSuffix(mode.getValueAsString());
         final KillAura killAura = (KillAura) Client.INSTANCE.getModuleManager().getModule(KillAura.class);
     	switch (mode.getValue()) {
     	case Watchdog:
     		 if (event.isPost() && mc.thePlayer.onGround && killAura.target != null) {
-    			   event.setPosY(y + 3.6799195752495E-10);
+    			 WatchdogY = MathUtils.getRandomInRange(0.01, 0.03);
+    			   event.setPosY(mc.thePlayer.posY + WatchdogY);
+    			   
     			   event.setOnGround(false);
     		 }
     		break;
@@ -116,6 +120,7 @@ public class Criticals extends Module {
 
     @Handler
     public void aa(EventPacketSend event){
+    	final KillAura killAura = (KillAura) Client.INSTANCE.getModuleManager().getModule(KillAura.class);
       	switch (mode.getValue()) {	
       	case Packet:{
         if (event.getPacket() instanceof C0APacketAnimation && hasTarget()) {
@@ -134,6 +139,19 @@ public class Criticals extends Module {
             }
         }
             break;
+            }case Watchdog:{
+                if (hasTarget()) {
+           		 if (Watchdogtimer.isDelayComplete(800)) {
+           		if(mc.thePlayer.onGround) {
+           			
+           			
+           		}
+       
+           			Watchdogtimer.reset();
+           		 }
+           		 
+           	 }
+            	
             }
 
     	}

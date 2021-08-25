@@ -510,7 +510,7 @@ public class ItemRenderer
                                     }
                         		}
                         	} else {
-                                this.transformFirstPersonItem(f / 2.0F, f1);
+                                this.transformFirstPersonItem(f, f1);
 	                            this.func_178103_d();
                         	}
                             break;
@@ -524,6 +524,7 @@ public class ItemRenderer
                     this.func_178105_d(f1);
                     this.transformFirstPersonItem(f, f1);
                 }
+               
 
                 this.renderItem(abstractclientplayer, this.itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
             }

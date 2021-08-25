@@ -35,6 +35,7 @@ import Snipeware.value.impl.BooleanValue;
 import Snipeware.value.impl.EnumValue;
 import Snipeware.value.impl.NumberValue;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.settings.GameSettings;
@@ -87,13 +88,14 @@ public class Flight extends Module {
 	private double moveSpeed;
 	private double moveSpeedMotion = 1F;
 	private int stage = 0, counter;
-	
+	private EntityOtherPlayerMP clonedPlayer=null;
 	private TimeHelper flytimer = new TimeHelper();
 
 	private TimeHelper timerStopwatch = new TimeHelper();
 	
 	private TimeHelper Takatimer = new TimeHelper();
 	private TimeHelper Takatimer2 = new TimeHelper();
+	private TimeHelper Redesky = new TimeHelper();
 
 	private TargetStrafe ts;
 	
@@ -157,6 +159,11 @@ public class Flight extends Module {
 				break;
 			case Verus:
 				break;
+			case Gay:
+			      mc.setRenderViewEntity(mc.thePlayer);
+                  mc.theWorld.removeEntityFromWorld(clonedPlayer.getEntityId());
+                  clonedPlayer=null;
+                  break;
 		case Test:
 			break;
 		default:
@@ -370,9 +377,6 @@ public class Flight extends Module {
     }
 
     
-    double x = mc.thePlayer.posX;
-    double y = mc.thePlayer.posY;
-    double z = mc.thePlayer.posZ;
 
     @Handler
 	public void onMotionUpdate(final EventMotionUpdate event) {
@@ -448,7 +452,7 @@ public class Flight extends Module {
 						Vec3d vec = new Vec3d(blockPos).addVector(0.4D, 0.4D, 0.4D).mul(0.4F);
 						mc.playerController.onPlayerRightClick3d(mc.thePlayer, mc.theWorld, new ItemStack(Blocks.barrier), blockPos1, EnumFacing.UP, vec);
 
-				
+						
 					
 						event.setPosY(999);
 						event.setLastPosX(-999);
@@ -457,8 +461,24 @@ public class Flight extends Module {
 					}
 					break;
 				case Gay:
-					
-				    
+				
+					   clonedPlayer = new EntityOtherPlayerMP(mc.theWorld, mc.thePlayer.getGameProfile());
+					    clonedPlayer.rotationYawHead = mc.thePlayer.rotationYawHead;
+	                    clonedPlayer.copyLocationAndAnglesFrom(mc.thePlayer);
+	                    mc.theWorld.addEntityToWorld((int) -(Math.random() * 10000), clonedPlayer);
+	                    clonedPlayer.setInvisible(true);
+	                    mc.setRenderViewEntity(clonedPlayer);
+	                    clonedPlayer.inventory.copyInventory(mc.thePlayer.inventory);
+	                    clonedPlayer.setHealth(mc.thePlayer.getHealth());
+	                    clonedPlayer.rotationYaw=mc.thePlayer.rotationYaw;
+	                    clonedPlayer.rotationPitch=mc.thePlayer.rotationPitch;
+	                	clonedPlayer.motionY = 0;
+	                	mc.thePlayer.motionY = 0;
+	                    if(Redesky.isDelayComplete(100)){
+	                    	  clonedPlayer.setPosition(event.getPosX(),event.getPosY(),event.getPosZ());
+	                    	Redesky.reset();
+	                    }
+					  
 		                break;
 				
 				default:

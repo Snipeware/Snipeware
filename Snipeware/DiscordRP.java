@@ -20,8 +20,8 @@ public class DiscordRP {
             DiscordRPC.discordUpdatePresence(presence.build());
             Client.DID = user.userId.toString();
         }).build();
-        DiscordRPC.discordInitialize("415885161457123338", handlers, false);
-        DiscordRPC.discordRegister("415885161457123338", "");
+        DiscordRPC.discordInitialize("861739582290788432", handlers, false);
+        DiscordRPC.discordRegister("861739582290788432", "");
 
         
         new Thread("Discord RPC Callback"){
@@ -42,7 +42,7 @@ public class DiscordRP {
 
     public void update(String firstLine, String secondLine){
         DiscordRichPresence.Builder b = new DiscordRichPresence.Builder(secondLine);
-        b.setBigImage("ddd", "Bhoping on kids lol");
+        b.setBigImage("ddd", "Bhoping on kids");
         b.setDetails(firstLine);
         b.setStartTimestamps(created);
 

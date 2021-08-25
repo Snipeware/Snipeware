@@ -40,6 +40,7 @@ public class GuiAltManager extends GuiScreen {
     }
 
     public void initGui() {
+    	Client.INSTANCE.getDiscordRP().update("Idling", "Alt Manager");
         accountList = new GuiAccountList(this);
         accountList.registerScrollButtons(7, 8);
         accountList.elementClicked(-1, false, 0, 0);

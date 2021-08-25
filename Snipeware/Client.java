@@ -63,7 +63,6 @@ public enum Client {
     private File dataFile;
     
     public String build = "1.03";
-    public static List<String> hwidList = new ArrayList<>();
     public static final String HWID_URL = "https://pastebin.com/raw/QYeNr1g3";
     //public static final String KEY      = new SHA256().hash("nig");
     public static boolean nigger = true;
@@ -84,7 +83,6 @@ public enum Client {
 		
 		
 		
-		//Minecraft.getMinecraft().session = new Session("KoljanLOL17", "", "", "mojang");
 	
 		directory = new File(Minecraft.getMinecraft().mcDataDir, "Snipeware");
 		configDirectory = new File(directory, "configs");
@@ -107,14 +105,16 @@ public enum Client {
 		
 		eventapi.register(this);
 		/*
+	
+		
 		HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
 	
 		if(nigger) {
 			 copyToClipboard(INetHandlerNiggerToServer.getID());
 			stop();
 		}
-		  */
-		
+		  
+		*/
 	}
 	
    /* public void judenschweincheck() { // Seconf form of HWID protection, disabled as we already have one - Napoleon ZoomberParts
@@ -128,12 +128,12 @@ public enum Client {
 	public void HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein() {
 		if(INetHandlerNiggerToServer.whitelisted()) {
 			System.out.println("Welcome, your HWID has been Authenticated. NapoliHWID protection, Leaking jar = I will find you jew.");
-			discordRP.shutdown();
+		
 			//nigger = false;
 		}else{
 			System.out.println("JUDENSCHWEIN DETECTED, ENGAGE HYDRA LOCKING PROTOCOLS." + INetHandlerNiggerToServer.getID());
 	        C21CandidateSalvationPacket.Display(); // wtf men how hydra get into src - Napoleon ZoomberParts
-	        throw new NoStackTraceThrowable("You little haram boy");
+	    
 		}
 		
 	}
@@ -143,10 +143,10 @@ public enum Client {
 	}
 
 	public void stop() {
-		//discordRP.shutdown();
+	discordRP.shutdown();
         accountManager.save();
         if (!dataFile.exists()) {
-        	try {
+        	try {	
 				dataFile.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -212,12 +212,12 @@ public enum Client {
 	public Bus getEventManager() {
 		return eventapi;
 	}
-	/*
+	
 	public DiscordRP getDiscordRP(){
 		return discordRP;
 	}
 	
-	*/
+	
  
 	public FontManager getFontManager() {
 		return fontManager;

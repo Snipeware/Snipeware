@@ -35,7 +35,7 @@ public class ClientMainMenu extends GuiMainMenu {
 
     @Override
     public void initGui() {
-  //  	Client.getInstance().getDiscordRP().update("idling", "Main Menu");
+    	Client.getInstance().getDiscordRP().update("idling", "Main Menu");
         super.initGui();
         buttonList.clear();
         final String strSSP = I18n.format("SINGLEPLAYER");
@@ -100,7 +100,7 @@ public class ClientMainMenu extends GuiMainMenu {
             GuiButton g = (GuiButton) buttonList.get(i);
             g.drawButton(mc, mouseX, mouseY);
         }
-    RenderUtil.drawImage(new ResourceLocation("minecraft", "logo.png"), sr.getScaledWidth() / 2 - 30, height / 4 - 35, 60, 64);
+    RenderUtil.drawImage(new ResourceLocation("minecraft", "logo.png"), sr.getScaledWidth() / 2 - 30, height / 4 - 35, 64, 64);
       
         
         final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 21", true);

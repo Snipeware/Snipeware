@@ -93,10 +93,10 @@ public class Speed extends Module {
                     if (reset)
                         moveSpeed = 0.95F;
                     else
-                        moveSpeed += MathUtils.getRandomInRange(0.42, 0.6);
+                        moveSpeed += MathUtils.getRandomInRange(0.38, 0.6);
                     doSlow = true;
                     reset = false;
-                    event.setY(mc.thePlayer.motionY = 0.42F);
+                    event.setY(mc.thePlayer.motionY = 0.40F);
                     MovementUtils.setSpeed(event, 0.00001);
                  
                 } else {
