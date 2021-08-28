@@ -9,9 +9,12 @@ import Snipeware.Client;
 import Snipeware.gui.click.ClickGui;
 import Snipeware.gui.click.Panel;
 import Snipeware.gui.click.util.ClickUtil;
+import Snipeware.util.other.Logger;
+import Snipeware.util.other.TimeHelper;
 import Snipeware.util.visual.RenderUtil;
 import font.FontRenderer;
 import net.minecraft.client.gui.VanillaFontRenderer;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * @author sendQueue <Vinii>
@@ -27,9 +30,10 @@ public class GuiFrame implements Frame {
 
 	private int id, posX, posY, prevPosX, prevPosY, scrollHeight;
 	public static int dragID;
-
+	private double animated1;
 	private String title;
-
+	public TimeHelper Timer = new TimeHelper();
+	private boolean done = false;
 	/**
 	 * 
 	 */
@@ -55,8 +59,12 @@ public class GuiFrame implements Frame {
 	 * @param mouseX
 	 * @param mouseY
 	 */
+
 	
 	private void renderGUI(int mouseX, int mouseY) {
+		
+		
+		
 		final int color = Panel.color;
 		final int fontColor = Panel.fontColor;
 		int width = (int) Math.max(Panel.FRAME_WIDTH, Panel.fR.getWidth(title) + 15);
@@ -71,12 +79,30 @@ public class GuiFrame implements Frame {
 		for (GuiButton button : buttons) {
 			width = Math.max(width, button.getWidth() + 15);
 		}
-		final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 16", true);
-		RenderUtil.drawRect(posX + 1, posY - 1, width - 1, 13, Panel.black195);
+		final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 22", true);
+		
+		animated1 = RenderUtil.animate(posY, animated1, 0.07);
+	
+	
+		
+		
+		RenderUtil.drawRect(posX + 1, posY - 6, width - 1, 18, Panel.black195);
+	
 		//RenderUtil.drawVerticalGradient(posX + 1, posY + 1, width - 1, 11, new Color(126, 204, 251, 200).getRGB(), new Color(90, 185, 235, 120).getRGB());
-		fr.drawStringWithShadow(title, (posX + (width / 2)) - fr.getWidth(title) / 2, posY + 2, fontColor);
+		fr.drawStringWithShadow(title, posX + 5, posY - 1, fontColor);
 
-		fr.drawStringWithShadow(isExpaned ? "-" : "+", posX + width - fr.getWidth(isExpaned ? "-" : "+") - 4, posY + 1, fontColor);
+		//fr.drawStringWithShadow(isExpaned ? "-" : "+", posX + width - fr.getWidth(isExpaned ? "-" : "+") - 4, posY + 1, fontColor);
+		if(title.contains("VISUALS")) {
+			RenderUtil.drawImage(new ResourceLocation("minecraft", "visuals.png"), posX + width - width / 8 - 5,  posY - 3, width / 8, width / 8);
+		}else if(title.contains("WORLD")) {
+			RenderUtil.drawImage(new ResourceLocation("minecraft", "World.png"), posX + width - width / 8 - 5, posY - 3, width / 8, width / 8);
+		}else if(title.contains("PLAYER")) {
+			RenderUtil.drawImage(new ResourceLocation("minecraft", "Player.png"), posX + width - width / 8 - 5,  posY - 3, width / 8, width / 8);
+		}else if(title.contains("MOVEMENT")) {
+			RenderUtil.drawImage(new ResourceLocation("minecraft", "Movement.png"), posX + width - width / 8 - 5,  posY - 3, width / 8, width / 8 + 1);
+		}else if(title.contains("COMBAT")) {
+			RenderUtil.drawImage(new ResourceLocation("minecraft", "Combat.png"), posX + width - width / 8 - 5, posY - 3, width / 8, width / 8 + 1);
+		}
 		if (isExpaned) {
 			int height = 0;
 			final int background = Panel.grey40_240;
@@ -124,8 +150,8 @@ public class GuiFrame implements Frame {
 				}
 				height += button.getHeight();
 				
-//				RenderUtil.drawHorizontalLine(posX + 1, posX + width - 1, posY + height + 12, color);
-				RenderUtil.drawRect(posX + 1, posY + height + 12, width - 1, 1, Panel.black195);
+				//RenderUtil.drawHorizontalLine(posX + 1, posX + width - 1, posY + height + 12, color);
+			//	RenderUtil.drawRect(posX + 1, animated1 + height + 12, width - 1, 1, Panel.black195);
 			}
 		}
 	}
@@ -141,7 +167,7 @@ public class GuiFrame implements Frame {
 				button.mouseClicked(mouseX, mouseY, mouseButton);
 			}
 		}
-		if (ClickUtil.isHovered(posX, posY, width, 13, mouseX, mouseY)) {
+		if (ClickUtil.isHovered(posX, posY - 8, width, 19, mouseX, mouseY)) {
 			if (mouseButton == 0) {
 				prevPosX = mouseX - posX;
 				prevPosY = mouseY - posY;

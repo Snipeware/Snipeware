@@ -16,6 +16,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -29,6 +30,7 @@ import org.lwjgl.opengl.GL11;
 
 import Snipeware.Client;
 import Snipeware.api.annotations.Handler;
+import Snipeware.events.packet.EventPacketReceive;
 import Snipeware.events.render.EventRender2D;
 import Snipeware.gui.notification.Notifications;
 import Snipeware.module.Module;
@@ -66,6 +68,9 @@ public final class TargetHUD extends Module {
 	  private enum FontMode {
 		  Normal, Vanilla;
 	  }
+	  
+	 
+	  
 	@Handler
     public void onRender2D(final EventRender2D event) {
         final VanillaFontRenderer fr = mc.fontRendererObj;

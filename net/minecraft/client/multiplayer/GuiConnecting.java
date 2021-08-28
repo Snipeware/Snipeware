@@ -28,7 +28,7 @@ public class GuiConnecting extends GuiScreen
     private NetworkManager networkManager;
     private boolean cancel;
     private final GuiScreen previousGuiScreen;
-
+    public static boolean isconnected = false;
     public GuiConnecting(GuiScreen p_i1181_1_, Minecraft mcIn, ServerData p_i1181_3_)
     {
         this.mc = mcIn;
@@ -77,7 +77,7 @@ public class GuiConnecting extends GuiScreen
 					GuiConnecting.this.networkManager.sendPacket(new C00PacketLoginStart(GuiConnecting.this.mc.getSession().getProfile()));
 					
 					Client.getInstance().getDiscordRP().update("Playing on " + ip + (port != 25565 ? ":" + port : ""), "In Game");
-
+					isconnected = true;
                 }
                 catch (UnknownHostException unknownhostexception)
                 {

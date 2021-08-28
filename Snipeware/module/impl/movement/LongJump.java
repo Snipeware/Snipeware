@@ -22,13 +22,15 @@ public class LongJump extends Module {
 
     public int stage, groundTicks;
     public double lastDistance;
+    private boolean wasAir = false;
     public double movementSpeed;
 	private EnumValue<Mode> mode = new EnumValue<>("Mode", Mode.Vanilla);
-	private BooleanValue flagbackcheck = new BooleanValue("Flagback check", true);
+	private BooleanValue AutoDisable = new BooleanValue("AutoDisable", true);
+	private BooleanValue flagbackcheck = new BooleanValue("Flagback check", false);
 	private final TimeHelper WatchdogTimer = new TimeHelper();
     public LongJump() {
         super("LongJump", 0, ModuleCategory.MOVEMENT);
-        addValues(mode , flagbackcheck);
+        addValues(mode , flagbackcheck, AutoDisable);
     }
 
     
@@ -40,10 +42,10 @@ public class LongJump extends Module {
     @Override
     public void onEnable() {
     	double cameraY = mc.thePlayer.chasingPosY;
-    	
+    	 WatchdogTimer.reset();
         lastDistance = movementSpeed = 0.0D;
         stage = groundTicks = 0;
-        
+        wasAir = false;
         switch (mode.getValue()) {
     	case Watchdog:{
     		if(mc.thePlayer.onGround) {
@@ -58,6 +60,7 @@ public class LongJump extends Module {
     public void onDisable() {
         super.onDisable();
         boolean autodisable = false;
+        wasAir = false;
         WatchdogTimer.reset();
         mc.timer.timerSpeed = 1.0f;
         mc.gameSettings.keyBindJump.pressed = false;
@@ -147,23 +150,35 @@ public class LongJump extends Module {
     	}
     	case Watchdog:{
     		setSuffix(mode.getValueAsString());
-    
-    		
-    		if(mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
-    		
-    			MovementUtils.setMotion(MovementUtils.getSpeed() + 0.29);
+
+    		if(mc.thePlayer.isMoving2() && mc.thePlayer.onGround && wasAir == false) {
+    			MovementUtils.setMotion(MovementUtils.getSpeed() + 0.82);
 
     		}
-    		
     		if(!mc.thePlayer.onGround){
-    			MovementUtils.setMotion(MovementUtils.getSpeed() + 0.09);
-    			if(WatchdogTimer.isDelayComplete(800)) {
-    	
-    				MovementUtils.setMotion(MovementUtils.getSpeed() + 0.07);
-    				mc.thePlayer.motionY += 0.01f;
+    		
+    			if(WatchdogTimer.isDelayComplete(100)) {
+    			
+    				wasAir = true;
     			}
     			
     			
+    			MovementUtils.setMotion(MovementUtils.getSpeed() + 0.15);
+    			if(WatchdogTimer.isDelayComplete(300)  && mc.thePlayer.motionY < 0.1f) {
+
+    				MovementUtils.setMotion(MovementUtils.getSpeed() + 0.13);
+    				if(!WatchdogTimer.isDelayComplete(500)) {
+    					mc.thePlayer.motionY += 0.082f;
+    				}else {
+    					MovementUtils.setMotion(MovementUtils.getSpeed() + 0.02);
+    				}
+    			}
+ 
+    		}
+    		
+    		if(mc.thePlayer.onGround && wasAir && AutoDisable.isEnabled()) {
+    			wasAir = false;
+    			toggle();
     		}
 
 

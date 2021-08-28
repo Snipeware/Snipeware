@@ -56,11 +56,11 @@ public class ClientMainMenu extends GuiMainMenu {
         
     //   buttonList.add(new TextButton(3, xMid + width / 3, initHeight - 153, objWidth, objHeight, strLang));
       //  buttonList.add(new TextButton(2, xMid + width / 3 + 110, initHeight - 153, objWidth, objHeight, strOptions));
-        
+       
         buttonList.add(new ExitButton(5, xMid + width / 3 + 172, initHeight - 157, 25, 25, strOptions));
         
-
-       
+   
+  
     }
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
@@ -101,12 +101,11 @@ public class ClientMainMenu extends GuiMainMenu {
             g.drawButton(mc, mouseX, mouseY);
         }
     RenderUtil.drawImage(new ResourceLocation("minecraft", "logo.png"), sr.getScaledWidth() / 2 - 30, height / 4 - 35, 64, 64);
-      
-        
+   
         final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 21", true);
         final String welcome = "Welcome back";
         final String build = "Snipeware (this is a beta and there are many bugs)";
-       
+        
         
         fr.drawStringWithShadow(welcome, (float)(this.width - fr.getWidth(welcome) - 13), (float)(this.height - 24), -1);
         fr.drawStringWithShadow(build, (float)(this.width - fr.getWidth(build)) / 50, (float)(this.height - 24), -1);

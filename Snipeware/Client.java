@@ -104,8 +104,8 @@ public enum Client {
 		moduleManager.loadModules(dataFile);
 		
 		eventapi.register(this);
-		/*
-	
+		
+	/*
 		
 		HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
 	
@@ -113,8 +113,8 @@ public enum Client {
 			 copyToClipboard(INetHandlerNiggerToServer.getID());
 			stop();
 		}
-		  
-		*/
+		  */
+		
 	}
 	
    /* public void judenschweincheck() { // Seconf form of HWID protection, disabled as we already have one - Napoleon ZoomberParts

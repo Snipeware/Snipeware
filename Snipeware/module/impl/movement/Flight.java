@@ -25,7 +25,6 @@ import Snipeware.gui.notification.Notifications;
 import Snipeware.module.Module;
 import Snipeware.module.impl.combat.KillAura;
 import Snipeware.module.impl.world.Disabler;
-import Snipeware.module.impl.world.Scaffold2.CancelSprintMode;
 import Snipeware.util.other.Logger;
 import Snipeware.util.other.PlayerUtil;
 import Snipeware.util.other.TimeHelper;

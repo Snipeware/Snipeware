@@ -478,7 +478,7 @@ public class ItemRenderer
                                         this.func_178103_d();
                                         break;
                                     }
-                                    case Felix: {
+                                    case Koljan: {
                                         GlStateManager.translate(0.0F, 0.0F, 0.1F);
                                         GlStateManager.rotate(-var15 * 25.0F, -8.0F, -0.0F, 2.0F);
                                         transformFirstPersonItem(f, f1);

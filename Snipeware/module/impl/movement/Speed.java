@@ -28,7 +28,6 @@ import Snipeware.events.player.EventMove;
 import Snipeware.events.player.EventStep;
 import Snipeware.gui.notification.Notifications;
 import Snipeware.module.Module;
-import Snipeware.module.impl.world.Scaffold2.CancelSprintMode;
 import Snipeware.util.other.Logger;
 import Snipeware.util.other.MathUtils;
 import Snipeware.util.other.PlayerUtil;
@@ -46,6 +45,7 @@ public class Speed extends Module {
 	private double moveSpeed;
 	int stage;
 	int ncpStage;
+	int WatchdogStage;
 	public boolean reset, doSlow;
 
 	private NumberValue<Integer> vanillaSpeed = new NumberValue<>("Vanilla Speed", 4, 1, 10, 1);
@@ -56,11 +56,12 @@ public class Speed extends Module {
 	private BooleanValue flagbackcheck = new BooleanValue("Flagback Check", true);
 
 
-	private EnumValue<Mode> mode = new EnumValue<>("Speed Mode", Mode.Watchdog);
+	private EnumValue<Mode> mode = new EnumValue<>("Speed Mode", Mode.WatchdogLow);
 	
 	public 	int stageRede = 1;
 	
 	private final TimeHelper Stagetimer = new TimeHelper();
+	private final TimeHelper WatchdogTimer = new TimeHelper();
 
 	private TargetStrafe ts;
 
@@ -71,7 +72,7 @@ public class Speed extends Module {
 	}
 
 	private enum Mode {
-	 Legit, Watchdog, NCP, Strafe, Vanilla, Redesky, Test, Mineplex;
+	 Legit, WatchdogLow, NCP, Strafe, Vanilla, Redesky, Mineplex;
 	}
 	
 	 public enum Redemode {
@@ -116,7 +117,7 @@ public class Speed extends Module {
                 }
 				break;
 			}
-		case Watchdog: {
+		case WatchdogLow: {
 			
             MovementUtils.setSpeed(event, 0.26);
 			
@@ -159,19 +160,7 @@ public class Speed extends Module {
 			}
 			break;
 		}
-		case Test: {
-			if (mc.thePlayer.isMoving() && mc.thePlayer.onGround) {
-				if (mc.thePlayer.ticksExisted % 14 != 5) {
-					mc.timer.timerSpeed = 5f;
-				} else {
-					mc.timer.timerSpeed = 0.35f;
-				}
-			} else {
-				mc.timer.timerSpeed = 1.0f;
-			}
-			break;
-		}
-			
+		
 		case Redesky: {
 			
 			if (this.redemode.getValue() == Redemode.Bhop) {
@@ -403,6 +392,7 @@ public class Speed extends Module {
 
 	@Override
 	public void onEnable() {
+		WatchdogTimer.reset();
 		super.onEnable();
 		if (mc.thePlayer == null)
 			return;
@@ -422,6 +412,7 @@ public class Speed extends Module {
 
 	@Override
 	public void onDisable() {
+		WatchdogTimer.reset();
 		super.onDisable();
 		mc.gameSettings.keyBindJump.pressed = false;
 		mc.gameSettings.keyBindSprint.pressed = false;
@@ -429,20 +420,24 @@ public class Speed extends Module {
 		reset = false;
 		mc.timer.timerSpeed = 1;
 		
+		
+	
 	}
 
 	@Handler
 	public void onMotionUpdate(final EventMotionUpdate event) {
 		setSuffix(mode.getValueAsString());
 		switch (mode.getValue()) {
-		case Watchdog:
-			if (mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
+		case WatchdogLow:
+			if (mc.thePlayer.isMoving2() && mc.thePlayer.onGround && !PlayerUtil.isOnLiquid()) {
                 if(mc.thePlayer.isCollidedHorizontally) {
                     mc.thePlayer.motionY = 0.42f;
                 }else {
                     mc.thePlayer.motionY = 0.3f;
                 }
                 mc.timer.timerSpeed = 1.2F;
+            }else {
+            	mc.timer.timerSpeed = 1f;
             }
 		
 				break;
@@ -450,8 +445,7 @@ public class Speed extends Module {
 			break;
 		case NCP:
 			break;
-		case Test:
-			break;
+		
 		default:
 			break;
 		}

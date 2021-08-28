@@ -43,6 +43,7 @@ public class NoFall extends Module {
                 	mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(true));
                 	mc.thePlayer.fallDistance = 0;
 				}
+           
 			case Edit:
 				event.setOnGround(true);
 				break;
