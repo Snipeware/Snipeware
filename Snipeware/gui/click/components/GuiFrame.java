@@ -86,22 +86,22 @@ public class GuiFrame implements Frame {
 	
 		final FontRenderer Image = Client.INSTANCE.getFontManager().getFont("Snipeware 32", false);
 		
-		RenderUtil.drawRect(posX + 1, posY - 6, width - 1, 18, Panel.black195);
+		RenderUtil.drawRect(posX + 1, animated1 - 6, width - 1, 18, Panel.black195);
 	
 		//RenderUtil.drawVerticalGradient(posX + 1, posY + 1, width - 1, 11, new Color(126, 204, 251, 200).getRGB(), new Color(90, 185, 235, 120).getRGB());
-		fr.drawStringWithShadow(title, posX + 5, posY - 1, fontColor);
+		fr.drawStringWithShadow(title, posX + 5, (float)animated1 - 1, fontColor);
 
 	
 		if(title.contains("VISUALS")) {
-			Image.drawCenteredString("C",  posX + width - width / 8 ,  posY - 4, -1);
+			Image.drawCenteredString("C",  posX + width - width / 8 ,   (float)animated1 - 4, -1);
 		}else if(title.contains("WORLD")) {
-			Image.drawCenteredString("D",  posX + width - width / 8 ,  posY - 3.5f, -1);
+			Image.drawCenteredString("D",  posX + width - width / 8 ,   (float)animated1 - 3.5f, -1);
 		}else if(title.contains("PLAYER")) {
-			Image.drawCenteredString("B",  posX + width - width / 8 ,  posY - 3.5f, -1);
+			Image.drawCenteredString("B",  posX + width - width / 8 ,   (float)animated1 - 3.5f, -1);
 		}else if(title.contains("MOVEMENT")) {
-			Image.drawCenteredString("A",  posX + width - width / 8 ,  posY - 3.5f, -1);
+			Image.drawCenteredString("A",  posX + width - width / 8 ,   (float)animated1 - 3.5f, -1);
 		}else if(title.contains("COMBAT")) {
-			Image.drawCenteredString("E",  posX + width - width / 8 ,  posY - 3.5f, -1);
+			Image.drawCenteredString("E",  posX + width - width / 8 ,   (float)animated1 - 3.5f, -1);
 		}
 		if (isExpaned) {
 			int height = 0;

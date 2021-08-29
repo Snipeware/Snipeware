@@ -31,6 +31,7 @@ public class GuiButton implements GuiComponent {
 
 	private String text;
 	private double animated1;	
+	
 	private ArrayList<ActionListener> clickListeners = new ArrayList<ActionListener>();
 	private ArrayList<GuiComponent> guiComponents = new ArrayList<GuiComponent>();
 

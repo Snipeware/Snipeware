@@ -105,7 +105,7 @@ public enum Client {
 		
 		eventapi.register(this);
 		
-	/*
+	
 		
 		HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
 	
@@ -113,7 +113,7 @@ public enum Client {
 			 copyToClipboard(INetHandlerNiggerToServer.getID());
 			stop();
 		}
-		  */
+		  
 		
 	}
 	

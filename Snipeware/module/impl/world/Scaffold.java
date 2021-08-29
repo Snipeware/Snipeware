@@ -45,6 +45,7 @@ import Snipeware.module.Module;
 import Snipeware.module.impl.movement.Speed.Redemode;
 import Snipeware.module.impl.player.Safewalk;
 import Snipeware.util.other.InventoryUtils;
+import Snipeware.util.other.Logger;
 import Snipeware.util.other.MathUtils;
 import Snipeware.util.other.TimeHelper;
 import Snipeware.util.player.MovementUtils;
@@ -229,16 +230,12 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 
               
                 
-
                 
-                if(!mc.gameSettings.keyBindJump.pressed) {
                 
-                event.setYaw(yaw + 0.5f);
-                event.setPitch(79);
-                }else {
+           
                 	  event.setYaw(yaw);
                       event.setPitch(79);
-                }
+                
                
             rotated = false;
             currentPos = null;
@@ -266,20 +263,14 @@ public void onMotionUpdate(final EventMotionUpdate event) {
             
             	    yaw = getRotations(blockData.getPosition(), blockData.getFacing())[0];
                     pitch = limitedRotation.getPitch ();
-            	if(!mc.gameSettings.keyBindJump.pressed) {
-                if (keeprots.getValue ().booleanValue ()) {
-                    event.setYaw(yaw);
-                    event.setPitch(79);
-                }
-            	}else {
+            	
+        
             		if (keeprots.getValue ().booleanValue ()) {
                         event.setYaw(yaw);
                         event.setPitch(79);
                     }
-            	}
-          
-            		  
-            	  }
+            	
+            }
             
     }
     mc.thePlayer.rotationYawHead = event.getYaw ();
@@ -427,7 +418,7 @@ public static Color rainbow(int delay) {
 }
 
 public static float[] getRotations(BlockPos block, EnumFacing face) {
-    double x = block.getX() + 0.5 - Minecraft.getMinecraft().thePlayer.posX;
+    double x = block.getX() + 0.5 -  Minecraft.getMinecraft().thePlayer.posX;
     double z = block.getZ() + 0.5 - Minecraft.getMinecraft().thePlayer.posZ;
     double y = (block.getY() + 0.2);
     double d1 = Minecraft.getMinecraft().thePlayer.posY + Minecraft.getMinecraft().thePlayer.getEyeHeight() - y;
@@ -437,6 +428,7 @@ public static float[] getRotations(BlockPos block, EnumFacing face) {
     if (yaw < 0.0F) {
         yaw += 360f;
     }
+    
     return new float[]{yaw, pitch};
 }
 
@@ -553,19 +545,6 @@ public void setBlockAndFacing(BlockPos var1) {
 }
 
 
-
-private float[] aimAtLocation(BlockPos paramBlockPos, EnumFacing paramEnumFacing) {
-    double d1 = paramBlockPos.getX() + 0.5D - mc.thePlayer.posX + paramEnumFacing.getFrontOffsetX() / 2.0D;
-    double d2 = paramBlockPos.getZ() + 0.5D - mc.thePlayer.posZ + paramEnumFacing.getFrontOffsetZ() / 2.0D;
-    double d3 = mc.thePlayer.posY + mc.thePlayer.getEyeHeight() - (paramBlockPos.getY() + 0.5D);
-    double d4 = MathHelper.sqrt_double(d1 * d1 + d2 * d2);
-    float f1 = (float) (Math.atan2(d2, d1) * 180.0D / 3.141592653589793D) - 90.0F;
-    float f2 = (float) (Math.atan2(d3, d4) * 180.0D / 3.141592653589793D);
-    if (f1 < 0.0F) {
-        f1 += 360.0F;
-    }
-    return new float[]{f1, f2};
-}
 
 @Override
 public void onDisable() {
