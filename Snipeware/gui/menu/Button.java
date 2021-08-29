@@ -34,11 +34,11 @@ public class Button extends GuiButton {
     }
 
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-    	final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 16", true);
+    	final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 24", true);
         boolean isOverButton = (mouseX >= this.x) && (mouseX <= this.x + this.x1) && (mouseY >= this.y) && (mouseY <= this.y + this.y1);
         int color = isOverButton ? new Color(255, 255, 255).getRGB() : new Color(200, 200, 200).getRGB();
-        RenderUtil.drawRoundedRect2(this.x - this.size, this.y - this.size, this.x + this.x1 + this.size, this.y + this.y1 + this.size, 6, new Color(1,1,1, 200).getRGB());
-        fr.drawCenteredString(this.text, this.x + this.x1 / 2, this.y + this.y1 / 2 - 3, color);
+        RenderUtil.drawRect(this.x - this.size, this.y - this.size, this.x1 ,  this.y1 , new Color(138,43,226,200).getRGB());
+        fr.drawCenteredStringWithShadow(this.text, this.x + this.x1 / 2, this.y + this.y1 / 2 - 5, color);
         //RenderUtil.drawRoundedRect2(this.x - this.size, this.y - this.size, this.x + this.x1 + this.size, this.y + this.y1 + this.size, 6, Color.TRANSLUCENT);
     }
 }

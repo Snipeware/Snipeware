@@ -429,15 +429,13 @@ public class Speed extends Module {
 		setSuffix(mode.getValueAsString());
 		switch (mode.getValue()) {
 		case WatchdogLow:
-			if (mc.thePlayer.isMoving2() && mc.thePlayer.onGround && !PlayerUtil.isOnLiquid()) {
+			if (mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
                 if(mc.thePlayer.isCollidedHorizontally) {
                     mc.thePlayer.motionY = 0.42f;
                 }else {
                     mc.thePlayer.motionY = 0.3f;
                 }
                 mc.timer.timerSpeed = 1.2F;
-            }else {
-            	mc.timer.timerSpeed = 1f;
             }
 		
 				break;

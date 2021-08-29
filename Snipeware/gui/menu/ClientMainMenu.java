@@ -1,5 +1,6 @@
 package Snipeware.gui.menu;
 
+import net.arikia.dev.drpc.DiscordRPC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
@@ -30,8 +31,10 @@ public class ClientMainMenu extends GuiMainMenu {
     private ResourceLocation texture2;
     private ResourceLocation texture3;
     private ResourceLocation texture4;
-    
+    private static String Name = "SNIPEW";
+    private static String Name2 = "ARE";
     private ArrayList<String> changelogs = new ArrayList<>();
+    private double animated;
 
     @Override
     public void initGui() {
@@ -44,20 +47,24 @@ public class ClientMainMenu extends GuiMainMenu {
         
         final String strLang = I18n.format("LANGUAGE");
         final String strOptions = "OPTIONS";
-        int initHeight = height / 4 + 48;
-        int objHeight = 15;
-        int objWidth = 102;
+        final String strShutDown = "SHUTDOWN";
+        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        int initHeight = sr.getScaledWidth() / 5 + 20;
+        int objHeight = 22;
+        int objWidth = 162;
         int xMid = width / 2 - objWidth / 2;
         
-        buttonList.add(new Button(0, xMid, initHeight + 30, objWidth, objHeight, strSSP));
-        buttonList.add(new Button(1, xMid, initHeight + 18 - 2 + 30, objWidth, objHeight, strSMP));
-        buttonList.add(new Button(4, xMid, initHeight + 35 - 3 + 30, objWidth, objHeight, strAccounts));
-        buttonList.add(new Button(2, xMid, initHeight + 52 - 4 + 30, objWidth, objHeight, strOptions));
+        
+        buttonList.add(new Button(0, xMid , initHeight + 30, objWidth, objHeight, strSSP));
+        buttonList.add(new Button(1, xMid , initHeight + 18 - 2 + 30 + 9 ,objWidth, objHeight, strSMP));
+        buttonList.add(new Button(4, xMid , initHeight + 35 - 3 + 30 + 18, objWidth , objHeight, strAccounts));
+        buttonList.add(new Button(2, xMid , initHeight + 52 - 4 + 30 + 27, objWidth, objHeight, strOptions));
+        buttonList.add(new Button(5, xMid , initHeight + 69 - 5 + 30 + 36, objWidth, objHeight, strShutDown));
         
     //   buttonList.add(new TextButton(3, xMid + width / 3, initHeight - 153, objWidth, objHeight, strLang));
       //  buttonList.add(new TextButton(2, xMid + width / 3 + 110, initHeight - 153, objWidth, objHeight, strOptions));
        
-        buttonList.add(new ExitButton(5, xMid + width / 3 + 172, initHeight - 157, 25, 25, strOptions));
+        //buttonList.add(new ExitButton(5, xMid + width / 3 + 192, initHeight - 157, 25, 25, strOptions));
         
    
   
@@ -82,43 +89,64 @@ public class ClientMainMenu extends GuiMainMenu {
                 break;
             case 5:
                 mc.shutdown();
+                DiscordRPC.discordShutdown();
                 break;
         }
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-    	
+    	int objWidth = 210;
+        int objHeight = 183;
+    	int xMid = width / 2 - objWidth / 2;
+        
+    
+    	  
+    	  
     	mc.getTextureManager().bindTexture(new ResourceLocation("minecraft", "background.png"));
     	Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0f, 0.0f, this.width, this.height, (float)this.width, (float)this.height);
         this.drawGradientRect(0, height - 150, width, height, 0, -16777216);
- 
+        
+        
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         GlStateManager.pushMatrix();
+        
+        RenderUtil.drawRect(xMid, sr.getScaledWidth() / 5 + 1,objWidth, objHeight + 1, new Color(138,43,226,200).getRGB());
+        
+        
+        RenderUtil.drawRect(xMid, sr.getScaledWidth() / 5,objWidth, objHeight, new Color(42, 42, 42, 253).getRGB());
+        
+     
         
         for (int i = 0; i < buttonList.size(); ++i) { 
             GuiButton g = (GuiButton) buttonList.get(i);
             g.drawButton(mc, mouseX, mouseY);
         }
-    RenderUtil.drawImage(new ResourceLocation("minecraft", "logo.png"), sr.getScaledWidth() / 2 - 30, height / 4 - 35, 64, 64);
-   
+    
+  
+    
+        
+        
+    	
+    	int xMidStr = width / 2 - 187 / 2;
+        
+        final FontRenderer fr2 = Client.INSTANCE.getFontManager().getFont("Aquire 62", true);
+        fr2.drawStringWithShadow(Name,  xMidStr - 5,sr.getScaledWidth() / 5 + 9, new Color(158,63,236).getRGB());
+        fr2.drawStringWithShadow(Name2,  xMidStr - 5 + 118,sr.getScaledWidth() / 5 + 9, new Color(158,63,236).getRGB());
         final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 21", true);
         final String welcome = "Welcome back";
-        final String build = "Snipeware (this is a beta and there are many bugs)";
+        final String Credits = "Made by Koljan, Tear, Napoleon";
         
+        fr.drawStringWithShadow(Credits, (float)(this.width - fr.getWidth(Credits)) / 50, (float)(this.height - 24), new Color(250,250,250,80).getRGB());
         
-        fr.drawStringWithShadow(welcome, (float)(this.width - fr.getWidth(welcome) - 13), (float)(this.height - 24), -1);
-        fr.drawStringWithShadow(build, (float)(this.width - fr.getWidth(build)) / 50, (float)(this.height - 24), -1);
-     
-       
-        
-        //RenderUtil.drawImage(new ResourceLocation("minecraft", "language.png"), width / 3 + 397, height / 4 + 48 - 159, 25, 25);
-        //RenderUtil.drawImage(new ResourceLocation("minecraft", "options.png"), width / 3 + 506, height / 4 + 48 - 159, 26, 26);
+        fr.drawStringWithShadow(welcome, (float)(this.width - fr.getWidth(welcome) - 13), (float)(this.height - 24),  new Color(250,250,250, 80).getRGB());
       
+
         changelogs.add("Added changelogs.");
         changelogs.add("Being cool.");
         
-        final FontRenderer changelogFont = Client.INSTANCE.getFontManager().getFont("Fatality 35", true);
+       
+        
         GlStateManager.popMatrix();
         
     }

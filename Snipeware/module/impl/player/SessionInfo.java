@@ -67,7 +67,7 @@ public class SessionInfo extends Module {
 
 	@Handler
 	public void onReceivePacket(final EventPacketReceive event) {
-		if (Client.getInstance().getModuleManager().getModule("Test").isEnabled()) {
+		if (Client.getInstance().getModuleManager().getModule("SessionInfo").isEnabled()) {
 			if (event.getPacket() instanceof S02PacketChat) {
 				final S02PacketChat packet = (S02PacketChat) event.getPacket();
 				String text = packet.getChatComponent().getUnformattedText();

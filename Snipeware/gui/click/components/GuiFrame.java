@@ -84,24 +84,24 @@ public class GuiFrame implements Frame {
 		animated1 = RenderUtil.animate(posY, animated1, 0.07);
 	
 	
-		
+		final FontRenderer Image = Client.INSTANCE.getFontManager().getFont("Snipeware 32", false);
 		
 		RenderUtil.drawRect(posX + 1, posY - 6, width - 1, 18, Panel.black195);
 	
 		//RenderUtil.drawVerticalGradient(posX + 1, posY + 1, width - 1, 11, new Color(126, 204, 251, 200).getRGB(), new Color(90, 185, 235, 120).getRGB());
 		fr.drawStringWithShadow(title, posX + 5, posY - 1, fontColor);
 
-		//fr.drawStringWithShadow(isExpaned ? "-" : "+", posX + width - fr.getWidth(isExpaned ? "-" : "+") - 4, posY + 1, fontColor);
+	
 		if(title.contains("VISUALS")) {
-			RenderUtil.drawImage(new ResourceLocation("minecraft", "visuals.png"), posX + width - width / 8 - 5,  posY - 3, width / 8, width / 8);
+			Image.drawCenteredString("C",  posX + width - width / 8 ,  posY - 4, -1);
 		}else if(title.contains("WORLD")) {
-			RenderUtil.drawImage(new ResourceLocation("minecraft", "World.png"), posX + width - width / 8 - 5, posY - 3, width / 8, width / 8);
+			Image.drawCenteredString("D",  posX + width - width / 8 ,  posY - 3.5f, -1);
 		}else if(title.contains("PLAYER")) {
-			RenderUtil.drawImage(new ResourceLocation("minecraft", "Player.png"), posX + width - width / 8 - 5,  posY - 3, width / 8, width / 8);
+			Image.drawCenteredString("B",  posX + width - width / 8 ,  posY - 3.5f, -1);
 		}else if(title.contains("MOVEMENT")) {
-			RenderUtil.drawImage(new ResourceLocation("minecraft", "Movement.png"), posX + width - width / 8 - 5,  posY - 3, width / 8, width / 8 + 1);
+			Image.drawCenteredString("A",  posX + width - width / 8 ,  posY - 3.5f, -1);
 		}else if(title.contains("COMBAT")) {
-			RenderUtil.drawImage(new ResourceLocation("minecraft", "Combat.png"), posX + width - width / 8 - 5, posY - 3, width / 8, width / 8 + 1);
+			Image.drawCenteredString("E",  posX + width - width / 8 ,  posY - 3.5f, -1);
 		}
 		if (isExpaned) {
 			int height = 0;

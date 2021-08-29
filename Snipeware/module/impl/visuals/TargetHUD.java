@@ -55,7 +55,7 @@ public final class TargetHUD extends Module {
 	private final BooleanValue showInvisibles = new BooleanValue("Show Invisibles", true);
 	private final BooleanValue showAnimals = new BooleanValue("Show Animals", true);
 	private final BooleanValue showPassives = new BooleanValue("Show Passives", true);
-	  private ColorValue colorValue = new ColorValue("Color", new Color(255, 255, 255).getRGB());
+	  private ColorValue colorValue = new ColorValue("Color", new Color(220, 220, 220).getRGB());
 	private double x, y;
 
 	public TargetHUD() {
