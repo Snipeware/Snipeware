@@ -24,7 +24,6 @@ public class AntiVelocity extends Module {
 	
 	private NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100);
 	
-	private BooleanValue flagbackcheck = new BooleanValue("Redesky Check", true);
 	
 	
     private double motionX;
@@ -34,7 +33,7 @@ public class AntiVelocity extends Module {
 	
 	public AntiVelocity() {
 		super("Velocity", 0, ModuleCategory.COMBAT);
-		addValues(velocityMode, vertical ,horizontal, flagbackcheck);
+		addValues(velocityMode, vertical ,horizontal);
 	}
 	
 	public void onEnable() {
@@ -84,35 +83,16 @@ public class AntiVelocity extends Module {
 			
 			setSuffix("Redesky");
 			if (mc.thePlayer.hurtTime == 9) {
-				motionX = mc.thePlayer.motionX;
-				motionZ = mc.thePlayer.motionZ; 
-				motionY = mc.thePlayer.motionY;
+				mc.thePlayer.setInWeb();
 			}
 		
 		
 		
-		 if (mc.thePlayer.isMoving2()) {
-				
-	        if (mc.thePlayer.hurtTime == 8) {
-	        	
-	        	if(!Client.getInstance().getModuleManager().getModule("LongJump").isEnabled()) {
+		
 	        
-	              mc.thePlayer.motionX = motionX * 0.85;
-	              mc.thePlayer.motionZ = motionZ * 0.85;
-	              mc.thePlayer.motionY = motionY * 0.957;
-	              
-	        	}
-	            
-	           }
-	        
-	        if(mc.thePlayer.hurtTime > 0) {
-	        	if (event.getPacket() instanceof S08PacketPlayerPosLook && flagbackcheck.isEnabled()) {
-					toggle();
-					Notifications.getManager().post("Disabled Modules", "Velocity was disabled to prevent flags/errors");
-				}
-	        }
+	     
 			
-		 }
+		 
 		 break;
 		
 		}

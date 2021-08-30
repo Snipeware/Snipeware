@@ -77,11 +77,14 @@ public class Criticals extends Module {
     	switch (mode.getValue()) {
     	case Watchdog:
     		 if (event.isPost() && mc.thePlayer.onGround && killAura.target != null) {
+    			
     			 WatchdogY = MathUtils.getRandomInRange(0.01, 0.03);
     			   event.setPosY(mc.thePlayer.posY + WatchdogY);
-    			   
+    			   mc.thePlayer.fallDistance = (float) WatchdogY;
     			   event.setOnGround(false);
+    			
     		 }
+    		 
     		break;
     		
     	
@@ -140,19 +143,8 @@ public class Criticals extends Module {
         }
             break;
             }case Watchdog:{
-                if (hasTarget()) {
-           		 if (Watchdogtimer.isDelayComplete(800)) {
-           		if(mc.thePlayer.onGround) {
-           			
-           			
-           		}
-       
-           			Watchdogtimer.reset();
-           		 }
-           		 
+             break;
            	 }
-            	
-            }
 
     	}
        

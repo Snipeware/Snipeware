@@ -112,21 +112,21 @@ public class InvManager extends Module {
 
     public void shiftClick(int slot) {
         mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, slot, 0, 1, mc.thePlayer);
-        if(!inventoryOnly.isEnabled()) {
+        if(!inventoryOnly.isEnabled() && !(mc.currentScreen instanceof GuiInventory)) {
         	mc.getNetHandler().addToSendQueueNoEvent(new C0DPacketCloseWindow(0));
         }
     }
 
     public void swap(int slot1, int hotbarSlot) {
         mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, slot1, hotbarSlot, 2, mc.thePlayer);
-        if(!inventoryOnly.isEnabled()) {
+        if(!inventoryOnly.isEnabled() && !(mc.currentScreen instanceof GuiInventory)) {
         	mc.getNetHandler().addToSendQueueNoEvent(new C0DPacketCloseWindow(0));
         }
     }
 
     public void drop(int slot) {
         mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, slot, 1, 4, mc.thePlayer);
-        if(!inventoryOnly.isEnabled()) {
+        if(!inventoryOnly.isEnabled() && !(mc.currentScreen instanceof GuiInventory)) {
         	mc.getNetHandler().addToSendQueueNoEvent(new C0DPacketCloseWindow(0));
         }
     }
