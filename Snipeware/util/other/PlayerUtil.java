@@ -66,7 +66,7 @@ public class PlayerUtil {
 			return false;
 		}
 		if (entity instanceof EntityVillager || entity instanceof EntityGolem && !passives) {
-			return true;
+			return false;
 		}
 		if (entity instanceof EntityAnimal && !animals) {
 			return false;
