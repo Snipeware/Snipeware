@@ -435,7 +435,7 @@ public class Speed extends Module {
                 }else {
                     mc.thePlayer.motionY = 0.3f;
                 }
-                mc.timer.timerSpeed = 1.2F;
+            
             }
 		
 				break;
