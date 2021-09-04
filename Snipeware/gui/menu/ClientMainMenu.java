@@ -35,31 +35,14 @@ public class ClientMainMenu extends GuiMainMenu {
     private static String Name2 = "ARE";
     private ArrayList<String> changelogs = new ArrayList<>();
     private double animated;
-
+    private double animated2;
+    private double animated3;
+    
     @Override
     public void initGui() {
     	Client.getInstance().getDiscordRP().update("idling", "Main Menu");
         super.initGui();
-        buttonList.clear();
-        final String strSSP = I18n.format("SINGLEPLAYER");
-        final String strSMP = I18n.format("MULTIPLAYER");
-        final String strAccounts = "ALT LOGIN";
-        
-        final String strLang = I18n.format("LANGUAGE");
-        final String strOptions = "OPTIONS";
-        final String strShutDown = "SHUTDOWN";
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-        int initHeight = sr.getScaledWidth() / 5 + 20;
-        int objHeight = 22;
-        int objWidth = 162;
-        int xMid = width / 2 - objWidth / 2;
-        
-        
-        buttonList.add(new Button(0, xMid , initHeight + 30, objWidth, objHeight, strSSP));
-        buttonList.add(new Button(1, xMid , initHeight + 18 - 2 + 30 + 9 ,objWidth, objHeight, strSMP));
-        buttonList.add(new Button(4, xMid , initHeight + 35 - 3 + 30 + 18, objWidth , objHeight, strAccounts));
-        buttonList.add(new Button(2, xMid , initHeight + 52 - 4 + 30 + 27, objWidth, objHeight, strOptions));
-        buttonList.add(new Button(5, xMid , initHeight + 69 - 5 + 30 + 36, objWidth, objHeight, strShutDown));
+
         
     //   buttonList.add(new TextButton(3, xMid + width / 3, initHeight - 153, objWidth, objHeight, strLang));
       //  buttonList.add(new TextButton(2, xMid + width / 3 + 110, initHeight - 153, objWidth, objHeight, strOptions));
@@ -99,22 +82,46 @@ public class ClientMainMenu extends GuiMainMenu {
     	int objWidth = 210;
         int objHeight = 183;
     	int xMid = width / 2 - objWidth / 2;
+        buttonList.clear();
+        final String strSSP = I18n.format("SINGLEPLAYER");
+        final String strSMP = I18n.format("MULTIPLAYER");
+        final String strAccounts = "ALT LOGIN";
         
+        final String strLang = I18n.format("LANGUAGE");
+        final String strOptions = "OPTIONS";
+        final String strShutDown = "SHUTDOWN";
+        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        
+        int initHeight = sr.getScaledWidth() / 5 + 20;
+        int objHeight2 = 22;
+        int objWidth2 = 162;
+        int xMid2 = width / 2 - objWidth2 / 2;
+        
+        animated3 = RenderUtil.animate(initHeight, animated3, 0.07);
+     
+      
+        initHeight = (int) animated3;
+        buttonList.add(new Button(0, xMid2 ,  (int) Math.round(animated3) + 30, objWidth2, objHeight2, strSSP));
+        buttonList.add(new Button(1, xMid2 ,  (int) Math.round(animated3) + 18 - 2 + 30 + 9 ,objWidth2, objHeight2, strSMP));
+        buttonList.add(new Button(4, xMid2 ,  (int) Math.round(animated3) + 35 - 3 + 30 + 18, objWidth2 , objHeight2, strAccounts));
+        buttonList.add(new Button(2, xMid2 ,  (int) Math.round(animated3) + 52 - 4 + 30 + 27, objWidth2, objHeight2, strOptions));
+        buttonList.add(new Button(5, xMid2 , (int) Math.round(animated3)  + 69 - 5 + 30 + 36, objWidth2, objHeight2, strShutDown));
     
-    	  
+    	
     	  
     	mc.getTextureManager().bindTexture(new ResourceLocation("minecraft", "background.png"));
     	Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0f, 0.0f, this.width, this.height, (float)this.width, (float)this.height);
         this.drawGradientRect(0, height - 150, width, height, 0, -16777216);
         
-        
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+       
+    
         GlStateManager.pushMatrix();
+        int YRec = sr.getScaledWidth() / 5;
+        animated = RenderUtil.animate(YRec, animated, 0.07);
+        RenderUtil.drawRect(xMid,animated + 1,objWidth, objHeight + 1, new Color(138,43,226,200).getRGB());
         
-        RenderUtil.drawRect(xMid, sr.getScaledWidth() / 5 + 1,objWidth, objHeight + 1, new Color(138,43,226,200).getRGB());
         
-        
-        RenderUtil.drawRect(xMid, sr.getScaledWidth() / 5,objWidth, objHeight, new Color(42, 42, 42, 253).getRGB());
+        RenderUtil.drawRect(xMid, animated,objWidth, objHeight, new Color(42, 42, 42, 253).getRGB());
         
      
         
@@ -127,26 +134,50 @@ public class ClientMainMenu extends GuiMainMenu {
     
         
         
-    	
+        float YText = sr.getScaledWidth() / 5;
+        animated2 = RenderUtil.animate(YText, animated2, 0.07);
     	int xMidStr = width / 2 - 187 / 2;
         
         final FontRenderer fr2 = Client.INSTANCE.getFontManager().getFont("Aquire 62", true);
-        fr2.drawStringWithShadow(Name,  xMidStr - 5,sr.getScaledWidth() / 5 + 9, new Color(158,63,236).getRGB());
-        fr2.drawStringWithShadow(Name2,  xMidStr - 5 + 118,sr.getScaledWidth() / 5 + 9, new Color(158,63,236).getRGB());
+        fr2.drawStringWithShadow(Name,  xMidStr - 5, (float)animated2 + 9, new Color(158,63,236).getRGB());
+        fr2.drawStringWithShadow(Name2,  xMidStr - 5 + 118, (float)animated2 + 9, new Color(158,63,236).getRGB());
         final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 21", true);
+
         final String welcome = "Welcome back";
         final String Credits = "Made by Koljan, Tear, Napoleon";
-        
-        fr.drawStringWithShadow(Credits, (float)(this.width - fr.getWidth(Credits)) / 50, (float)(this.height - 24), new Color(250,250,250,80).getRGB());
-        
-        fr.drawStringWithShadow(welcome, (float)(this.width - fr.getWidth(welcome) - 13), (float)(this.height - 24),  new Color(250,250,250, 80).getRGB());
-      
+        final String Build = "Build 1.1";
 
-        changelogs.add("Added changelogs.");
-        changelogs.add("Being cool.");
+        fr.drawStringWithShadow(Credits, (float)(this.width - fr.getWidth(Credits)) / 50, this.height - 24, new Color(250,250,250,80).getRGB());
         
-       
+        fr.drawStringWithShadow(welcome, (float)(this.width - fr.getWidth(welcome) - 13), this.height - 24,  new Color(250,250,250, 80).getRGB());
         
+ 
+ 
+        int index = 0;
+        int AddY = 0;
+        changelogs.add("Added changelogs");
+        changelogs.add("Added Watchdog speed");
+        changelogs.add("Improved and remade alot of visuals");
+        changelogs.add("Removed WatchdogLow speed");
+        changelogs.add("Removed few modules");
+        
+        int color = new Color(250,250,250, 220).getRGB();
+        	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
+        	index++;
+        	AddY += 10;
+        	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
+        	index++;
+        	AddY += 10;
+        	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
+        	index++;
+        	AddY += 10;
+        	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
+         	index++;
+        	AddY += 10;
+        	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
+        	
+        	
+        	
         GlStateManager.popMatrix();
         
     }

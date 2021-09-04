@@ -1,6 +1,8 @@
 package net.minecraft.client.gui;
 
 import java.io.IOException;
+
+import Snipeware.gui.menu.ClientMainMenu;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.audio.SoundEventAccessorComposite;
@@ -197,7 +199,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback
             if (button.id == 200)
             {
                 this.mc.gameSettings.saveOptions();
-                this.mc.displayGuiScreen(this.field_146441_g);
+                mc.displayGuiScreen(new ClientMainMenu());
             }
 
             if (button.id == 105)
