@@ -56,7 +56,7 @@ public class Speed extends Module {
 	private BooleanValue flagbackcheck = new BooleanValue("Flagback Check", true);
 
 
-	private EnumValue<Mode> mode = new EnumValue<>("Speed Mode", Mode.WatchdogLow);
+	private EnumValue<Mode> mode = new EnumValue<>("Speed Mode", Mode.Watchdog);
 	
 	public 	int stageRede = 1;
 	
@@ -72,7 +72,7 @@ public class Speed extends Module {
 	}
 
 	private enum Mode {
-	 Legit, WatchdogLow, NCP, Strafe, Vanilla, Redesky, Mineplex;
+	 Legit, Watchdog, NCP, Strafe, Vanilla, Redesky, Mineplex;
 	}
 	
 	 public enum Redemode {
@@ -117,11 +117,17 @@ public class Speed extends Module {
                 }
 				break;
 			}
-		case WatchdogLow: {
-			
-            MovementUtils.setSpeed(event, 0.26);
-			
+		case Watchdog: {
+			if(!mc.thePlayer.onGround) {
+				if(!mc.gameSettings.keyBindBack.pressed == true) {
+					MovementUtils.setSpeed(event, MovementUtils.getSpeed());
+				}else {
+					MovementUtils.setSpeed(event, MovementUtils.getSpeed() - 0.1);
+				}
+			}
 			break;
+			
+		
 		}
 		case Vanilla: {
 			MovementUtils.setSpeed(event, vanillaSpeed.getValue());
@@ -419,7 +425,13 @@ public class Speed extends Module {
 		doSlow = false;
 		reset = false;
 		mc.timer.timerSpeed = 1;
-		
+		switch (mode.getValue()) {
+		case Watchdog:
+			mc.thePlayer.motionZ = 0;
+			mc.thePlayer.motionX = 0;
+			
+			break;
+		}
 		
 	
 	}
@@ -428,16 +440,14 @@ public class Speed extends Module {
 	public void onMotionUpdate(final EventMotionUpdate event) {
 		setSuffix(mode.getValueAsString());
 		switch (mode.getValue()) {
-		case WatchdogLow:
-			if (mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
-                if(mc.thePlayer.isCollidedHorizontally) {
-                    mc.thePlayer.motionY = 0.42f;
-                }else {
-                    mc.thePlayer.motionY = 0.3f;
-                }
-            
-            }
-		
+		case Watchdog:
+			if(mc.thePlayer.isMoving2()) {
+				mc.gameSettings.keyBindJump.pressed = true;
+			}else {
+				mc.gameSettings.keyBindJump.pressed = false;
+			}
+			
+	
 				break;
 		case Vanilla:
 			break;
