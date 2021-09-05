@@ -35,7 +35,7 @@ public final class TargetStrafe extends Module {
     public final BooleanValue holdspace = new BooleanValue("Hold Space", false);
     private final BooleanValue render = new BooleanValue("Render", false);
     private final BooleanValue Third = new BooleanValue("Third Person", false);
-
+    private boolean exec = false;
     private final List<Vector3f> points = new ArrayList<>();
 
     public byte direction;
@@ -104,34 +104,16 @@ public final class TargetStrafe extends Module {
     	final Flight flight = (Flight) Client.INSTANCE.getModuleManager().getModule(Flight.class);
      
     	if(Third.isEnabled()) {
-    		if(Client.getInstance().getModuleManager().getModule("Speed").isEnabled()) {
-    	
-    	if(mc.thePlayer.getDistanceToEntity(killAura.target) < KillAura.rangee - 0.2f) {
-    
-			mc.gameSettings.thirdPersonView = 1;
-		}else {
-	
-			mc.gameSettings.thirdPersonView = 0;
-		}
-    	
-    	if(killAura.target.getHealth() < 1) {
+    		if(killAura.target != null) {
+    			mc.gameSettings.thirdPersonView = 1;
+    			exec = true;
+    		}else {
+    			if(exec == true) {
+    			mc.gameSettings.thirdPersonView = 0;
+    			exec = false;
+    			}
+    		}
     		
-    	
-    		mc.gameSettings.thirdPersonView = 0;
-    		
-    	}
-    	if(killAura.targets.equals(null)) {
-    	
-    		mc.gameSettings.thirdPersonView = 0;
-    		
-    	}
-    	
-    }else {
-    
-    	
-    	mc.gameSettings.thirdPersonView = 0;
-    
-    	}
     	}
     	
     	for (Entity entity : mc.theWorld.getLoadedEntityList()) {

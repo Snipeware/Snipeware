@@ -20,5 +20,7 @@ public interface GuiComponent {
 	boolean allowScroll();
 
 	void render(int posX, int posY, int width, int mouseX, int mouseY, int wheelY);
+	
+	
 
 }

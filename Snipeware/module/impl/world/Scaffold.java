@@ -45,6 +45,7 @@ import Snipeware.module.Module;
 import Snipeware.module.impl.movement.Speed.Redemode;
 import Snipeware.module.impl.player.Safewalk;
 import Snipeware.util.other.InventoryUtils;
+import Snipeware.util.other.Logger;
 import Snipeware.util.other.MathUtils;
 import Snipeware.util.other.TimeHelper;
 import Snipeware.util.player.MovementUtils;
@@ -76,7 +77,7 @@ private final float[] rotations = new float[2];
 private static final Map<Integer, Boolean> glCapMap = new HashMap<>();
 private final List<Block> badBlocks = Arrays.asList(Blocks.air, Blocks.water, Blocks.flowing_water, Blocks.lava, Blocks.flowing_lava, Blocks.enchanting_table, Blocks.carpet, Blocks.glass_pane, Blocks.stained_glass_pane, Blocks.iron_bars, Blocks.snow_layer, Blocks.ice, Blocks.packed_ice, Blocks.coal_ore, Blocks.diamond_ore, Blocks.emerald_ore, Blocks.chest, Blocks.trapped_chest, Blocks.torch, Blocks.anvil, Blocks.trapped_chest, Blocks.noteblock, Blocks.jukebox, Blocks.tnt, Blocks.gold_ore, Blocks.iron_ore, Blocks.lapis_ore, Blocks.lit_redstone_ore, Blocks.quartz_ore, Blocks.redstone_ore, Blocks.wooden_pressure_plate, Blocks.stone_pressure_plate, Blocks.light_weighted_pressure_plate, Blocks.heavy_weighted_pressure_plate, Blocks.stone_button, Blocks.wooden_button, Blocks.lever, Blocks.tallgrass, Blocks.tripwire, Blocks.tripwire_hook, Blocks.rail, Blocks.waterlily, Blocks.red_flower, Blocks.red_mushroom, Blocks.brown_mushroom, Blocks.vine, Blocks.trapdoor, Blocks.yellow_flower, Blocks.ladder, Blocks.furnace, Blocks.sand, Blocks.cactus, Blocks.dispenser, Blocks.noteblock, Blocks.dropper, Blocks.crafting_table, Blocks.web, Blocks.pumpkin, Blocks.sapling, Blocks.cobblestone_wall, Blocks.oak_fence);
 private BlockData blockData;
-private BooleanValue safewalk = new BooleanValue("Safewalk", true);
+
 private BooleanValue keepsprint = new BooleanValue("Sprint", false);
 private BooleanValue Jump = new BooleanValue("Jump", false);
 private BooleanValue silient = new BooleanValue("Silent", true);
@@ -101,16 +102,15 @@ private static BlockPos currentPos;
 private EnumFacing currentFacing;
 private boolean rotated = false;
 private final TimeHelper timer = new TimeHelper();
-
+private boolean HasStoped;
 float oldPitch = 0;
 private RotationUtils RayCastUtil;
-
 private EnumValue<TowerMode> towerMode  = new EnumValue<>("TowerMode", TowerMode.Hypixel);
 
 
 public Scaffold() {
     super("Scaffold", 0, ModuleCategory.WORLD);
-    this.addValues(towerMode, safewalk, keepsprint, Jump, silient, blockCountBarProperty, tower, keeprots, Swing, keepy ,eagle, edge, raycast, TimerBoost , delay, eageOffset);
+    this.addValues(towerMode, keepsprint, Jump, silient, blockCountBarProperty, tower, keeprots, Swing, keepy ,eagle, edge, raycast, TimerBoost , delay, eageOffset);
 }
 
 
@@ -170,22 +170,23 @@ public void onMotionUpdate(final EventMotionUpdate event) {
 		//mc.timer.timerSpeed = 1;
 //	}
     setSuffix ("Normal"); 
-
+   
             int slot = this.getSlot ();
-            stopWalk = (getBlockCount () == 0 || slot == -1) && safewalk.getValue ().booleanValue ();
+     
             isPlaceTick = keeprots.getValue ().booleanValue () ? blockData != null && slot != -1 : blockData != null && slot != -1 && mc.theWorld.getBlockState ( new BlockPos ( mc.thePlayer ).add ( 0, -1, 0 ) ).getBlock () == Blocks.air;
             if (slot == -1) {
                 moveBlocksToHotbar ();
 
                 return;
             }
-            
-            if(Jump.isEnabled() && mc.thePlayer.isMoving2()) {
+            if(Jump.isEnabled()) {
+            if(mc.thePlayer.isMoving2()) {
             	mc.gameSettings.keyBindJump.pressed = true;
-            }else{
-             	mc.gameSettings.keyBindJump.pressed = false;
+ 
+            	}else {
+            		mc.gameSettings.keyBindJump.pressed = false;
+            	}
             }
-           
             this.blockData = getBlockData ();
             if (this.blockData == null) {
                 return;
@@ -214,20 +215,8 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                             mc.thePlayer.sendQueue.addToSendQueue ( new C03PacketPlayer.C04PacketPlayerPosition ( mc.thePlayer.posX, mc.thePlayer.posY + 0.41999998688698, mc.thePlayer.posZ, false ) );
                             mc.thePlayer.sendQueue.addToSendQueue ( new C03PacketPlayer.C04PacketPlayerPosition ( mc.thePlayer.posX, mc.thePlayer.posY + 0.7531999805212, mc.thePlayer.posZ, false ) );
                         }
-                    case "Cubecraft":
-                        count++;
-                        mc.thePlayer.motionX = 0;
-                        mc.thePlayer.motionZ = 0;
-                        mc.thePlayer.jumpMovementFactor = 0;
-                        if (MovementUtils.isOnGround ( 2 ))
-                            if (count == 1) {
-                                mc.thePlayer.motionY = 0.41;
-                            } else {
-
-                                mc.thePlayer.motionY = 0.47;
-                                count = 0;
-                            }
                 }
+            
 
             } else {
                 towerTimer.reset ();
@@ -241,23 +230,13 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 
               
                 
-
                 
-                if(!mc.gameSettings.keyBindJump.pressed) {
                 
-                event.setYaw(yaw + 0.5f);
-                event.setPitch(79);
-                }else {
+           
                 	  event.setYaw(yaw);
                       event.setPitch(79);
-                }
-               
                 
-        
-             
-
-
-
+               
             rotated = false;
             currentPos = null;
             currentFacing = null;
@@ -284,20 +263,14 @@ public void onMotionUpdate(final EventMotionUpdate event) {
             
             	    yaw = getRotations(blockData.getPosition(), blockData.getFacing())[0];
                     pitch = limitedRotation.getPitch ();
-            	if(!mc.gameSettings.keyBindJump.pressed) {
-                if (keeprots.getValue ().booleanValue ()) {
-                    event.setYaw(yaw);
-                    event.setPitch(79);
-                }
-            	}else {
+            	
+        
             		if (keeprots.getValue ().booleanValue ()) {
                         event.setYaw(yaw);
                         event.setPitch(79);
                     }
-            	}
-          
-            		  
-            	  }
+            	
+            }
             
     }
     mc.thePlayer.rotationYawHead = event.getYaw ();
@@ -445,8 +418,8 @@ public static Color rainbow(int delay) {
 }
 
 public static float[] getRotations(BlockPos block, EnumFacing face) {
-    double x = block.getX() + 0.5 - Minecraft.getMinecraft().thePlayer.posX;
-    double z = block.getZ() + 0.5 - Minecraft.getMinecraft().thePlayer.posZ;
+    double x = block.getX() + 0.1 -  Minecraft.getMinecraft().thePlayer.posX;
+    double z = block.getZ() + 0.1 - Minecraft.getMinecraft().thePlayer.posZ;
     double y = (block.getY() + 0.2);
     double d1 = Minecraft.getMinecraft().thePlayer.posY + Minecraft.getMinecraft().thePlayer.getEyeHeight() - y;
     double d3 = MathHelper.sqrt_double(x * x + z * z);
@@ -455,6 +428,7 @@ public static float[] getRotations(BlockPos block, EnumFacing face) {
     if (yaw < 0.0F) {
         yaw += 360f;
     }
+    
     return new float[]{yaw, pitch};
 }
 
@@ -571,19 +545,6 @@ public void setBlockAndFacing(BlockPos var1) {
 }
 
 
-
-private float[] aimAtLocation(BlockPos paramBlockPos, EnumFacing paramEnumFacing) {
-    double d1 = paramBlockPos.getX() + 0.5D - mc.thePlayer.posX + paramEnumFacing.getFrontOffsetX() / 2.0D;
-    double d2 = paramBlockPos.getZ() + 0.5D - mc.thePlayer.posZ + paramEnumFacing.getFrontOffsetZ() / 2.0D;
-    double d3 = mc.thePlayer.posY + mc.thePlayer.getEyeHeight() - (paramBlockPos.getY() + 0.5D);
-    double d4 = MathHelper.sqrt_double(d1 * d1 + d2 * d2);
-    float f1 = (float) (Math.atan2(d2, d1) * 180.0D / 3.141592653589793D) - 90.0F;
-    float f2 = (float) (Math.atan2(d3, d4) * 180.0D / 3.141592653589793D);
-    if (f1 < 0.0F) {
-        f1 += 360.0F;
-    }
-    return new float[]{f1, f2};
-}
 
 @Override
 public void onDisable() {

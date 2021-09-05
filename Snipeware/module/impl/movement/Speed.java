@@ -28,7 +28,6 @@ import Snipeware.events.player.EventMove;
 import Snipeware.events.player.EventStep;
 import Snipeware.gui.notification.Notifications;
 import Snipeware.module.Module;
-import Snipeware.module.impl.world.Scaffold2.CancelSprintMode;
 import Snipeware.util.other.Logger;
 import Snipeware.util.other.MathUtils;
 import Snipeware.util.other.PlayerUtil;
@@ -46,6 +45,7 @@ public class Speed extends Module {
 	private double moveSpeed;
 	int stage;
 	int ncpStage;
+	int WatchdogStage;
 	public boolean reset, doSlow;
 
 	private NumberValue<Integer> vanillaSpeed = new NumberValue<>("Vanilla Speed", 4, 1, 10, 1);
@@ -61,6 +61,7 @@ public class Speed extends Module {
 	public 	int stageRede = 1;
 	
 	private final TimeHelper Stagetimer = new TimeHelper();
+	private final TimeHelper WatchdogTimer = new TimeHelper();
 
 	private TargetStrafe ts;
 
@@ -71,7 +72,7 @@ public class Speed extends Module {
 	}
 
 	private enum Mode {
-	 Legit, Watchdog,WatchdogLow, NCP, Strafe, Vanilla, Redesky, Test, Mineplex;
+	 Legit, Watchdog, NCP, Strafe, Vanilla, Redesky, Mineplex;
 	}
 	
 	 public enum Redemode {
@@ -93,10 +94,10 @@ public class Speed extends Module {
                     if (reset)
                         moveSpeed = 0.95F;
                     else
-                        moveSpeed += MathUtils.getRandomInRange(0.42, 0.6);
+                        moveSpeed += MathUtils.getRandomInRange(0.38, 0.6);
                     doSlow = true;
                     reset = false;
-                    event.setY(mc.thePlayer.motionY = 0.42F);
+                    event.setY(mc.thePlayer.motionY = 0.40F);
                     MovementUtils.setSpeed(event, 0.00001);
                  
                 } else {
@@ -116,17 +117,9 @@ public class Speed extends Module {
                 }
 				break;
 			}
-			case Watchdog: {
-				  MovementUtils.setSpeed(event, 0.29);
-				 
-				break;
-			}
-			
-			
-		case WatchdogLow: {
-			
-            MovementUtils.setSpeed(event, 0.26);
-			
+		case Watchdog: {
+		
+			MovementUtils.setSpeed(event, 0.26);
 			break;
 		}
 		case Vanilla: {
@@ -166,19 +159,7 @@ public class Speed extends Module {
 			}
 			break;
 		}
-		case Test: {
-			if (mc.thePlayer.isMoving() && mc.thePlayer.onGround) {
-				if (mc.thePlayer.ticksExisted % 14 != 5) {
-					mc.timer.timerSpeed = 5f;
-				} else {
-					mc.timer.timerSpeed = 0.35f;
-				}
-			} else {
-				mc.timer.timerSpeed = 1.0f;
-			}
-			break;
-		}
-			
+		
 		case Redesky: {
 			
 			if (this.redemode.getValue() == Redemode.Bhop) {
@@ -410,12 +391,14 @@ public class Speed extends Module {
 
 	@Override
 	public void onEnable() {
+		WatchdogTimer.reset();
 		super.onEnable();
 		if (mc.thePlayer == null)
 			return;
 		if (mc.thePlayer != null) {
 			moveSpeed = MovementUtils.getSpeed();
 		}
+		WatchdogStage = 0;
 		nextMotionSpeed = 0.0;
 		doSlow = false;
 		reset = false;
@@ -429,13 +412,22 @@ public class Speed extends Module {
 
 	@Override
 	public void onDisable() {
+		WatchdogTimer.reset();
 		super.onDisable();
 		mc.gameSettings.keyBindJump.pressed = false;
 		mc.gameSettings.keyBindSprint.pressed = false;
 		doSlow = false;
 		reset = false;
 		mc.timer.timerSpeed = 1;
+		switch (mode.getValue()) {
+		case Watchdog:
+			mc.thePlayer.motionZ = 0;
+			mc.thePlayer.motionX = 0;
+			
+			break;
+		}
 		
+	
 	}
 
 	@Handler
@@ -443,29 +435,15 @@ public class Speed extends Module {
 		setSuffix(mode.getValueAsString());
 		switch (mode.getValue()) {
 		case Watchdog:
-			 if (mc.thePlayer.onGround && mc.thePlayer.isMoving2()) {
-				  mc.thePlayer.motionY = 0.42f;
-			  }
-			  mc.timer.timerSpeed = 1.2F;
-			break;
-		
-		case WatchdogLow:
-			if (mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
-                if(mc.thePlayer.isCollidedHorizontally) {
-                    mc.thePlayer.motionY = 0.42f;
-                }else {
-                    mc.thePlayer.motionY = 0.3f;
-                }
-                mc.timer.timerSpeed = 1.2F;
-            }
-		
+			if(mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
+				mc.thePlayer.motionY = 0.3f;
+		}
 				break;
 		case Vanilla:
 			break;
 		case NCP:
 			break;
-		case Test:
-			break;
+		
 		default:
 			break;
 		}

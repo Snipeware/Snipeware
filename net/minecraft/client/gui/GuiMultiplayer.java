@@ -2,6 +2,10 @@ package net.minecraft.client.gui;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+
+import Snipeware.Client;
+import Snipeware.gui.menu.ClientMainMenu;
+
 import java.io.IOException;
 import java.util.List;
 import net.minecraft.client.multiplayer.GuiConnecting;
@@ -49,7 +53,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
      */
     public void initGui()
     {
-    //	Client.getInstance().getDiscordRP().update("idling", "Multiplayer Menu");
+    	Client.getInstance().getDiscordRP().update("idling", "Multiplayer Menu");
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
 
@@ -183,7 +187,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
             }
             else if (button.id == 0)
             {
-                this.mc.displayGuiScreen(this.parentScreen);
+            	mc.displayGuiScreen(new ClientMainMenu());
             }
             else if (button.id == 8)
             {

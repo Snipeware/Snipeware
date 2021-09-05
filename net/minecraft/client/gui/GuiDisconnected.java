@@ -11,9 +11,12 @@ import net.minecraft.util.Session;
 
 import java.util.Random;
 
+import org.apache.logging.log4j.core.config.plugins.ResolverUtil.Test;
+
 import Snipeware.Client;
 import Snipeware.gui.alt.gui.GuiAltManager;
 import Snipeware.gui.menu.ClientMainMenu;
+import Snipeware.module.impl.movement.Flight;
 
 public class GuiDisconnected extends GuiScreen
 {
@@ -116,6 +119,7 @@ public class GuiDisconnected extends GuiScreen
                 i += this.fontRendererObj.FONT_HEIGHT;
             }
         }
+        GuiConnecting.isconnected = false;
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

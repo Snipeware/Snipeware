@@ -15,6 +15,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C0DPacketCloseWindow;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.network.play.client.C16PacketClientStatus.EnumState;
@@ -111,10 +112,16 @@ public class AutoArmor extends Module {
 
     public void shiftClick(int slot) {
         mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, slot, 0, 1, mc.thePlayer);
+        if(!inventoryOnly.isEnabled()) {
+        	mc.getNetHandler().addToSendQueueNoEvent(new C0DPacketCloseWindow(0));
+        }
     }
 
     public void drop(int slot) {
         mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, slot, 1, 4, mc.thePlayer);
+        if(!inventoryOnly.isEnabled()) {
+        	mc.getNetHandler().addToSendQueueNoEvent(new C0DPacketCloseWindow(0));
+        }
     }
 
     public static float getProtection(ItemStack stack) {

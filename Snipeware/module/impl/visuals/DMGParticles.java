@@ -32,12 +32,14 @@ public class DMGParticles extends Module {
 	}
 	
 	public void onEnable() {
+		toggle();
 		super.onEnable();
 		Aura = (KillAura) Client.INSTANCE.getModuleManager().getModule("killaura");
 	}
 	
 	public void onDisable() {
 		super.onDisable();
+	
 	}
 
 	@Handler
@@ -66,6 +68,7 @@ public class DMGParticles extends Module {
     
     @Handler
     public void onRender2D(final EventRender2D eventRender2D) {
+    	
     	if (mc.currentScreen == null) {
 	    	try {
 	    		for (hit h : hits) {
@@ -78,7 +81,7 @@ public class DMGParticles extends Module {
 	    	} catch (Exception e) {
 	    		}
 	    	}
-    
+    	
     }
 }
 
@@ -98,6 +101,7 @@ class hit {
 	}
 	
 	public void onRender() {
+		if(mc.thePlayer != null && Client.getInstance().getModuleManager().getModule("DMGParticles").isEnabled()) {
 		final double x = this.pos.getX() + (this.pos.getX() - this.pos.getX()) * mc.timer.renderPartialTicks - Minecraft.getMinecraft().getRenderManager().viewerPosX;
         final double y = this.pos.getY() + (this.pos.getY() - this.pos.getY()) * mc.timer.renderPartialTicks - Minecraft.getMinecraft().getRenderManager().viewerPosY;
         final double z = this.pos.getZ() + (this.pos.getZ() - this.pos.getZ()) * mc.timer.renderPartialTicks - Minecraft.getMinecraft().getRenderManager().viewerPosZ;
@@ -146,6 +150,7 @@ class hit {
         GL11.glEnable(2929);
         GlStateManager.color(1.0f, 1.0f, 1.0f);
         GlStateManager.popMatrix();
+		}
 	}
 	
 	public boolean isFinished() {

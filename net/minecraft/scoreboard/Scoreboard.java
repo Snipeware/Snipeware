@@ -2,6 +2,9 @@ package net.minecraft.scoreboard;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import Snipeware.util.other.Logger;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -62,7 +65,8 @@ public class Scoreboard
                     list = Lists.<ScoreObjective>newArrayList();
                     this.scoreObjectiveCriterias.put(criteria, list);
                 }
-
+                
+          
                 list.add(scoreobjective);
                 this.scoreObjectives.put(name, scoreobjective);
                 this.onScoreObjectiveAdded(scoreobjective);
@@ -126,7 +130,6 @@ public class Scoreboard
                 score = new Score(this, objective, name);
                 map.put(objective, score);
             }
-
             return score;
         }
     }

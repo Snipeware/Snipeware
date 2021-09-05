@@ -30,14 +30,16 @@ public class GuiButton implements GuiComponent {
 	private int id;
 
 	private String text;
-
+	private double animated1;	
+	
 	private ArrayList<ActionListener> clickListeners = new ArrayList<ActionListener>();
 	private ArrayList<GuiComponent> guiComponents = new ArrayList<GuiComponent>();
 
 	private int width, textWidth, posX, posY;
 	
 	private double animatedWidth;
-
+	private boolean done;
+	
 	/**
 	 * 
 	 */
@@ -57,6 +59,7 @@ public class GuiButton implements GuiComponent {
 		renderGUI(posX, posY, width, height);
 		
 	}
+	
 
 	/**
 	 * Renders button for theme Caesium
@@ -67,21 +70,35 @@ public class GuiButton implements GuiComponent {
 		
 		
 		
-		animatedWidth = RenderUtil.animate(width, animatedWidth, 0.09);
+		Frame frame;
+		GuiFrame();
 		
-		RenderUtil.drawRect(posX, posY, width -1, height, Panel.black100);
+		
+			animated1 = RenderUtil.animate(posY, animated1, 0.1);
+			
+		
+		animatedWidth = RenderUtil.animate(width, animatedWidth, 0.1);
+		
+		RenderUtil.drawRect(posX, animated1, width -1, height, Panel.black100);
 		
 		if (Client.INSTANCE.getModuleManager().getModule(getText()).isEnabled()) {
-			RenderUtil.drawRect(posX, posY, animatedWidth -1, height, Panel.color);
+			RenderUtil.drawRect(posX, animated1, animatedWidth -1, height, Panel.color);
 		}
 		
 		
-		final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 16", true);
+		final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 17", false);
 				
-		fr.drawStringWithShadow(getText(), posX + (width / 2) - fr.getWidth(getText()) / 2 + 1, posY + 2, Panel.fontColor);
+		fr.drawStringWithShadow(getText(), posX + 5, (float)animated1 + 1, Panel.fontColor);
 		
-		RenderUtil.drawRect(posX, posY, width - 99, height, Panel.black195);
-		RenderUtil.drawRect(posX +98, posY, width - 99, height, Panel.black195);
+		
+		RenderUtil.drawRect(posX, animated1, width - 108, height, Panel.black195);
+		RenderUtil.drawRect(posX + 107, animated1, width - 108, height, Panel.black195);
+		
+		
+	}
+
+	private void GuiFrame() {
+	
 		
 	}
 
@@ -106,7 +123,7 @@ public class GuiButton implements GuiComponent {
 				component.mouseClicked(mouseX, mouseY, mouseButton);
 			}
 		}
-
+		
 	}
 
 	@Override

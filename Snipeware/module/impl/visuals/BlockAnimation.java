@@ -8,7 +8,7 @@ import Snipeware.value.impl.NumberValue;
 
 public class BlockAnimation extends Module {
 	
-	public EnumValue<AnimationsMode> animationsMode = new EnumValue<>("BlockAnimation Mode", AnimationsMode.Felix);
+	public EnumValue<AnimationsMode> animationsMode = new EnumValue<>("BlockAnimation Mode", AnimationsMode.Koljan);
 	
 	public NumberValue<Integer> swingSpeed = new NumberValue<>("Swing Speed", 6, 2, 12, 1);
 
@@ -32,7 +32,7 @@ public class BlockAnimation extends Module {
 	}
 	
 	public enum AnimationsMode {
-		Swang, Swank, Swing, Life, Table, Stab, Felix, Sensation, Virtue, Sigma, Exhibition, Remix, Knife, Tap;
+		Swang, Swank, Swing, Life, Table, Stab, Koljan, Sensation, Virtue, Sigma, Exhibition, Remix, Knife, Tap;
 	}
 	
 	@Handler

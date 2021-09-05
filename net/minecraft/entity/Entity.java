@@ -11,7 +11,7 @@ import Snipeware.management.ModuleManager;
 import Snipeware.module.Module;
 import Snipeware.module.impl.combat.Hitboxes;
 import Snipeware.module.impl.player.Safewalk;
-import Snipeware.module.impl.world.Scaffold2;
+import Snipeware.module.impl.world.Scaffold;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -621,7 +621,7 @@ public abstract class Entity implements ICommandSender
             double d3 = x;
             double d4 = y;
             double d5 = z;
-            boolean flag = this.onGround && this.isSneaking() || (Client.INSTANCE.getModuleManager().getModule(Safewalk.class).isEnabled() || (Client.INSTANCE.getModuleManager().getModule(Scaffold2.class).isEnabled() && Client.INSTANCE.getModuleManager().scaffold2.safeWalkProperty.getValue())) && this instanceof EntityPlayer;
+            boolean flag = this.onGround && this.isSneaking() || (Client.INSTANCE.getModuleManager().getModule(Safewalk.class).isEnabled() && this instanceof EntityPlayer);
 
             if (flag)
             {

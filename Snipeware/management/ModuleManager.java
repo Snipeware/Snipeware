@@ -51,7 +51,7 @@ import Snipeware.module.impl.player.KillSay;
 import Snipeware.module.impl.player.NoFall;
 import Snipeware.module.impl.player.NoRotate;
 import Snipeware.module.impl.player.Safewalk;
-import Snipeware.module.impl.player.Test;
+import Snipeware.module.impl.player.SessionInfo;
 import Snipeware.module.impl.player.Zoot;
 import Snipeware.module.impl.visuals.BlockAnimation;
 import Snipeware.module.impl.visuals.BlockOverlay;
@@ -84,13 +84,11 @@ public class ModuleManager {
 
 	private final Map<Class, Module> modules = new LinkedHashMap<>();
 	public KillAura aura;
-	public Scaffold2 scaffold2;
 	public Scaffold scaffold;
 
 	public ChestStealer chestStealer;
 
 	public ModuleManager() {
-		modules.put(Scaffold2.class, scaffold2 = new Scaffold2());
 		modules.put(Scaffold.class, new Scaffold());
 		modules.put(Sprint.class, new Sprint());
 		modules.put(HUD.class, new HUD());
@@ -124,6 +122,7 @@ public class ModuleManager {
 		modules.put(Freecam.class, new Freecam());
 		modules.put(TargetStrafe.class, new TargetStrafe());
 		modules.put(Phase.class, new Phase());
+		modules.put(SessionInfo.class, new SessionInfo());
 		modules.put(ESP2D.class, new ESP2D());
 		modules.put(ItemPhysic.class, new ItemPhysic());
 		modules.put(NoHurtCam.class, new NoHurtCam());
@@ -158,7 +157,6 @@ public class ModuleManager {
 		modules.put(BlockOverlay.class, new BlockOverlay());
 		modules.put(ItemESP.class, new ItemESP());
 		modules.put(OutlineESP.class, new OutlineESP());
-		modules.put(Test.class, new Test());
 		modules.put(PenisESP.class, new PenisESP());
 
 	}

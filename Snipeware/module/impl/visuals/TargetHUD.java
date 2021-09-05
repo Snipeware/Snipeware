@@ -16,6 +16,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -29,6 +30,7 @@ import org.lwjgl.opengl.GL11;
 
 import Snipeware.Client;
 import Snipeware.api.annotations.Handler;
+import Snipeware.events.packet.EventPacketReceive;
 import Snipeware.events.render.EventRender2D;
 import Snipeware.gui.notification.Notifications;
 import Snipeware.module.Module;
@@ -53,7 +55,7 @@ public final class TargetHUD extends Module {
 	private final BooleanValue showInvisibles = new BooleanValue("Show Invisibles", true);
 	private final BooleanValue showAnimals = new BooleanValue("Show Animals", true);
 	private final BooleanValue showPassives = new BooleanValue("Show Passives", true);
-	  private ColorValue colorValue = new ColorValue("Color", new Color(255, 255, 255).getRGB());
+	  private ColorValue colorValue = new ColorValue("Color", new Color(220, 220, 220).getRGB());
 	private double x, y;
 
 	public TargetHUD() {
@@ -66,6 +68,9 @@ public final class TargetHUD extends Module {
 	  private enum FontMode {
 		  Normal, Vanilla;
 	  }
+	  
+	 
+	  
 	@Handler
     public void onRender2D(final EventRender2D event) {
         final VanillaFontRenderer fr = mc.fontRendererObj;
@@ -95,9 +100,14 @@ public final class TargetHUD extends Module {
 	            final int n2 = scaledResolution.getScaledHeight() / 2 + 200;
 	            final int n3 = scaledResolution.getScaledWidth() / 2 + 300;
 	            RenderUtil.drawRect(n3 + 1f, n2 + 1, 140.0, 37.6, new Color(25, 25, 25, 210).getRGB());
+	          
+	         
 	            if (Mouse.isButtonDown(0) && guichat) {
+	            	
 	            	setX(mouseX - 300);
 	            	setY(mouseY - 200);
+	            	
+	            	
 	            }
 	            String string = String.format("%.1f", entityPlayer.getHealth() / 2.0f);
 	            

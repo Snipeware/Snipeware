@@ -52,14 +52,14 @@ public class HUD extends Module {
  
 private float hue = 1.0F;
   
-  private EnumValue<ColorMode> arrayListColor = new EnumValue<>("Module List Color", ColorMode.Rainbow);
+  private EnumValue<ColorMode> arrayListColor = new EnumValue<>("Module List Color", ColorMode.Normal);
   
   private EnumValue<FontMode> fontMode = new EnumValue<>("Font Mode", FontMode.Normal);
 
   private BooleanValue pulsing = new BooleanValue("Pulsing", true);
   private BooleanValue background = new BooleanValue("Background", false);
   private BooleanValue tabgui = new BooleanValue("TabGUI", true);
-  private BooleanValue fpsspoof = new BooleanValue("Spoof FPS", false);
+  private BooleanValue fpsspoof = new BooleanValue("Spoof FPS", true);
   private BooleanValue BPS = new BooleanValue("Show BPS", false);
   private BooleanValue radar = new BooleanValue("Radar", true);
   private BooleanValue arrayList = new BooleanValue("Module List", true);
@@ -72,7 +72,7 @@ private float hue = 1.0F;
   
   private NumberValue<Float> rainbowSaturation = new NumberValue<>("Rainbow Saturation", 0.6f, 0.1f, 1.0f);
   
-  public NumberValue<Integer> FpsAdder = new NumberValue<>("FPS+", 100, 100, 10000, 100);
+  public NumberValue<Integer> FpsAdder = new NumberValue<>("FPS+", 100, 5000, 10000, 100);
   
   private NumberValue<Float> modListBackgroundAlpha;
   
@@ -97,7 +97,7 @@ private float hue = 1.0F;
   }
   
   private enum ColorMode {
-	  Custom, Rainbow, Felix, Astolfo;
+	  Normal, Custom, Rainbow, Astolfo;
   }
   
   private enum FontMode {
@@ -158,7 +158,7 @@ private float hue = 1.0F;
 		case Rainbow:
 			color = RenderUtil.getRainbow(6000, (int) (1 * 30), rainbowSaturation.getValue());
 			break;
-		case Felix:
+		case Normal:
 			color = RenderUtil.getGradientOffset(new Color(Panel.color2), new Color(Panel.color), (Math.abs(((System.currentTimeMillis()) / 10)) / 100D) + (1 / (50))).getRGB();
 			break;
 		case Astolfo:
@@ -411,7 +411,7 @@ private float hue = 1.0F;
 		case Rainbow:
 			color = RenderUtil.getRainbow(6000, (int) (y * 30), rainbowSaturation.getValue());
 			break;
-		case Felix:
+		case Normal:
 			color = RenderUtil.getGradientOffset(new Color(Panel.color2), new Color(Panel.color), (Math.abs(((System.currentTimeMillis()) / 10)) / 100D) + (y / (50))).getRGB();
 			break;
 		case Astolfo:

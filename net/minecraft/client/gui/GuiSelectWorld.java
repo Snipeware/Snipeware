@@ -18,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import Snipeware.gui.menu.ClientMainMenu;
+
 public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback
 {
     private static final Logger logger = LogManager.getLogger();
@@ -152,7 +154,7 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback
             }
             else if (button.id == 0)
             {
-                this.mc.displayGuiScreen(this.parentScreen);
+            	mc.displayGuiScreen(new ClientMainMenu());
             }
             else if (button.id == 7)
             {

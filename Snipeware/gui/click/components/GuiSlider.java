@@ -118,7 +118,7 @@ public class GuiSlider implements GuiComponent {
 		final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 16", true);
 		int d = value.length() > 1 ? 15 : 15;
 		fr.drawStringWithShadow(value, posX + width - Panel.fR.getWidth(value), posY + 2, Panel.fontColor);
-		
+	
 		RenderUtil.drawRect(posX + 1, posY + Panel.fR.FONT_HEIGHT + 1, width - 2, 2, Panel.black195);
 		
 		animated = Mouse.isButtonDown(0) && hovered ? RenderUtil.animate((float) (percent * width - 2), animated, 0.1) : (float) (percent * width - 2);

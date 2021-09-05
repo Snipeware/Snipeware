@@ -36,17 +36,16 @@ public class Panel extends ClickGui {
 
 	public static FontRenderer fR = Client.INSTANCE.getFontManager().getFont("Display 17", false);
 	
-	public static int FRAME_WIDTH = 100;
+	public static int FRAME_WIDTH = 110;
 	
-	public static int color = new Color(130, 191, 226).getRGB();
-	public static int color2 = new Color(64, 85, 150).getRGB();
+	public static int color = new Color(38,43,226).getRGB();
+	public static int color2 = new Color(74, 90, 150).getRGB();
 	
 	// colors
 	public static int fontColor = Color.white.getRGB();
 	public static int grey40_240 = new Color(40, 40, 40, 195).getRGB();
-	public static int black195 = new Color(58, 28, 28, 255).getRGB();
-	public static int black100 = new Color(60, 50, 50, 255).getRGB();
-	
+	public static int black195 = new Color(24, 24, 24, 255).getRGB();
+	public static int black100 = new Color(42, 42, 42, 255).getRGB();
 	/**
 	 * Initializes Panel
 	 * 
