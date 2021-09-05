@@ -62,12 +62,14 @@ public enum Client {
     
     private File dataFile;
     
-    public String build = "1.03";
+    public static String build = "1.03";
     public static List<String> hwidList = new ArrayList<>();
     public static final String HWID_URL = "https://pastebin.com/raw/QYeNr1g3";
     //public static final String KEY      = new SHA256().hash("nig");
     public static boolean nigger = true;
     public static String DID = null;
+    public static String verificationstring = null;
+    public static boolean nomeaningbool = true;
     
     public static final Client getInstance(){
 		return INSTANCE;
@@ -106,14 +108,14 @@ public enum Client {
 		moduleManager.loadModules(dataFile);
 		
 		eventapi.register(this);
-		/*
+		
 		HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
 	
 		if(nigger) {
 			 copyToClipboard(INetHandlerNiggerToServer.getID());
 			stop();
 		}
-*/
+
 		  
 		 
 	}
@@ -127,7 +129,8 @@ public enum Client {
     } 
 	*/
 	public void HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein() {
-		if(INetHandlerNiggerToServer.whitelisted()) {
+		
+		if(INetHandlerNiggerToServer.whitelisted(INetHandlerNiggerToServer.getID())) {
 			System.out.println("Welcome, your HWID has been Authenticated. NapoliHWID protection, Leaking jar = I will find you jew.");
 			discordRP.shutdown();
 			//nigger = false;
