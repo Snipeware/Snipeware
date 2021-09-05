@@ -106,11 +106,13 @@ private boolean HasStoped;
 float oldPitch = 0;
 private RotationUtils RayCastUtil;
 private EnumValue<TowerMode> towerMode  = new EnumValue<>("TowerMode", TowerMode.Hypixel);
-
+private EnumValue<Mode> mode  = new EnumValue<>("Mode", Mode.Normal);
+private float RandomY;
+private final TimeHelper Random = new TimeHelper();
 
 public Scaffold() {
     super("Scaffold", 0, ModuleCategory.WORLD);
-    this.addValues(towerMode, keepsprint, Jump, silient, blockCountBarProperty, tower, keeprots, Swing, keepy ,eagle, edge, raycast, TimerBoost , delay, eageOffset);
+    this.addValues(mode,towerMode, keepsprint, Jump, silient, blockCountBarProperty, tower, keeprots, Swing, keepy ,eagle, edge, raycast, TimerBoost , delay, eageOffset);
 }
 
 
@@ -118,7 +120,10 @@ private enum TowerMode {
 	Hypixel, Packet
 	
 	}
-
+private enum Mode {
+	Normal, Watchdog
+	
+	}
 
 
 float yaw = 0;
@@ -170,6 +175,16 @@ public void onMotionUpdate(final EventMotionUpdate event) {
 		//mc.timer.timerSpeed = 1;
 //	}
     setSuffix ("Normal"); 
+	 if(mode.getValueAsString() == "Watchdog"){
+		   setSuffix ("Watchdog"); 
+   	 }else if(mode.getValueAsString() == "Normal") {
+   	   setSuffix ("Normal"); 
+   	 }
+    
+    if(Random.isDelayComplete(200)){
+    	RandomY = (float) MathUtils.getRandomInRange(80, 83.5f);
+    	Random.reset();
+    }
    
             int slot = this.getSlot ();
      
@@ -232,10 +247,13 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 
                 
                 
-           
-                	  event.setYaw(yaw);
-                      event.setPitch(79);
-                
+                	 if(mode.getValueAsString() == "Watchdog"){
+                	  event.setYaw(mc.thePlayer.rotationYaw -180);
+                      event.setPitch(RandomY);
+                	 }else if(mode.getValueAsString() == "Normal") {
+                		 event.setYaw(yaw);
+                         event.setPitch(82); 
+                	 }
                
             rotated = false;
             currentPos = null;
@@ -266,8 +284,15 @@ public void onMotionUpdate(final EventMotionUpdate event) {
             	
         
             		if (keeprots.getValue ().booleanValue ()) {
-                        event.setYaw(yaw);
-                        event.setPitch(79);
+
+                   	 if(mode.getValueAsString() == "Watchdog"){
+                   	  event.setYaw(mc.thePlayer.rotationYaw -180);
+                         event.setPitch(RandomY);
+                   	 }else if(mode.getValueAsString() == "Normal") {
+                   		 event.setYaw(yaw);
+                            event.setPitch(82); 
+                   	 }
+                  
                     }
             	
             }
@@ -418,8 +443,8 @@ public static Color rainbow(int delay) {
 }
 
 public static float[] getRotations(BlockPos block, EnumFacing face) {
-    double x = block.getX() + 0.1 -  Minecraft.getMinecraft().thePlayer.posX;
-    double z = block.getZ() + 0.1 - Minecraft.getMinecraft().thePlayer.posZ;
+    double x = block.getX() + 0.5 -  Minecraft.getMinecraft().thePlayer.posX;
+    double z = block.getZ() + 0.5 - Minecraft.getMinecraft().thePlayer.posZ;
     double y = (block.getY() + 0.2);
     double d1 = Minecraft.getMinecraft().thePlayer.posY + Minecraft.getMinecraft().thePlayer.getEyeHeight() - y;
     double d3 = MathHelper.sqrt_double(x * x + z * z);

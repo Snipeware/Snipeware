@@ -398,6 +398,15 @@ public class Speed extends Module {
 		if (mc.thePlayer != null) {
 			moveSpeed = MovementUtils.getSpeed();
 		}
+		switch (mode.getValue()) {
+
+		case Watchdog: {
+			Logger.print("Me no bye pass disabled module");
+			toggle();
+			}
+			
+		
+		}
 		WatchdogStage = 0;
 		nextMotionSpeed = 0.0;
 		doSlow = false;

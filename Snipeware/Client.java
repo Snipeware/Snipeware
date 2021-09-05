@@ -106,14 +106,14 @@ public enum Client {
 		eventapi.register(this);
 		
 	
-		
+		/*
 		HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
 	
 		if(nigger) {
 			 copyToClipboard(INetHandlerNiggerToServer.getID());
 			stop();
 		}
-		 
+	*/	 
 	}
 	
    /* public void judenschweincheck() { // Seconf form of HWID protection, disabled as we already have one - Napoleon ZoomberParts
