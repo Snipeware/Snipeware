@@ -118,16 +118,9 @@ public class Speed extends Module {
 				break;
 			}
 		case Watchdog: {
-			if(!mc.thePlayer.onGround) {
-				if(!mc.gameSettings.keyBindBack.pressed == true) {
-					MovementUtils.setSpeed(event, MovementUtils.getSpeed());
-				}else {
-					MovementUtils.setSpeed(event, MovementUtils.getSpeed() - 0.1);
-				}
-			}
-			break;
-			
 		
+			MovementUtils.setSpeed(event, 0.26);
+			break;
 		}
 		case Vanilla: {
 			MovementUtils.setSpeed(event, vanillaSpeed.getValue());
@@ -405,6 +398,7 @@ public class Speed extends Module {
 		if (mc.thePlayer != null) {
 			moveSpeed = MovementUtils.getSpeed();
 		}
+		WatchdogStage = 0;
 		nextMotionSpeed = 0.0;
 		doSlow = false;
 		reset = false;
@@ -441,13 +435,9 @@ public class Speed extends Module {
 		setSuffix(mode.getValueAsString());
 		switch (mode.getValue()) {
 		case Watchdog:
-			if(mc.thePlayer.isMoving2()) {
-				mc.gameSettings.keyBindJump.pressed = true;
-			}else {
-				mc.gameSettings.keyBindJump.pressed = false;
-			}
-			
-	
+			if(mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
+				mc.thePlayer.motionY = 0.3f;
+		}
 				break;
 		case Vanilla:
 			break;

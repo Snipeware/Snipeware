@@ -418,8 +418,8 @@ public static Color rainbow(int delay) {
 }
 
 public static float[] getRotations(BlockPos block, EnumFacing face) {
-    double x = block.getX() + 0.5 -  Minecraft.getMinecraft().thePlayer.posX;
-    double z = block.getZ() + 0.5 - Minecraft.getMinecraft().thePlayer.posZ;
+    double x = block.getX() + 0.1 -  Minecraft.getMinecraft().thePlayer.posX;
+    double z = block.getZ() + 0.1 - Minecraft.getMinecraft().thePlayer.posZ;
     double y = (block.getY() + 0.2);
     double d1 = Minecraft.getMinecraft().thePlayer.posY + Minecraft.getMinecraft().thePlayer.getEyeHeight() - y;
     double d3 = MathHelper.sqrt_double(x * x + z * z);

@@ -74,10 +74,10 @@ public class GuiButton implements GuiComponent {
 		GuiFrame();
 		
 		
-			animated1 = RenderUtil.animate(posY, animated1, 0.07);
+			animated1 = RenderUtil.animate(posY, animated1, 0.1);
 			
 		
-		animatedWidth = RenderUtil.animate(width, animatedWidth, 0.07);
+		animatedWidth = RenderUtil.animate(width, animatedWidth, 0.1);
 		
 		RenderUtil.drawRect(posX, animated1, width -1, height, Panel.black100);
 		

@@ -81,7 +81,7 @@ public class GuiFrame implements Frame {
 		}
 		final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 22", true);
 		
-		animated1 = RenderUtil.animate(posY, animated1, 0.07);
+		animated1 = RenderUtil.animate(posY, animated1, 0.1);
 	
 	
 		final FontRenderer Image = Client.INSTANCE.getFontManager().getFont("Snipeware 32", false);

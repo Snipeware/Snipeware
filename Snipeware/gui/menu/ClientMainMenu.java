@@ -1,6 +1,8 @@
 package Snipeware.gui.menu;
 
+import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
+import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
@@ -37,6 +39,7 @@ public class ClientMainMenu extends GuiMainMenu {
     private double animated;
     private double animated2;
     private double animated3;
+    private String User = "Unkown";
     
     @Override
     public void initGui() {
@@ -142,17 +145,19 @@ public class ClientMainMenu extends GuiMainMenu {
         fr2.drawStringWithShadow(Name,  xMidStr - 5, (float)animated2 + 9, new Color(158,63,236).getRGB());
         fr2.drawStringWithShadow(Name2,  xMidStr - 5 + 118, (float)animated2 + 9, new Color(158,63,236).getRGB());
         final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 21", true);
-
-        final String welcome = "Welcome back";
+        
+ 
+        
+        final String welcome = "Welcome back " + User;
         final String Credits = "Made by Koljan, Tear, Napoleon";
         final String Build = "Build 1.1";
+       
 
         fr.drawStringWithShadow(Credits, (float)(this.width - fr.getWidth(Credits)) / 50, this.height - 24, new Color(250,250,250,80).getRGB());
         
         fr.drawStringWithShadow(welcome, (float)(this.width - fr.getWidth(welcome) - 13), this.height - 24,  new Color(250,250,250, 80).getRGB());
         
- 
- 
+   
         int index = 0;
         int AddY = 0;
         changelogs.add("Added changelogs");
