@@ -20,6 +20,7 @@ import Snipeware.events.player.EventMove;
 import Snipeware.gui.notification.Notifications;
 import Snipeware.module.Module;
 import Snipeware.module.impl.movement.Flight;
+import Snipeware.util.other.Logger;
 import Snipeware.util.other.PlayerUtil;
 import Snipeware.util.other.TimeHelper;
 import Snipeware.value.impl.EnumValue;
@@ -47,12 +48,14 @@ public class Disabler extends Module {
 	private boolean flag;
 
 	private TimeHelper timer = new TimeHelper();
+	private TimeHelper Watchdog = new TimeHelper();
 
 	private final ArrayDeque<Packet> list = new ArrayDeque<>();
 	
 	private int watchdogCounter, currentTrans;
 	private double watchdogMovement;
 	private boolean groundCheck, watchdogPacket;
+	private boolean shouldBlink;
 
 	public Disabler() {
 		super("Disabler", 0, ModuleCategory.WORLD);
@@ -115,13 +118,17 @@ public class Disabler extends Module {
 				break;
 			}
 			case Watchdog: {
-				if (event.getPacket() instanceof C0FPacketConfirmTransaction){
-					C0FPacketConfirmTransaction transaction = (C0FPacketConfirmTransaction) event.getPacket();
-					transaction.uid += (transaction.uid > 0 ? 5 : -5);
+				if(Watchdog.isDelayComplete(400 * mc.timer.timerSpeed)) {
+					shouldBlink = true;
 				}
-				if (event.getPacket() instanceof C03PacketPlayer) {
-					if (mc.thePlayer.ticksExisted % 40 == 0)
-						mc.getNetHandler().addToSendQueueNoEvent(new C18PacketSpectate(UUID.randomUUID()));
+				if(Watchdog.isDelayComplete(700 * mc.timer.timerSpeed)) {
+					shouldBlink = false;
+					Watchdog.reset();
+				}
+				if(shouldBlink = true) {
+				if (event.getPacket() instanceof C00PacketKeepAlive){
+					event.setCancelled(true);
+				}
 				}
 				break;
 			}
@@ -219,6 +226,7 @@ public class Disabler extends Module {
 	@Override
 	public void onEnable() {
 		super.onEnable();
+		Watchdog.reset();
 		currentTrans = 0;
 		if (mc.thePlayer == null)
 			return;

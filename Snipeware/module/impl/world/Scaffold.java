@@ -181,8 +181,8 @@ public void onMotionUpdate(final EventMotionUpdate event) {
    	   setSuffix ("Normal"); 
    	 }
     
-    if(Random.isDelayComplete(200)){
-    	RandomY = (float) MathUtils.getRandomInRange(80, 83.5f);
+    if(Random.isDelayComplete(80)){
+    	RandomY = (float) MathUtils.getRandomInRange(79, 84.5f);
     	Random.reset();
     }
    
@@ -248,8 +248,12 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 
                 
                 	 if(mode.getValueAsString() == "Watchdog"){
-                	  event.setYaw(mc.thePlayer.rotationYaw -180);
-                      event.setPitch(RandomY);
+                	  event.setYaw(mc.thePlayer.rotationYaw - (float) MathUtils.getRandomInRange(166, 170));
+                	  if(mc.gameSettings.keyBindJump.pressed == false && mc.thePlayer.isMoving2()) {
+                		  event.setPitch(RandomY);
+                	  }else {
+                		  event.setPitch(75);
+                	  }
                 	 }else if(mode.getValueAsString() == "Normal") {
                 		 event.setYaw(yaw);
                          event.setPitch(82); 
@@ -286,8 +290,12 @@ public void onMotionUpdate(final EventMotionUpdate event) {
             		if (keeprots.getValue ().booleanValue ()) {
 
                    	 if(mode.getValueAsString() == "Watchdog"){
-                   	  event.setYaw(mc.thePlayer.rotationYaw -180);
-                         event.setPitch(RandomY);
+                   	  event.setYaw(mc.thePlayer.rotationYaw -(float) MathUtils.getRandomInRange(166, 170));
+                   	  if(mc.gameSettings.keyBindJump.pressed == false && mc.thePlayer.isMoving2()) {
+                		  event.setPitch(RandomY);
+                	  }else {
+                		  event.setPitch(75);
+                	  }
                    	 }else if(mode.getValueAsString() == "Normal") {
                    		 event.setYaw(yaw);
                             event.setPitch(82); 

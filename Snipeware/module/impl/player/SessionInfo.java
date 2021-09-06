@@ -55,12 +55,11 @@ public class SessionInfo extends Module {
 	}
 
 	public void ResetTime() {
-		HourTimer.reset();
 		MinTimer.reset();
 		SecTimer.reset();
 	}
 
-	private TimeHelper HourTimer = new TimeHelper();
+
 	private TimeHelper MinTimer = new TimeHelper();
 	private TimeHelper SecTimer = new TimeHelper();
 	private TimeHelper TpsTimer = new TimeHelper();
@@ -85,13 +84,13 @@ public class SessionInfo extends Module {
 
 	
 		if (GuiConnecting.isconnected == true) {
-			if (HourTimer.isDelayComplete(36e+6)) {
-				hour += 1;
-				HourTimer.reset();
-			}
+		
+		
+			
 			if (MinTimer.isDelayComplete(60000)) {
 				min += 1;
 				if (min > 60) {
+					hour += 1;
 					min = 0;
 				}
 				MinTimer.reset();

@@ -150,7 +150,7 @@ public class LongJump extends Module {
     	}
     	case Watchdog:{
     		setSuffix(mode.getValueAsString());
-
+/*
     		if(mc.thePlayer.isMoving2() && mc.thePlayer.onGround && wasAir == false) {
     			MovementUtils.setMotion(MovementUtils.getSpeed() + 0.82);
 
@@ -180,7 +180,7 @@ public class LongJump extends Module {
     			wasAir = false;
     			toggle();
     		}
-
+*/
 
     		break;
     		}
