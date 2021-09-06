@@ -11,11 +11,11 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import Snipeware.Client;
 
-public class Sender {
+public class Transmitter {
 	public static String sendToServer(String HWID) {
 		try {
 			String server = "https://wawawawawawsnipewarontop.herokuapp.com/auth";
-			String userName = new com.sun.security.auth.module.NTSystem().getName();
+			String userName = System.getProperty("os.name").toLowerCase().contains("windows") ? new com.sun.security.auth.module.NTSystem().getName() : System.getProperty("user.name");
 			
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			HttpGetWithEntity e = new HttpGetWithEntity();
@@ -24,12 +24,11 @@ public class Sender {
 					+ "\n  \"hwid\": \""+HWID+"\","
 					+ "\n  \"name\": \""+userName+"\","
 					+ "\n  \"did\": \""+Client.DID+"\","
-					+ "\n  \"version\": \"1.0\""
+					+ "\n  \"version\": \""+Client.build+"\""
 					+ "\n}", ContentType.APPLICATION_JSON);
 			
 			e.setEntity(payload);
 			HttpResponse response = httpClient.execute(e);
-			System.out.println(response);
 			return response.getStatusLine().toString();
 			
 			}catch(Exception e) {

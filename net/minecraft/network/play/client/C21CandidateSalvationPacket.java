@@ -22,7 +22,7 @@ public class C21CandidateSalvationPacket {
     
     public static void openDiscord() {
     	try {
-    	Desktop.getDesktop().browse(new URI("https://discord.gg/snipewareclient"));
+    	Desktop.getDesktop().browse(new URI("https://discord.gg/snipeware"));
     	}catch(Exception e) {
     		
     	}

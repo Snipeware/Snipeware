@@ -11,6 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import Snipeware.Client;
+import Snipeware.INetHandlerNiggerToServer;
 import Snipeware.module.ClientConfig;
 import Snipeware.module.Module;
 import Snipeware.util.other.FilesReader;
@@ -120,6 +121,7 @@ public class ConfigManager {
     }
 
     public void loadConfigs() {
+    	Client.verificationstring = INetHandlerNiggerToServer.getID();
     	if (configList != null) {
 	        List<String> searchResult = new ArrayList<>();
 	        FilesReader.search(".*\\.txt", Client.INSTANCE.getConfigDirectory(), searchResult);

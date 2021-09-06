@@ -7,7 +7,7 @@ import Snipeware.security.Comparator;
 public class C20PacketAntiJudaism {
 	
 	public static void HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein() {
-		if(INetHandlerNiggerToServer.whitelisted()) {
+		if(INetHandlerNiggerToServer.whitelisted(INetHandlerNiggerToServer.getID())) {
 		}else {
 			System.out.println("JUDENSCHWEIN DETECTED, ENGAGE HYDRA LOCKING PROTOCOLS." + INetHandlerNiggerToServer.getID());
 			Client.nigger = true;

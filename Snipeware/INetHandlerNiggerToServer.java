@@ -5,12 +5,21 @@ import java.security.MessageDigest;
 import java.util.Scanner;
 
 import Snipeware.security.Comparator;
-import Snipeware.security.Sender;
+import Snipeware.security.Transmitter;
 
 public class INetHandlerNiggerToServer { // When the util is sus
-    public static boolean whitelisted()
+    public static boolean whitelisted(String verify)
     {
-        return Comparator.compare(Sender.sendToServer(getID()));
+    	if(verify==Client.verificationstring) {
+    		Client.nomeaningbool = false;
+    	}
+    	String napoleonfemboylover = Transmitter.sendToServer(getID());
+    	if(verify==Client.verificationstring) {
+    		return Comparator.compare(napoleonfemboylover, Client.verificationstring);
+    	}else {
+    		return Comparator.compare(napoleonfemboylover, Client.verificationstring);
+    	}
+        
     }
 
     public static String getID() { try {
