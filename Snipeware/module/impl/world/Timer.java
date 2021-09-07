@@ -3,6 +3,8 @@ package Snipeware.module.impl.world;
 import Snipeware.api.annotations.Handler;
 import Snipeware.events.player.EventMotionUpdate;
 import Snipeware.module.Module;
+import Snipeware.util.other.Logger;
+import Snipeware.util.other.PlayerUtil;
 import Snipeware.value.impl.NumberValue;
 
 public class Timer extends Module {
@@ -25,6 +27,12 @@ public class Timer extends Module {
 	
 	@Handler
 	public void onMotionUpdate(final EventMotionUpdate event) {
-		mc.timer.timerSpeed = timerValue.getValue();
+		if(PlayerUtil.isOnServer("Hypixel")) {
+			if(mc.timer.timerSpeed >= 1.5f) {
+				Logger.print("Timer is maxed on 1.5 for Hypixel this limit may get removed in the future!");
+				toggle();
+			}
+		}
+			mc.timer.timerSpeed = timerValue.getValue();
 	}
 }
