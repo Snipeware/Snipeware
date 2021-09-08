@@ -248,11 +248,11 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 
                 
                 	 if(mode.getValueAsString() == "Watchdog"){
-                	  event.setYaw(mc.thePlayer.rotationYaw - (float) MathUtils.getRandomInRange(166, 170));
-                	  if(mc.gameSettings.keyBindJump.pressed == false && mc.thePlayer.isMoving2()) {
-                		  event.setPitch(RandomY);
+                	  event.setYaw(mc.thePlayer.rotationYaw - (float) MathUtils.getRandomInRange(177, 170));
+                	  if(mc.thePlayer.onGround) {
+                		  event.setPitch(87);
                 	  }else {
-                		  event.setPitch(75);
+                		  event.setPitch(90);
                 	  }
                 	 }else if(mode.getValueAsString() == "Normal") {
                 		 event.setYaw(yaw);
@@ -290,11 +290,11 @@ public void onMotionUpdate(final EventMotionUpdate event) {
             		if (keeprots.getValue ().booleanValue ()) {
 
                    	 if(mode.getValueAsString() == "Watchdog"){
-                   	  event.setYaw(mc.thePlayer.rotationYaw -(float) MathUtils.getRandomInRange(166, 170));
-                   	  if(mc.gameSettings.keyBindJump.pressed == false && mc.thePlayer.isMoving2()) {
-                		  event.setPitch(RandomY);
+                   	  event.setYaw(mc.thePlayer.rotationYaw -(float) MathUtils.getRandomInRange(177, 180));
+                   	  if(mc.thePlayer.onGround) {
+                		  event.setPitch(87);
                 	  }else {
-                		  event.setPitch(75);
+                		  event.setPitch(90);
                 	  }
                    	 }else if(mode.getValueAsString() == "Normal") {
                    		 event.setYaw(yaw);
@@ -358,7 +358,7 @@ public void onMotionUpdate1(final EventMotionUpdate event) {
                 if (currentPos != null) {
                     if (timer.reach ( this.delay.getValue () ) && rotated) {
                         if (mc.thePlayer.getCurrentEquippedItem () != null && mc.thePlayer.getCurrentEquippedItem ().getItem () instanceof ItemBlock) {
-                        		mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), this.blockData.blockPos, this.blockData.getFacing(), new Vec3(this.blockData.blockPos.getY() + MathUtils.getRandomInRange(1.0E8, 8.0E8) * 1.0E-9, this.blockData.blockPos.getY() + MathUtils.getRandomInRange(1.0E8, 8.0E8) * 1.0E-9, this.blockData.blockPos.getZ() + MathUtils.getRandomInRange(1.0E8, 8.0E8) * 1.0E-9));
+                        		mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), this.blockData.blockPos, this.blockData.getFacing(), new Vec3(this.blockData.blockPos.getY(), this.blockData.blockPos.getY(), this.blockData.blockPos.getZ()));
                                 timer.reset ();
                                 if (Swing.getValue ().booleanValue ()) {
                                     mc.thePlayer.swingItem ();

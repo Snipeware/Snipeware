@@ -118,7 +118,7 @@ public class Disabler extends Module {
 				break;
 			}
 			case Watchdog: {
-				if(Watchdog.isDelayComplete(400 * mc.timer.timerSpeed)) {
+				if(Watchdog.isDelayComplete(400)) {
 					shouldBlink = true;
 				}
 				if(Watchdog.isDelayComplete(700 * mc.timer.timerSpeed)) {

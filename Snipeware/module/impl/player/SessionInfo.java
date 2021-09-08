@@ -1,6 +1,7 @@
 package Snipeware.module.impl.player;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.server.S02PacketChat;
+import net.minecraft.network.play.server.S03PacketTimeUpdate;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S32PacketConfirmTransaction;
 import net.minecraft.network.play.server.S40PacketDisconnect;
@@ -59,14 +61,48 @@ public class SessionInfo extends Module {
 		SecTimer.reset();
 	}
 
-
+	
+  
 	private TimeHelper MinTimer = new TimeHelper();
 	private TimeHelper SecTimer = new TimeHelper();
 	private TimeHelper TpsTimer = new TimeHelper();
 
+/*
+	private double calculateTPS(int nSamples) {
+        final int samples = this.secondRecords.size();
+
+        if (samples < 2) {
+            // Too few to calculate
+            return 20.0;
+        }
+
+        nSamples = Math.min(nSamples, samples);
+
+        long total = 0;
+
+        for (int i = 0; i < nSamples; i++) {
+            total += this.secondRecords.get(samples - 1 - i);
+        }
+
+        final double avg = (double) total / nSamples;
+
+        return avg / 50;
+    }
+    */
 	@Handler
 	public void onReceivePacket(final EventPacketReceive event) {
 		if (Client.getInstance().getModuleManager().getModule("SessionInfo").isEnabled()) {
+		/*
+	        if (event.getPacket() instanceof S03PacketTimeUpdate) {
+	            final long current = System.currentTimeMillis();
+
+	            if (this.lastTimeUpdate != 0) {
+	                this.secondRecords.add(current - this.lastTimeUpdate);
+	            }
+
+	            this.lastTimeUpdate = System.currentTimeMillis();
+	        }
+			*/
 			if (event.getPacket() instanceof S02PacketChat) {
 				final S02PacketChat packet = (S02PacketChat) event.getPacket();
 				String text = packet.getChatComponent().getUnformattedText();
@@ -89,14 +125,14 @@ public class SessionInfo extends Module {
 			
 			if (MinTimer.isDelayComplete(60000)) {
 				min += 1;
-				if (min > 60) {
+				if (min >= 60) {
 					hour += 1;
 					min = 0;
 				}
 				MinTimer.reset();
 			}
 			if (SecTimer.isDelayComplete(1000)) {
-				if (sec > 60) {
+				if (sec >= 60) {
 					sec = 0;
 				}
 				sec += 1;
@@ -147,7 +183,7 @@ public class SessionInfo extends Module {
 					new Color(255, 255, 255, transperency.getValue()).getRGB());
 			font.drawString("Sync Speed: " + Text, rectX / 2 + 9, rectY + 33,
 					new Color(255, 255, 255, transperency.getValue()).getRGB());
-			font.drawString("Ping: " + Text2, rectX / 2 + 9, rectY + 43,
+			font.drawString("TPS: " + Text2, rectX / 2 + 9, rectY + 43,
 					new Color(255, 255, 255, transperency.getValue()).getRGB());
 			font.drawString("Kills: " + String.valueOf(Kills), rectX / 2 + 9, rectY + 53,
 					new Color(255, 255, 255, transperency.getValue()).getRGB());
