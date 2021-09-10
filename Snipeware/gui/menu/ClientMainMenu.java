@@ -39,7 +39,7 @@ public class ClientMainMenu extends GuiMainMenu {
     private double animated;
     private double animated2;
     private double animated3;
-    private String User = "Unkown";
+    
     
     @Override
     public void initGui() {
@@ -148,23 +148,22 @@ public class ClientMainMenu extends GuiMainMenu {
         
  
         
-        final String welcome = "Welcome back " + User;
-        final String Credits = "Made by Koljan, Tear, Napoleon";
+        final String welcome = "Welcome back ";
+        final String Credits = "Made by Koljan, Tear, Napoleon, HeyaGlitz";
         final String Build = "Build 1.1";
        
 
-        fr.drawStringWithShadow(Credits, (float)(this.width - fr.getWidth(Credits)) / 50, this.height - 24, new Color(250,250,250,80).getRGB());
+        fr.drawStringWithShadow(Credits, (float)(this.width - fr.getWidth(Credits)) / 110, this.height - 24, new Color(250,250,250,80).getRGB());
         
         fr.drawStringWithShadow(welcome, (float)(this.width - fr.getWidth(welcome) - 13), this.height - 24,  new Color(250,250,250, 80).getRGB());
         
    
         int index = 0;
         int AddY = 0;
-        changelogs.add("Added changelogs");
-        changelogs.add("Added Watchdog speed");
-        changelogs.add("Improved and remade alot of visuals");
-        changelogs.add("Removed WatchdogLow speed");
-        changelogs.add("Removed few modules");
+        changelogs.add("Added WatchdogTimer disabler");
+        changelogs.add("Fixed bans and flags");
+        changelogs.add("Fixed Scaffold");
+      
         
         int color = new Color(250,250,250, 220).getRGB();
         	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
@@ -174,12 +173,7 @@ public class ClientMainMenu extends GuiMainMenu {
         	index++;
         	AddY += 10;
         	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
-        	index++;
-        	AddY += 10;
-        	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
-         	index++;
-        	AddY += 10;
-        	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
+   
         	
         	
         	

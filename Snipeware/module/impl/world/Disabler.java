@@ -43,7 +43,7 @@ import net.minecraft.network.play.server.S39PacketPlayerAbilities;
 
 public class Disabler extends Module {
 
-	private EnumValue<Mode> mode = new EnumValue("Mode", Mode.Watchdog);
+	private EnumValue<Mode> mode = new EnumValue("Mode", Mode.WatchdogTimer);
 
 	private boolean flag;
 
@@ -64,14 +64,14 @@ public class Disabler extends Module {
 	}
 
 	private enum Mode {
-		FakeLag, Watchdog, Horizon, Verus, Ghostly, Test;
+		FakeLag, WatchdogTimer, Horizon, Verus, Ghostly, Test;
 	}
 
 	@Handler
 	public void onMotionUpdate(final EventMotionUpdate event) {
 		switch (mode.getValue()) {
 			case FakeLag: {
-				if (PlayerUtil.isOnServer("hypixel") || PlayerUtil.isOnServer("ilovecatgirls")) {
+				if (PlayerUtil.isOnServer("hypixel")) {
 					if (mc.thePlayer.ticksExisted < .5) {
 						list.clear();
 					}
@@ -94,7 +94,7 @@ public class Disabler extends Module {
 			case Verus: {
 				break;
 			}
-			case Watchdog: {
+			case WatchdogTimer: {
 
 				break;
 			}
@@ -117,15 +117,16 @@ public class Disabler extends Module {
 			case Verus: {
 				break;
 			}
-			case Watchdog: {
+			case WatchdogTimer: {
 				if(Watchdog.isDelayComplete(400)) {
 					shouldBlink = true;
 				}
-				if(Watchdog.isDelayComplete(700 * mc.timer.timerSpeed)) {
+				if(Watchdog.isDelayComplete(800 * mc.timer.timerSpeed)) {
 					shouldBlink = false;
 					Watchdog.reset();
 				}
-				if(shouldBlink = true) {
+				if(shouldBlink = true && mc.timer.timerSpeed >= 1.001f) {
+				
 				if (event.getPacket() instanceof C00PacketKeepAlive){
 					event.setCancelled(true);
 				}
@@ -177,7 +178,7 @@ public class Disabler extends Module {
 			case Verus: {
 				break;
 			}
-			case Watchdog: {
+			case WatchdogTimer: {
 
 				break;
 			}
@@ -208,7 +209,7 @@ public class Disabler extends Module {
 	@Handler
 	public void onMove(final EventMove event) {
 		switch (mode.getValue()) {
-		case Watchdog:
+		case WatchdogTimer:
 			break;
 		case FakeLag:
 			break;
@@ -238,7 +239,7 @@ public class Disabler extends Module {
 			break;
 		case Verus:
 			break;
-		case Watchdog:
+		case WatchdogTimer:
 			break;
 		case FakeLag:
 			timer.reset();

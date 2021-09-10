@@ -169,11 +169,9 @@ int ticks = 0;
 
 @Handler
 public void onMotionUpdate(final EventMotionUpdate event) {
-//	if(!mc.gameSettings.keyBindJump.pressed) {
+
 	 mc.timer.timerSpeed = TimerBoost.getValue();
-	//}else{
-		//mc.timer.timerSpeed = 1;
-//	}
+	
     setSuffix ("Normal"); 
 	 if(mode.getValueAsString() == "Watchdog"){
 		   setSuffix ("Watchdog"); 
@@ -207,7 +205,7 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 return;
             }
 
-            // tower and towermove
+          
             if (mc.gameSettings.keyBindJump.isKeyDown () && tower.getValue ().booleanValue () && !mc.thePlayer.isMoving () && !mc.thePlayer.isPotionActive ( Potion.jump )) {
               
                 switch (towerMode.getValueAsString ()) { 
@@ -242,10 +240,6 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 Rotation limitedRotation = setBlockAndFacing.BlockUtil.limitAngleChange ( new Rotation ( yaw, event.getPitch () ), targetRotation, (float) ThreadLocalRandom.current ().nextDouble ( 20, 30 ) );
                 yaw = getRotations(blockData.getPosition(), blockData.getFacing())[0];
                 pitch = limitedRotation.getPitch ();
-                
-              
-                
-                
                 
                 	 if(mode.getValueAsString() == "Watchdog"){
                 	  event.setYaw(mc.thePlayer.rotationYaw - (float) MathUtils.getRandomInRange(177, 170));
@@ -307,7 +301,7 @@ public void onMotionUpdate(final EventMotionUpdate event) {
             
     }
     mc.thePlayer.rotationYawHead = event.getYaw ();
-    //mc.thePlayer.rotationPitchHead = event.getPitch();
+  
     mc.thePlayer.renderYawOffset = event.getYaw ();
 
 }
@@ -315,7 +309,7 @@ public void onMotionUpdate(final EventMotionUpdate event) {
 
 @Handler
 public void onMotionUpdate1(final EventMotionUpdate event) {
-    //setSuffix ( towerMode.getValueAsString () );
+
 	if(event.isPre()) {
     if (!this.keepsprint.getValue ().booleanValue ()) {
             mc.thePlayer.setSprinting(false);
@@ -335,14 +329,12 @@ public void onMotionUpdate1(final EventMotionUpdate event) {
     BlockPos pos = new BlockPos ( x, mc.thePlayer.posY - 1, z );
     if (slot != -1 && this.blockData != null) {
         final int currentSlot = mc.thePlayer.inventory.currentItem;
-        if (pos.getBlock () instanceof BlockAir) {
+      
                 mc.thePlayer.inventory.currentItem = slot;
             if (this.getPlaceBlock ( this.blockData.getPosition (), this.blockData.getFacing () )) {
                 mc.thePlayer.sendQueue.addToSendQueue ( new C09PacketHeldItemChange ( currentSlot ) );
             }
-        } else {
-            mc.timer.timerSpeed = 1.0f;
-        }
+      
         if (silient.getValue()) {
             mc.thePlayer.inventory.currentItem = currentSlot;
         }
@@ -467,7 +459,7 @@ public static float[] getRotations(BlockPos block, EnumFacing face) {
 
 public void setBlockAndFacing(BlockPos var1) {
 
-    //if(!shouldDownwards()) {
+
     if (mc.theWorld.getBlockState(var1.add(0, -1, 0)).getBlock() != Blocks.air) {
         currentPos = var1.add(0, -1, 0);
         currentFacing = EnumFacing.UP;
@@ -644,21 +636,14 @@ private int getSlot() {
     ArrayList<Integer> slots = new ArrayList<>();
     for (int k = 0; k < 9; ++k) {
         final ItemStack itemStack = mc.thePlayer.inventory.mainInventory[k];
-        if (itemStack != null && this.isValid(itemStack) && itemStack.stackSize >= 1) {
+        if (itemStack != null && this.isValid(itemStack) && itemStack.stackSize >= 2) {
             slots.add(k);
         }
     }
     if (slots.isEmpty()) {
         return -1;
     }
-    /*if (slotTimer.hasReached(150)) {
-        if (slotIndex >= slots.size() || slotIndex == slots.size() - 1) {
-            slotIndex = 0;
-        } else {
-            slotIndex++;
-        }
-        slotTimer.reset();
-    }*/
+
     return slots.get(slotIndex);
 }
 @Handler
@@ -791,7 +776,7 @@ public static int randomNumber(int max, int min) {
     return Math.round(min + (float) Math.random() * ((max - min)));
 }
 
-//Thx To domi
+
 private boolean isOnEdgeWithOffset(double paramDouble) {
     double d1 = mc.thePlayer.posX;
     double d2 = mc.thePlayer.posY;

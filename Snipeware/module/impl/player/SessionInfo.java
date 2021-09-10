@@ -183,7 +183,7 @@ public class SessionInfo extends Module {
 					new Color(255, 255, 255, transperency.getValue()).getRGB());
 			font.drawString("Sync Speed: " + Text, rectX / 2 + 9, rectY + 33,
 					new Color(255, 255, 255, transperency.getValue()).getRGB());
-			font.drawString("TPS: " + Text2, rectX / 2 + 9, rectY + 43,
+			font.drawString("Ping: " + Text2, rectX / 2 + 9, rectY + 43,
 					new Color(255, 255, 255, transperency.getValue()).getRGB());
 			font.drawString("Kills: " + String.valueOf(Kills), rectX / 2 + 9, rectY + 53,
 					new Color(255, 255, 255, transperency.getValue()).getRGB());
