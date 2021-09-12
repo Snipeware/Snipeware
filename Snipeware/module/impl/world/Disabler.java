@@ -21,6 +21,7 @@ import Snipeware.gui.notification.Notifications;
 import Snipeware.module.Module;
 import Snipeware.module.impl.movement.Flight;
 import Snipeware.util.other.Logger;
+import Snipeware.util.other.MathUtils;
 import Snipeware.util.other.PlayerUtil;
 import Snipeware.util.other.TimeHelper;
 import Snipeware.value.impl.EnumValue;
@@ -118,7 +119,7 @@ public class Disabler extends Module {
 				break;
 			}
 			case WatchdogTimer: {
-				if(Watchdog.isDelayComplete(400)) {
+				if(Watchdog.isDelayComplete(MathUtils.getRandomInRange(300, 500))) {
 					shouldBlink = true;
 				}
 				if(Watchdog.isDelayComplete(800 * mc.timer.timerSpeed)) {
@@ -126,10 +127,9 @@ public class Disabler extends Module {
 					Watchdog.reset();
 				}
 				if(shouldBlink = true && mc.timer.timerSpeed >= 1.001f) {
-				
-				if (event.getPacket() instanceof C00PacketKeepAlive){
-					event.setCancelled(true);
-				}
+					if (event.getPacket() instanceof C00PacketKeepAlive){
+						event.setCancelled(true);
+					}
 				}
 				break;
 			}

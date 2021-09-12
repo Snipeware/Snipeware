@@ -64,7 +64,7 @@ public class Speed extends Module {
 	private final TimeHelper WatchdogTimer = new TimeHelper();
 
 	private TargetStrafe ts;
-
+	private int ticks;
 	public Speed() {
 		super("Speed", 0, ModuleCategory.MOVEMENT);
 		addValues(mode, vanillaSpeed , redeSpeed ,redemode, flagbackcheck);
@@ -80,6 +80,8 @@ public class Speed extends Module {
 	        Ground,
 	        Test
 	    }
+	 
+	 
 
 	@Handler
 	public void onMove(final EventMove event) {
@@ -118,8 +120,26 @@ public class Speed extends Module {
 				break;
 			}
 		case Watchdog: {
-		
-			MovementUtils.setSpeed(event, 0.26);
+			if (mc.thePlayer.isMoving()) {
+              
+				if (mc.thePlayer.onGround) {
+                   	mc.gameSettings.keyBindJump.pressed = true;
+                    if(mc.thePlayer.isPotionActive(Potion.moveSpeed.id) || mc.thePlayer.hurtTime > 0) {
+                        setSpeed((0.52));
+                    }else {
+                        setSpeed((0.43));
+                    }
+                    ticks = 0;
+                } else {
+                    if(mc.thePlayer.isPotionActive(Potion.moveSpeed.id) || mc.thePlayer.hurtTime > 0) {
+                        if (ticks == 0) setSpeed((0.48));
+                        ticks++;
+                    }else {
+                        if (ticks == 0) setSpeed((0.34));
+                        ticks++;
+                    }
+                }
+            }
 			break;
 		}
 		case Vanilla: {
@@ -233,7 +253,35 @@ public class Speed extends Module {
 		}
 	
 	}
+	
+    public void setSpeed(double speed) {
+        speed = (float) speed;
+        mc.thePlayer.motionX = (-(Math.sin(getDirection()) * speed));
+        mc.thePlayer.motionZ = (Math.cos(getDirection()) * speed);
+    }
+    
+    public double getDirection() {
+        float rotationYaw = mc.thePlayer.rotationYaw;
 
+        if (mc.thePlayer.moveForward < 0F)
+            rotationYaw += 180F;
+
+        float forward = 1F;
+        if (mc.thePlayer.moveForward < 0F)
+            forward = -0.5F;
+        else if (mc.thePlayer.moveForward > 0F)
+            forward = 0.5F;
+
+        if (mc.thePlayer.moveStrafing > 0F)
+            rotationYaw -= 90F * forward;
+
+        if (mc.thePlayer.moveStrafing < 0F)
+            rotationYaw += 90F * forward;
+
+        return Math.toRadians(rotationYaw);
+    }
+	
+	
 	private double getAACSpeed(int stage, int jumps) {
         double value = 0.29;
         double firstvalue = 0.3019;
@@ -398,15 +446,6 @@ public class Speed extends Module {
 		if (mc.thePlayer != null) {
 			moveSpeed = MovementUtils.getSpeed();
 		}
-		switch (mode.getValue()) {
-
-		case Watchdog: {
-			Logger.print("Me no bye pass disabled module");
-			toggle();
-			}
-			
-		
-		}
 		WatchdogStage = 0;
 		nextMotionSpeed = 0.0;
 		doSlow = false;
@@ -444,9 +483,8 @@ public class Speed extends Module {
 		setSuffix(mode.getValueAsString());
 		switch (mode.getValue()) {
 		case Watchdog:
-			if(mc.thePlayer.isMoving2() && mc.thePlayer.onGround) {
-				mc.thePlayer.motionY = 0.3f;
-		}
+		
+	
 				break;
 		case Vanilla:
 			break;

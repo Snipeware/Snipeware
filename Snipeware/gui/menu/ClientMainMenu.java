@@ -160,11 +160,14 @@ public class ClientMainMenu extends GuiMainMenu {
    
         int index = 0;
         int AddY = 0;
+        
         changelogs.add("Added WatchdogTimer disabler");
+        changelogs.add("Added Watchdog speed");
+        changelogs.add("Added Watchdog nofall");
         changelogs.add("Fixed bans and flags");
         changelogs.add("Fixed Scaffold");
-      
         
+
         int color = new Color(250,250,250, 220).getRGB();
         	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
         	index++;
@@ -173,12 +176,14 @@ public class ClientMainMenu extends GuiMainMenu {
         	index++;
         	AddY += 10;
         	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
-   
-        	
-        	
-        	
+          	index++;
+        	AddY += 10;
+        	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
+        	index++;
+        	AddY += 10;
+        	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color); 	
+    
         GlStateManager.popMatrix();
-        
     }
 	private int count(int i) {
 		// TODO Auto-generated method stub

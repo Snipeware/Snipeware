@@ -144,7 +144,7 @@ public final class TargetHUD extends Module {
 		            GlStateManager.enableBlend();
 		            GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 		            Gui.drawScaledCustomSizeModalRect(n3 + 2, n2 + 2, 8.0f, 8.0f, 8, 8, 31, 31, 64.0f, 64.0f);
-	            }
+	            } 
 	            GlStateManager.disableBlend();
 	            GlStateManager.popMatrix();
         	}
