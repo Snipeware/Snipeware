@@ -39,6 +39,8 @@ import Snipeware.events.player.EventKeyPress;
 import Snipeware.events.render.EventRender2D;
 import Snipeware.gui.click.Panel;
 import Snipeware.module.Module;
+import Snipeware.module.Module.ModuleCategory;
+import Snipeware.util.other.Logger;
 import Snipeware.util.other.PlayerUtil;
 import Snipeware.util.visual.RenderUtil;
 import Snipeware.util.visual.Translate;
@@ -59,9 +61,8 @@ private float hue = 1.0F;
   private BooleanValue pulsing = new BooleanValue("Pulsing", true);
   private BooleanValue background = new BooleanValue("Background", false);
   private BooleanValue tabgui = new BooleanValue("TabGUI", true);
+  private BooleanValue fpsproperty = new BooleanValue("Show FPS", true);
   private BooleanValue fpsspoof = new BooleanValue("Spoof FPS", true);
-  private BooleanValue BPS = new BooleanValue("Show BPS", false);
-  private BooleanValue radar = new BooleanValue("Radar", true);
   private BooleanValue arrayList = new BooleanValue("Module List", true);
   private BooleanValue info = new BooleanValue("Info", true);
   private BooleanValue armorStatus = new BooleanValue("Armor Status", true);
@@ -81,18 +82,25 @@ private float hue = 1.0F;
   private NumberValue<Integer> size = new NumberValue<>("Radar Size", 60, 50, 130, 5);
   
   private ColorValue colorValue = new ColorValue("Custom Color", new Color(255, 255, 255).getRGB());
-  
+  private double animated1;
   private float xOffset;
   private float yOffset;
   private boolean dragging;
   public String bps;
-  
-
+  private int index;
+  private int index2;
+  private int MaxIndex;
+  private boolean expanded;
+  public ArrayList<String> ModulesCombat = new ArrayList<String>();
+  public ArrayList<String> ModulesMovement = new ArrayList<String>();
+  public ArrayList<String> ModulesPlayer = new ArrayList<String>();
+  public ArrayList<String> ModulesWorld = new ArrayList<String>();
+  public ArrayList<String> ModulesVisuals = new ArrayList<String>();
   
   public HUD() {
 	  super("HUD", 0, ModuleCategory.VISUALS);
       modListBackgroundAlpha = new NumberValue("BG Alpha", 0.2f, 0.0f, 1.0f, 0.05f);
-      addValues(fontMode, arrayListColor, modListBackgroundAlpha, rainbowSaturation, FpsAdder , X, Y, size, colorValue, arrayList, watermark, fpsspoof , BPS ,tabgui, sideLine, radar, info, armorStatus, potionStatus, pulsing, toggleSounds, background);
+      addValues(fontMode, arrayListColor, modListBackgroundAlpha, rainbowSaturation, FpsAdder , X, Y, size, colorValue, arrayList, watermark, fpsproperty ,fpsspoof ,tabgui, sideLine, info, armorStatus, potionStatus, pulsing, toggleSounds, background);
       setHidden(true);
   }
   
@@ -116,6 +124,9 @@ private float hue = 1.0F;
   
   @Handler
   public void onRender(final EventRender2D event) {
+	  animated1 = RenderUtil.animate(index, animated1, 0.1);
+	  
+	
 	  if (arrayList.isEnabled()) {
 		  draw(event.getScaledResolution());
 	  }
@@ -125,8 +136,9 @@ private float hue = 1.0F;
 	  if (potionStatus.isEnabled()) {
 		  drawPotionStatus(event.getScaledResolution());
 	  }
-	  if (radar.isEnabled()) {
-		  drawRadar(event.getScaledResolution());
+	  if(tabgui.isEnabled()) {
+		 drawTabGui();
+		 
 	  }
 	  boolean tahoma = fontMode.getValue().equals(FontMode.Tahoma);
 	  EntityPlayerSP player = mc.thePlayer;
@@ -138,17 +150,15 @@ private float hue = 1.0F;
       if(fpsspoof.isEnabled()) {
     	  fpse += FpsAdder.getValue();
       }
-      if(BPS.isEnabled()) {
-    	  bps = String.format(ChatFormatting.GRAY + " [" + ChatFormatting.WHITE + "%.2f" + " BPS" + ChatFormatting.GRAY + "]" , d * 20 * mc.timer.timerSpeed);
-      }else {
-    	  bps = "";
-      }
-      final String fps = info.isEnabled() ? ChatFormatting.GRAY + " [" + ChatFormatting.WHITE + fpse + " FPS" + ChatFormatting.GRAY + "]" : "";
+     
+      bps = String.format(ChatFormatting.WHITE + "%.2f"  , d * 20 * mc.timer.timerSpeed);
+     
+      final String fps = fpsproperty.isEnabled() ? ChatFormatting.GRAY + " (" + ChatFormatting.WHITE + fpse + " FPS" + ChatFormatting.GRAY + ")" : "";
 	  final FontRenderer fr = Client.INSTANCE.getFontManager().getFont(tahoma ? "Tahoma 20" : "Display 20", false);
 	  final FontRenderer font = Client.INSTANCE.getFontManager().getFont(tahoma ? "Tahoma 20" : "Display 20", false);
 	 
 	//  final String text = ChatFormatting.GRAY + "X" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posX) + " " + ChatFormatting.GRAY + "Y" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posY) + " " + ChatFormatting.GRAY + "Z" + ChatFormatting.WHITE + ": " + MathHelper.floor_double(mc.thePlayer.posZ);
-	  String text = "This is a beta build and there are many bugs";
+	  String text = "BPS: " + bps;
       final int ychat = mc.ingameGUI.getChatGUI().getChatOpen() ? 25 : 10;
       int color = 0;
       switch (arrayListColor.getValue()) {
@@ -171,11 +181,11 @@ private float hue = 1.0F;
       if (watermark.isEnabled()) {
     	  if (vanilla) {
     		  
-    			  mc.fontRendererObj.drawStringWithShadow("S" + ChatFormatting.WHITE + "nipeware" + fps + bps, 1, 1, color);
+    			  mc.fontRendererObj.drawStringWithShadow("S" + ChatFormatting.WHITE + "nipeware" + fps,  1, 1, color);
     		 
     	  } else {
     
-    		  font.drawStringWithShadow("S" + ChatFormatting.WHITE + "nipeware" + fps + bps, 1, 1, color);
+    		  font.drawStringWithShadow("S" + ChatFormatting.WHITE + "nipeware" + fps, 1, 1, color);
     	  }
       }
   	color = RenderUtil.getRainbow(6000, (int) (1 * 30), rainbowSaturation.getValue());
@@ -183,93 +193,12 @@ private float hue = 1.0F;
     	  if (vanilla) {
     		  mc.fontRendererObj.drawStringWithShadow(text, 1, new ScaledResolution(mc).getScaledHeight() - ychat, color);
     	  } else {
-    		  font.drawStringWithShadow(text, 1, new ScaledResolution(mc).getScaledHeight() - ychat, color);
+    		  font.drawStringWithShadow(text, 1, new ScaledResolution(mc).getScaledHeight() - ychat - 3, color);
     	  }
       }
   }
   
-  public void drawRadar(final ScaledResolution sr) {
-	  int size = this.size.getValue().intValue();
-      xOffset = this.X.getValue().floatValue();
-      yOffset = this.Y.getValue().floatValue();
-      float playerOffsetX = (float) mc.thePlayer.posX;
-      float playerOffSetZ = (float) mc.thePlayer.posZ;
-      int var141 = sr.getScaledWidth();
-      int var151 = sr.getScaledHeight();
-      int mouseX = Mouse.getX() * var141 / mc.displayWidth;
-      int mouseY = var151 - Mouse.getY() * var151 / mc.displayHeight - 1;
-      if ((float) mouseX >= xOffset && (float) mouseX <= xOffset + (float) size && (float) mouseY >= yOffset - 3.0F && (float) mouseY <= yOffset + 10.0F && Mouse.getEventButton() == 0) {
-          this.dragging = !this.dragging;
-      }
-
-      if (mc.currentScreen instanceof GuiChat) {
-      }
-
-      if (this.hue > 255.0F) {
-          this.hue = 0.0F;
-      }
-
-      float h = this.hue;
-      float h2 = this.hue + 85.0F;
-      float h3 = this.hue + 170.0F;
-      if (h > 255.0F) {
-          h = 0.0F;
-      }
-
-      if (h2 > 255.0F) {
-          h2 -= 255.0F;
-      }
-
-      if (h3 > 255.0F) {
-          h3 -= 255.0F;
-      }
-
-      Color color33 = Color.getHSBColor(h / 255.0F, 0.9F, 1.0F);
-      Color color332 = Color.getHSBColor(h2 / 255.0F, 0.9F, 1.0F);
-      Color color333 = Color.getHSBColor(h3 / 255.0F, 0.9F, 1.0F);
-      int color1 = color33.getRGB();
-      int color2 = color332.getRGB();
-      int color3 = color333.getRGB();
-      this.hue = (float) ((double) this.hue + 0.1D);
-      RenderUtil.drawBorderedRect((double) (xOffset + 3.0F), (double) (yOffset + 3.0F), (double) ((float) size - 6.0F), (double) ((float) size - 6.0F), 1.2, Panel.black195, Panel.black100);
-      //Gui.drawRect((double) (xOffset + 4F), (double) (yOffset + 5F), (double) (xOffset + (float) (size / 2)), (double) yOffset + 4d, Panel.color);
-      //Gui.drawRect((double) (xOffset + (float) (size / 3)), (double) (yOffset + 5F), (double) (xOffset + (float) size - 4F), (double) yOffset + 4d, Panel.color);
-      Gui.drawRect((double) xOffset + ((double) (size / 2) + 0.7D), (double) yOffset + 4.0D, (double) xOffset + (double) (size / 2) + 1.5, (double) (yOffset + (float) size) - 3.8D, Panel.black195);
-      Gui.drawRect((double) xOffset + 3.5D, (double) yOffset + ((double) (size / 2) - 0.5D), (double) (xOffset + (float) size) - 4.0D, (double) yOffset + (double) (size / 2) + 0.56, Panel.black195);
-      Iterator var21 = mc.theWorld.getLoadedEntityList().iterator();
-
-      while (var21.hasNext()) {
-          Object o = var21.next();
-          if (o instanceof EntityPlayer) {
-              EntityPlayer ent = (EntityPlayer) o;
-              if (ent.isEntityAlive() && ent != mc.thePlayer && !ent.isInvisible() && !ent.isInvisibleToPlayer(mc.thePlayer)) {
-                  float pTicks = mc.timer.renderPartialTicks;
-                  float posX = (float) ((ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double) pTicks - (double) playerOffsetX));
-                  float posZ = (float) ((ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double) pTicks - (double) playerOffSetZ));
-
-                  float cos = (float) Math.cos((double) mc.thePlayer.rotationYaw * 0.017453292519943295D);
-                  float sin = (float) Math.sin((double) mc.thePlayer.rotationYaw * 0.017453292519943295D);
-                  float rotY = -(posZ * cos - posX * sin);
-                  float rotX = -(posX * cos + posZ * sin);
-                  if (rotY > (float) (size / 2 - 5)) {
-                      rotY = (float) (size / 2) - 5.0F;
-                  } else if (rotY < (float) (-(size / 2 - 5))) {
-                      rotY = (float) (-(size / 2 - 5));
-                  }
-
-                  if (rotX > (float) (size / 2) - 5.0F) {
-                      rotX = (float) (size / 2 - 5);
-                  } else if (rotX < (float) (-(size / 2 - 5))) {
-                      rotX = -((float) (size / 2) - 5.0F);
-                  }
-
-                  int color = PlayerUtil.isOnSameTeam((EntityLivingBase) o) ? new Color(255, 255, 255).getRGB() : new Color(200, 0, 0).getRGB();
-                  RenderUtil.drawCircle((float) (xOffset + (float) (size / 2) + rotX) - 1.0f, (float) (yOffset + (float) (size / 2) + rotY) - 1.0f, 2.2f, new Color(0, 0, 0).getRGB());
-                  RenderUtil.drawCircle((float) (xOffset + (float) (size / 2) + rotX) - 1.0f, (float) (yOffset + (float) (size / 2) + rotY) - 1.0f, 2, color);
-              }
-          }
-      }
-  }
+  
   
   private void drawArmorStatus(ScaledResolution sr) {
       GL11.glPushMatrix();
@@ -318,6 +247,176 @@ private float hue = 1.0F;
       }
 
       GL11.glPopMatrix();
+  }
+  
+  private void drawTabGui() {
+		final ScaledResolution scaledResolution2;
+		final ScaledResolution scaledResolution = scaledResolution2 = new ScaledResolution(mc);
+		final FontRenderer font = Client.INSTANCE.getFontManager().getFont("Aquire 28", false);
+	    double x = scaledResolution2.getScaledWidth() / 2;
+		double y = scaledResolution2.getScaledHeight() / 2;
+		double rectwidth = 65;
+		double rectheight = 73;
+		int rectX = 5;
+		int rectY = 20;
+		for (ModuleCategory cat : ModuleCategory.values()) {
+		for (Module m : Client.INSTANCE.getModuleManager().getModules()) {
+			if (cat == m.getCategory()) {
+				if(m.getCategory() == m.getCategory().COMBAT) {
+					ModulesCombat.add(m.getName());
+				}
+				if(m.getCategory() == m.getCategory().MOVEMENT) {
+					ModulesMovement.add(m.getName());
+				}
+				if(m.getCategory() == m.getCategory().PLAYER) {
+					ModulesPlayer.add(m.getName());
+				}
+				if(m.getCategory() == m.getCategory().WORLD) {
+					ModulesWorld.add(m.getName());
+				}
+				if(m.getCategory() == m.getCategory().VISUALS) {
+					ModulesVisuals.add(m.getName());
+				}
+			}
+		}
+		}
+		RenderUtil.drawRect(rectX - 2.5f, rectY - 2.5f, rectwidth + 5, rectheight + 5,new Color(10,10,10,195).getRGB());
+		RenderUtil.drawRect(rectX -2.5f,rectY - 2.5f + index * 15, rectwidth + 5, 16, new Color(38,43,226, 200).getRGB());
+		if(index == 0) {
+			font.drawString("Combat", rectX + 3, rectY - 1.5f, -1);
+		}else {
+			font.drawString("Combat", rectX, rectY - 1.5f, -1);
+		}
+		if(index == 1) {
+			font.drawString("Movement", rectX + 3, rectY - 1.5f + 15, -1);
+		}else {
+			font.drawString("Movement", rectX, rectY - 1.5f + 15, -1);
+		}
+		if(index == 2) {
+			font.drawString("Player", rectX + 3, rectY - 1.5f + 30, -1);
+		}else {
+			font.drawString("Player", rectX, rectY - 1.5f + 30, -1);
+		}
+		if(index == 3) {
+			font.drawString("World", rectX + 3, rectY - 1.5f + 45, -1);
+		}else {
+			font.drawString("World", rectX, rectY - 1.5f + 45, -1);
+		}
+		if(index == 4) {
+			font.drawString("Visuals", rectX + 5, rectY - 1.5f + 60, -1);
+		}else {
+			font.drawString("Visuals", rectX, rectY - 1.5f + 60, -1);
+		}
+		
+		if(expanded) {
+			if(index == 0) {
+				MaxIndex = 15;
+				RenderUtil.drawRect(rectX + rectwidth + 3, rectY - 2.5f, rectwidth + 5, rectheight + 5 + 105,new Color(10,10,10,195).getRGB());
+				RenderUtil.drawRect(rectX + rectwidth + 3,rectY  + index2 * 12 - 1, rectwidth + 5, 12, new Color(38,43,226, 200).getRGB());
+				for(int i = 0; i < 15; i++) {
+					font.drawString(ModulesCombat.get(i), rectX + 5 + (int) rectwidth, rectY - 1.5f + i * 12, -1);
+				}
+			}
+			if(index == 1) {
+				MaxIndex = 9;
+				RenderUtil.drawRect(rectX + rectwidth + 3, rectY - 2.5f, rectwidth + 5, rectheight + 5 + 35,new Color(10,10,10,195).getRGB());
+				RenderUtil.drawRect(rectX + rectwidth + 3,rectY  + index2 * 12 - 1, rectwidth + 5, 12, new Color(38,43,226, 200).getRGB());
+				for(int i = 0; i < 9; i++) {
+					font.drawString(ModulesMovement.get(i), rectX + 5 + (int) rectwidth, rectY - 1.5f + i * 12, -1);
+				}
+			}
+			if(index == 2) {
+				MaxIndex = 14;
+				RenderUtil.drawRect(rectX + rectwidth + 3, rectY - 2.5f, rectwidth + 5, rectheight + 5 + 95,new Color(10,10,10,195).getRGB());
+				RenderUtil.drawRect(rectX + rectwidth + 3,rectY  + index2 * 12 - 1, rectwidth + 5, 12, new Color(38,43,226, 200).getRGB());
+				for(int i = 0; i < 14; i++) {
+					font.drawString(ModulesPlayer.get(i), rectX + 5 + (int) rectwidth, rectY - 1.5f + i * 12, -1);
+				}
+			}
+			if(index == 3) {
+				MaxIndex = 13;
+				RenderUtil.drawRect(rectX + rectwidth + 3, rectY - 2.5f, rectwidth + 5, rectheight + 5 + 80,new Color(10,10,10,195).getRGB());
+				RenderUtil.drawRect(rectX + rectwidth + 3,rectY  + index2 * 12 - 1, rectwidth + 5, 12, new Color(38,43,226, 200).getRGB());
+				for(int i = 0; i < 13; i++) {
+					font.drawString(ModulesWorld.get(i), rectX + 5 + (int) rectwidth, rectY - 1.5f + i * 12, -1);
+				}
+			}
+			if(index == 4) {
+				MaxIndex = 20;
+				RenderUtil.drawRect(rectX + rectwidth + 3, rectY - 2.5f, rectwidth + 5, rectheight + 5 + 165,new Color(10,10,10,195).getRGB());
+				RenderUtil.drawRect(rectX + rectwidth + 3,rectY  + index2 * 12 - 1, rectwidth + 5, 12, new Color(38,43,226, 200).getRGB());
+				for(int i = 0; i < 20; i++) {
+					font.drawString(ModulesVisuals.get(i), rectX + 5 + (int) rectwidth, rectY - 1.5f + i * 12, -1);
+				}
+			}
+		}
+		
+  }
+  @Handler
+	public void onKeyPress(final EventKeyPress event) {
+	  //System.out.println(event.getKey());
+	  if(tabgui.isEnabled()) {
+		  if(event.getKey() == 28) {
+			 if(expanded) {
+				 if(index == 0) {
+					 Client.getInstance().getModuleManager().getModule(ModulesCombat.get(index2)).toggle();;
+				 }
+				 if(index == 1) {
+					 Client.getInstance().getModuleManager().getModule(ModulesMovement.get(index2)).toggle();;
+				 }
+				 if(index == 2) {
+					 Client.getInstance().getModuleManager().getModule(ModulesPlayer.get(index2)).toggle();;
+				 }
+				 if(index == 3) {
+					 Client.getInstance().getModuleManager().getModule(ModulesWorld.get(index2)).toggle();;
+				 }
+				 if(index == 4) {
+					 Client.getInstance().getModuleManager().getModule(ModulesVisuals.get(index2)).toggle();;
+				 }
+			 }
+			 
+		  }
+		  if(event.getKey() == 200) {
+			  if(!expanded) {
+			  index--;
+			  index2 = 0;
+			  }
+		  }
+		  if(event.getKey() == 208) {
+			  if(!expanded) {
+			  index++;
+			  index2 = 0;
+			  }
+		  }
+		  if(event.getKey() == 200) {
+			  if(expanded) {
+			  index2--;
+			  }
+		  }
+		  if(event.getKey() == 208) {
+			  if(expanded) {
+			  index2++;
+			  }
+		  }
+		  if(event.getKey() == 205) {
+			  expanded = true;
+		  }
+		  if(event.getKey() == 203) {
+			  expanded = false;
+		  }
+		  if(index >= 5) {
+			  index = 0;
+		  }
+		  if(index <= -1) {
+			  index = 4;
+		  }
+		  if(index2 >= MaxIndex) {
+			  index2 = 0;
+		  }
+		  if(index2 <= -1) {
+			  index2 = MaxIndex - 1;
+		  }
+	  }
   }
   
   private void drawPotionStatus(ScaledResolution sr) {
@@ -446,6 +545,8 @@ private float hue = 1.0F;
       } 
     } 
   }
+  
+
   
   public boolean hasToggleSoundsEnabled() {
 	  return toggleSounds.isEnabled();

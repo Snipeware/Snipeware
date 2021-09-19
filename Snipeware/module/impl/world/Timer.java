@@ -28,8 +28,8 @@ public class Timer extends Module {
 	@Handler
 	public void onMotionUpdate(final EventMotionUpdate event) {
 		if(PlayerUtil.isOnServer("Hypixel")) {
-			if(mc.timer.timerSpeed >= 1.5f) {
-				Logger.print("Timer is maxed on 1.5 for Hypixel this limit may get removed in the future!");
+			if(mc.timer.timerSpeed >= 1.6f) {
+				Logger.print("Timer is maxed on 1.6 for Hypixel this limit may get removed in the future!");
 				toggle();
 			}
 		}

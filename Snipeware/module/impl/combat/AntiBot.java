@@ -71,6 +71,7 @@ public class AntiBot extends Module {
 						if (entity.isInvisible()) {
 							bots.add((EntityPlayer) entity);
 						}
+					
 					}
 				}
 			}

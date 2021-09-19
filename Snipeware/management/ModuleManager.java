@@ -158,6 +158,7 @@ public class ModuleManager {
 		modules.put(ItemESP.class, new ItemESP());
 		modules.put(OutlineESP.class, new OutlineESP());
 		modules.put(PenisESP.class, new PenisESP());
+		modules.put(Skyblock.class, new Skyblock());
 
 	}
 

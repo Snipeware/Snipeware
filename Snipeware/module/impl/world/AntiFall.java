@@ -32,13 +32,12 @@ public class AntiFall extends Module {
 	public void onMotionUpdate(final EventMotionUpdate eventMotion) {
         if (eventMotion.isPre()) {
       
-            if (mc.thePlayer.fallDistance > distance.getValue() && !isBlockUnder()) {
-          
+            if (!Client.INSTANCE.getModuleManager().getModule("Flight").isEnabled() && mc.thePlayer.fallDistance > distance.getValue() && !isBlockUnder()) {
                 eventMotion.setPosX(-999);
                 eventMotion.setPosY(-999);
                 eventMotion.setPosZ(-999);
                 mc.thePlayer.fallDistance = 0;
-            
+                
             }
         }
     }

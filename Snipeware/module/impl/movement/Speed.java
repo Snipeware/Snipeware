@@ -46,6 +46,8 @@ public class Speed extends Module {
 	int stage;
 	int ncpStage;
 	int WatchdogStage;
+	int posY;
+	int posYGround;
 	public boolean reset, doSlow;
 
 	private NumberValue<Integer> vanillaSpeed = new NumberValue<>("Vanilla Speed", 4, 1, 10, 1);
@@ -121,21 +123,20 @@ public class Speed extends Module {
 			}
 		case Watchdog: {
 			if (mc.thePlayer.isMoving()) {
-              
-				if (mc.thePlayer.onGround) {
-                   	mc.gameSettings.keyBindJump.pressed = true;
-                    if(mc.thePlayer.isPotionActive(Potion.moveSpeed.id) || mc.thePlayer.hurtTime > 0) {
-                        setSpeed((0.52));
+                if (mc.thePlayer.onGround) {
+                    mc.thePlayer.jump();
+                    if(mc.thePlayer.isPotionActive(Potion.moveSpeed.id)) {
+                        setSpeed((0.45));
                     }else {
-                        setSpeed((0.43));
+                        setSpeed((0.38));
                     }
                     ticks = 0;
                 } else {
-                    if(mc.thePlayer.isPotionActive(Potion.moveSpeed.id) || mc.thePlayer.hurtTime > 0) {
-                        if (ticks == 0) setSpeed((0.48));
+                    if(mc.thePlayer.isPotionActive(Potion.moveSpeed.id)) {
+                        if (ticks == 0) setSpeed((0.43));
                         ticks++;
                     }else {
-                        if (ticks == 0) setSpeed((0.34));
+                        if (ticks == 0) setSpeed((0.31));
                         ticks++;
                     }
                 }
@@ -469,8 +470,7 @@ public class Speed extends Module {
 		mc.timer.timerSpeed = 1;
 		switch (mode.getValue()) {
 		case Watchdog:
-			mc.thePlayer.motionZ = 0;
-			mc.thePlayer.motionX = 0;
+		
 			
 			break;
 		}
@@ -483,7 +483,9 @@ public class Speed extends Module {
 		setSuffix(mode.getValueAsString());
 		switch (mode.getValue()) {
 		case Watchdog:
-		
+		if(mc.thePlayer.isMoving() && mc.thePlayer.onGround) {
+			mc.thePlayer.jump();
+		}
 	
 				break;
 		case Vanilla:

@@ -77,6 +77,9 @@ public class ClientMainMenu extends GuiMainMenu {
                 mc.shutdown();
                 DiscordRPC.discordShutdown();
                 break;
+            case 6:
+            	mc.displayGuiScreen(new ProxyGUI(this));
+            	break;
         }
     }
 
@@ -93,6 +96,7 @@ public class ClientMainMenu extends GuiMainMenu {
         final String strLang = I18n.format("LANGUAGE");
         final String strOptions = "OPTIONS";
         final String strShutDown = "SHUTDOWN";
+        final String strProxy = "Proxy";
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         
         int initHeight = sr.getScaledWidth() / 5 + 20;
@@ -109,6 +113,7 @@ public class ClientMainMenu extends GuiMainMenu {
         buttonList.add(new Button(4, xMid2 ,  (int) Math.round(animated3) + 35 - 3 + 30 + 18, objWidth2 , objHeight2, strAccounts));
         buttonList.add(new Button(2, xMid2 ,  (int) Math.round(animated3) + 52 - 4 + 30 + 27, objWidth2, objHeight2, strOptions));
         buttonList.add(new Button(5, xMid2 , (int) Math.round(animated3)  + 69 - 5 + 30 + 36, objWidth2, objHeight2, strShutDown));
+       // buttonList.add(new Button(6, xMid2 , (int) Math.round(animated3)  + 86 - 6 + 30 + 60, objWidth2, objHeight2, strProxy));
     
     	
     	  
@@ -119,7 +124,7 @@ public class ClientMainMenu extends GuiMainMenu {
        
     
         GlStateManager.pushMatrix();
-        int YRec = sr.getScaledWidth() / 5;
+        int YRec = sr.getScaledWidth() /5;
         animated = RenderUtil.animate(YRec, animated, 0.07);
         RenderUtil.drawRect(xMid,animated + 1,objWidth, objHeight + 1, new Color(138,43,226,200).getRGB());
         

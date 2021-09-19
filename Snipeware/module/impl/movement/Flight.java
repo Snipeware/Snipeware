@@ -64,8 +64,6 @@ public class Flight extends Module {
 
 	private EnumValue<Mode> flightMode = new EnumValue<>("Flight Mode", Mode.Vanilla);
 
-	private NumberValue<Double> flightSpeed = new NumberValue<Double>("Watchdog Boost", 1.5d, 0.5d, 1.5d);
-
 	private NumberValue<Float> timerValue = new NumberValue<Float>("Timer Speed", 1.2f, 1.0f, 3.0f);
 
 	private NumberValue<Float> timerDuration = new NumberValue<Float>("Timer Duration", 1000f, 100f, 2000f);
@@ -95,24 +93,30 @@ public class Flight extends Module {
 	private TimeHelper Takatimer = new TimeHelper();
 	private TimeHelper Takatimer2 = new TimeHelper();
 	private TimeHelper Redesky = new TimeHelper();
-
+	private final TimeHelper WatchdogTimer = new TimeHelper();
+    private boolean wasAir = false;
 	private TargetStrafe ts;
-	
+	private TimeHelper Blinktimer = new TimeHelper();
 	public double yrarr;
-	
+	private boolean shouldBlink = false;
 	private boolean pines = false;
+	private double x;
+	private double y;
+	private double z;
 	
 
 	private float glideAmount2 = 4f;
 
 	public Flight() {
 		super("Flight", Keyboard.KEY_F, ModuleCategory.MOVEMENT);
-		addValues(flightMode, flightSpeed, timerValue, timerDuration, timerBoost, viewBobbing, damage);
+		addValues(flightMode, timerValue, timerDuration, timerBoost, viewBobbing, damage);
 	}
 
 	private enum Mode {
 		Vanilla, Watchdog, Verus, Taka, Motion, Test, Gay;
 	}
+	
+
 	
 	 @Handler
 	    public void a(EventPacketSend event){
@@ -127,15 +131,22 @@ public class Flight extends Module {
 			if(mc.gameSettings.keyBindSneak.pressed) {
 				player.motionY = -0.3;
 			}
-	      if(pines = false) {
+	        if(pines = false) {
 	            if (event.getPacket() instanceof C03PacketPlayer) {
-	            	
-	                    C03PacketPlayer nigger = (C03PacketPlayer) event.getPacket();
-	                    event.setCancelled(true);
+	            	C03PacketPlayer nigger = (C03PacketPlayer) event.getPacket();
+	            	event.setCancelled(true);
 	            }
-	      }
+	        }
 	            break;
-	                }
+		 case Watchdog:
+				final Packet p = event.getPacket();
+				if (p instanceof C03PacketPlayer) {
+					if(shouldBlink) {
+			         event.setCancelled(true);
+					}
+					
+				}
+	    }
 	 }
 
 	public void onDisable() {
@@ -147,9 +158,7 @@ public class Flight extends Module {
 				mc.thePlayer.capabilities.isFlying = false;
 				break;
 			case Watchdog:
-				final EntityPlayerSP player = mc.thePlayer;
-				player.motionX = 0.0;
-				player.motionZ = 0.0;
+			
 				break;
 			case Motion:
 				MovementUtils.setMotion(0.0);
@@ -179,9 +188,9 @@ public class Flight extends Module {
 	public void onEnable() {
 		super.onEnable();
 		yrarr = mc.thePlayer.posZ;
-		
-	
-		
+		Blinktimer.reset();
+		WatchdogTimer.reset();
+		wasAir = false;
 		if (mc.thePlayer == null) return;
 		timerStopwatch.reset();
 		longJumpTimerXD.reset();
@@ -192,12 +201,11 @@ public class Flight extends Module {
 		moveSpeed = MovementUtils.getSpeed();
 		switch (flightMode.getValue()) {
 			case Watchdog:
-//				final Disabler disabler = (Disabler) Client.INSTANCE.getModuleManager().getModule(Disabler.class);
-//				if (!disabler.isEnabled()) {
-//					toggle();
-//					Notifications.getManager().post("Warning", "Relog and enable disabler.");
-//				}
-				counter = 0;
+				mc.thePlayer.motionY = 0.56f;
+				damage2();
+				x = mc.thePlayer.posX + 0.2f;
+				y = mc.thePlayer.posY + 0.2f;
+				z = mc.thePlayer.posZ + 0.2f;
 				break;
 			case Motion:
 
@@ -215,7 +223,8 @@ public class Flight extends Module {
 	}
 
 	public void damage2() {
-	      double offset = 0.060100000351667404D;
+		shouldBlink = true;
+	      double offset = 0.0060100000351667404D;
 	      NetHandlerPlayClient netHandler = mc.getNetHandler();
 	      EntityPlayerSP player = mc.thePlayer;
 	      double x = player.posX;
@@ -224,29 +233,45 @@ public class Flight extends Module {
 
 	      for(int i = 0; (double)i < (double)getMaxFallDist() / 0.05510000046342612D + 1.0D; ++i) {
 	         netHandler.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.060100000351667404D, z, false));
-	         netHandler.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 5.000000237487257E-4D, z, false));
 	         netHandler.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.004999999888241291D + 6.01000003516674E-8D, z, false));
 	      }
 
 	      netHandler.addToSendQueueNoEvent(new C03PacketPlayer(true));
+	     
 	}
 
 	@Handler
 	public void onMove(final EventMove event) {
+		 if(mc.thePlayer.hurtTime >= 4) {
+	    	  shouldBlink = false;
+	      }
 		final EntityPlayerSP player = mc.thePlayer;
 		final NetHandlerPlayClient netHandler = mc.getNetHandler();
 		final GameSettings gameSettings = mc.gameSettings;
 		switch (flightMode.getValue()) {
 			case Watchdog:
-				if (this.mc.thePlayer.isMovingOnGround()) {
-					//event.setY(this.mc.thePlayer.motionY = MovementUtil.getJumpBoostModifier(0.20000000298023224));
+				if(!mc.thePlayer.onGround) {
+					mc.gameSettings.keyBindRight.pressed = false;
+					mc.gameSettings.keyBindLeft.pressed = false;
+					if(!timerStopwatch.isDelayComplete(550)) {
+						MovementUtils.setSpeed(event, 0.4);
+					}else {
+						MovementUtils.setSpeed(event, 0.35);
+					}
+					if(timerStopwatch.isDelayComplete(800)) {
+						MovementUtils.setSpeed(event,0.37);
+					}
 				}
-				else {
-					BlockPos blockPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.getEntityBoundingBox().minY - 1.0D, mc.thePlayer.posZ);
-					Vec3d vec = new Vec3d(blockPos).addVector(0.4D, 0.4D, 0.4D).mul(0.4F);
-					mc.playerController.onPlayerRightClick3d(mc.thePlayer, mc.theWorld, new ItemStack(Blocks.barrier), blockPos, EnumFacing.UP, vec);
-				}
-				MovementUtils.setSpeed(event, 0.08);
+				
+				if(WatchdogTimer.isDelayComplete(300)) {
+	    			
+    				wasAir = true;
+    			}
+				
+				if(mc.thePlayer.onGround && wasAir) {
+	    			wasAir = false;
+	    			toggle();
+	    		}
 				break;
 			case Motion:
 				event.setY(player.motionY = -0.0625);
@@ -291,15 +316,7 @@ public class Flight extends Module {
 	}
 
 
-	
-	@Handler
-	public void a(EventCollide event){
-		if(flightMode.getValue() == Mode.Watchdog){
-			if (event.getBlock() instanceof BlockAir && event.getY() < mc.thePlayer.posY) {
-				event.setBoundingBox(new AxisAlignedBB((double) event.getX(), (double) event.getY(), (double) event.getZ(), event.getX() + 1.0, mc.thePlayer.posY, event.getZ() + 1.0));
-			}
-		}
-	}
+
 	
     private boolean nigger() {
     	if (longJumpTimerXD.isDelayComplete(300)) {
@@ -347,7 +364,7 @@ public class Flight extends Module {
     	if (event.getPacket() instanceof S08PacketPlayerPosLook) {
         	switch (flightMode.getValue()) {
         	case Watchdog:
-        		//toggle();
+        	
         		break;
 			case Motion:
 				break;
@@ -392,28 +409,11 @@ public class Flight extends Module {
             }
 			switch (flightMode.getValue()) {
 				case Watchdog:
-//					if (timerBoost.isEnabled()) {
-//						if (!timerStopwatch.isDelayComplete(timerDuration.getValue()) && stage > 0) {
-//							timer.timerSpeed = timerValue.getValue();
-//						} else {
-//							timer.timerSpeed = 1.0f;
-//						}
-//					}
-//					float glideAmount = 0.0009f;
-//					float glideValue = mc.thePlayer.ticksExisted % 2 == 0 ? glideAmount : -glideAmount;
-//					//mc.thePlayer.motionY = 0.42f;
-//					mc.thePlayer.motionY = 0.0;
-//					//MovementUtils.setMotion(MovementUtils.getSpeed());
-//					//player.setPosition(player.posX, player.posY + glideValue, player.posZ);
-//					switch (counter) {
-//					case 1:
-//						PlayerUtil.tpRel(0, 3.0E-13D, 0);
-//						break;
-//					case 2:
-//						PlayerUtil.tpRel(0, 3.0E-124D, 0);
-//						counter = 0;
-//						break;
-//					}
+					if(!mc.thePlayer.onGround) {
+					mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(x,y,z,false));
+					}else {
+						mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,mc.thePlayer.posY,mc.thePlayer.posZ,false));
+					}
 					break;
 				case Vanilla:
 					player.capabilities.isFlying = true;

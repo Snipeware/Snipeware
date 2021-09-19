@@ -84,7 +84,7 @@ private BooleanValue silient = new BooleanValue("Silent", true);
 private BooleanValue tower  = new BooleanValue("Tower", false);
 private BooleanValue keeprots = new BooleanValue("Keep Rotations", true);
 private BooleanValue Swing = new BooleanValue("Swing", true);
-private BooleanValue keepy = new BooleanValue("Keepy", false);
+private BooleanValue keepy = new BooleanValue("KeepY", false);
 private BooleanValue eagle = new BooleanValue("Eagle", false);
 public  BooleanValue blockCountBarProperty = new BooleanValue("Block count", true);
 private BooleanValue edge = new BooleanValue("Edge", false);
@@ -169,8 +169,11 @@ int ticks = 0;
 
 @Handler
 public void onMotionUpdate(final EventMotionUpdate event) {
-
-	 mc.timer.timerSpeed = TimerBoost.getValue();
+	if(mc.thePlayer.onGround && mc.thePlayer.isMoving2()) {
+		mc.timer.timerSpeed = TimerBoost.getValue();
+	}else {
+		mc.timer.timerSpeed = 1f;
+	}
 	
     setSuffix ("Normal"); 
 	 if(mode.getValueAsString() == "Watchdog"){
@@ -242,17 +245,18 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 pitch = limitedRotation.getPitch ();
                 
                 	 if(mode.getValueAsString() == "Watchdog"){
-                	  event.setYaw(mc.thePlayer.rotationYaw - (float) MathUtils.getRandomInRange(177, 170));
-                	  if(mc.thePlayer.onGround) {
-                		  event.setPitch(87);
-                	  }else {
-                		  event.setPitch(90);
-                	  }
+                		 event.setYaw((float) (yaw + MathUtils.getRandomInRange(0, 3))); 
+                		 if(mc.thePlayer.onGround) {
+                    		 event.setPitch(87);
+                       		 }else {
+                       			event.setPitch(83);
+                       		 }
+                	 
                 	 }else if(mode.getValueAsString() == "Normal") {
                 		 event.setYaw(yaw);
                          event.setPitch(82); 
                 	 }
-               
+            
             rotated = false;
             currentPos = null;
             currentFacing = null;
@@ -284,12 +288,12 @@ public void onMotionUpdate(final EventMotionUpdate event) {
             		if (keeprots.getValue ().booleanValue ()) {
 
                    	 if(mode.getValueAsString() == "Watchdog"){
-                   	  event.setYaw(mc.thePlayer.rotationYaw -(float) MathUtils.getRandomInRange(177, 180));
-                   	  if(mc.thePlayer.onGround) {
-                		  event.setPitch(87);
-                	  }else {
-                		  event.setPitch(90);
-                	  }
+                   		 event.setYaw((float) (yaw + MathUtils.getRandomInRange(0, 3))); 
+                   		 if(mc.thePlayer.onGround) {
+                		 event.setPitch(87);
+                   		 }else {
+                   			event.setPitch(83);
+                   		 }
                    	 }else if(mode.getValueAsString() == "Normal") {
                    		 event.setYaw(yaw);
                             event.setPitch(82); 
@@ -592,7 +596,7 @@ public BlockData getBlockData() {
         yValue -= 0.6;
     }*/
     BlockPos aa = new BlockPos( mc.thePlayer.getPositionVector()).offset(EnumFacing.DOWN).add(0, yValue, 0);
-    BlockPos playerpos = aa;
+    BlockPos playerpos = aa;	
  
  
     boolean tower = !this.tower.getValue ().booleanValue () && !mc.thePlayer.isMoving();

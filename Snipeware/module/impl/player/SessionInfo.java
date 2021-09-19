@@ -152,11 +152,11 @@ public class SessionInfo extends Module {
 			double x = scaledResolution2.getScaledWidth() / 2;
 			double y = scaledResolution2.getScaledHeight() / 2;
 			Color darkgary2 = new Color(65, 65, 65, 210);
-			double rectwidth = scaledResolution2.getScaledWidth() / 8;
-			double rectheight = scaledResolution2.getScaledHeight() / 8;
+			double rectwidth = 120;
+			double rectheight = 65;
 
-			int rectX = (int) (x / 64);
-			int rectY = (int) (y / 1.6);
+			int rectX = 5;
+			int rectY = 125;
 
 			EntityPlayerSP player = mc.thePlayer;
 			double xDist = player.posX - player.lastTickPosX;

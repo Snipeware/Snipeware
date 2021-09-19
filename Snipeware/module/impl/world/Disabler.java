@@ -44,12 +44,13 @@ import net.minecraft.network.play.server.S39PacketPlayerAbilities;
 
 public class Disabler extends Module {
 
-	private EnumValue<Mode> mode = new EnumValue("Mode", Mode.WatchdogTimer);
+	private EnumValue<Mode> mode = new EnumValue("Mode", Mode.Watchdog);
 
 	private boolean flag;
 
 	private TimeHelper timer = new TimeHelper();
 	private TimeHelper Watchdog = new TimeHelper();
+	private TimeHelper Watchdog2 = new TimeHelper();
 
 	private final ArrayDeque<Packet> list = new ArrayDeque<>();
 	
@@ -57,19 +58,22 @@ public class Disabler extends Module {
 	private double watchdogMovement;
 	private boolean groundCheck, watchdogPacket;
 	private boolean shouldBlink;
+	private boolean shouldBlink2;
+	private int packetcounter;
+
 
 	public Disabler() {
 		super("Disabler", 0, ModuleCategory.WORLD);
 		addValues(mode);
-		setHidden(true);
 	}
 
 	private enum Mode {
-		FakeLag, WatchdogTimer, Horizon, Verus, Ghostly, Test;
+		FakeLag, Watchdog, WatchdogStaff, Horizon, Verus, Ghostly, Test;
 	}
 
 	@Handler
 	public void onMotionUpdate(final EventMotionUpdate event) {
+		super.setSuffix(mode.getValueAsString());
 		switch (mode.getValue()) {
 			case FakeLag: {
 				if (PlayerUtil.isOnServer("hypixel")) {
@@ -82,7 +86,6 @@ public class Disabler extends Module {
 							timer.reset();
 						}
 					}
-			
 				}
 				break;
 			}
@@ -95,8 +98,12 @@ public class Disabler extends Module {
 			case Verus: {
 				break;
 			}
-			case WatchdogTimer: {
+			case Watchdog: {
 
+				break;
+			}
+			case WatchdogStaff: {
+				mc.getNetHandler().addToSendQueueNoEvent(new C18PacketSpectate(UUID.randomUUID()));
 				break;
 			}
 			case Test: {
@@ -118,44 +125,18 @@ public class Disabler extends Module {
 			case Verus: {
 				break;
 			}
-			case WatchdogTimer: {
-				if(Watchdog.isDelayComplete(MathUtils.getRandomInRange(300, 500))) {
-					shouldBlink = true;
-				}
-				if(Watchdog.isDelayComplete(800 * mc.timer.timerSpeed)) {
-					shouldBlink = false;
-					Watchdog.reset();
-				}
-				if(shouldBlink = true && mc.timer.timerSpeed >= 1.001f) {
-					if (event.getPacket() instanceof C00PacketKeepAlive){
-						event.setCancelled(true);
-					}
-				}
+			case Watchdog: {
+		
 				break;
 			}
 			case FakeLag: {
 				break;
 			}
 			case Test: {
-				if (Client.INSTANCE.getModuleManager().aura.target != null && event.getPacket() instanceof C03PacketPlayer) {
-					C03PacketPlayer p = (C03PacketPlayer) event.getPacket();
-					if(p.getRotating()) {
-						float m = (float) (0.005 * mc.gameSettings.mouseSensitivity / 0.005);
-						float f = (float) (m * 0.6 + 0.2);
-						float gcd = (float) (m * m * m * 1.2);
-						p.pitch -= p.pitch % gcd;
-						p.yaw -= p.yaw % gcd;
-					}
-				}
-
-				if (event.getPacket() instanceof C0FPacketConfirmTransaction) {
-					if(currentTrans++ > 0) event.setCancelled(true);
-				} else if(event.getPacket() instanceof C0BPacketEntityAction) {
-					event.setCancelled(true);
-				}
+			
 				break;
 			}
-		}
+			}
 	}
 
 	@Handler
@@ -178,8 +159,52 @@ public class Disabler extends Module {
 			case Verus: {
 				break;
 			}
-			case WatchdogTimer: {
-
+			case Watchdog: {
+				if(Watchdog.isDelayComplete(MathUtils.getRandomInRange(300, 500))) {
+					shouldBlink = true;
+				}
+				if(Watchdog.isDelayComplete(800 * mc.timer.timerSpeed)) {
+					shouldBlink = false;
+					Watchdog.reset();
+				}
+				if(Watchdog2.isDelayComplete(MathUtils.getRandomInRange(490,500))) {
+					shouldBlink2 = true;
+				}
+				if(Watchdog2.isDelayComplete(MathUtils.getRandomInRange(900,905))) {
+					shouldBlink2 = false;
+					packetcounter = 0;
+					Watchdog2.reset();
+				}
+				
+				if(shouldBlink = true) {
+					if (event.getPacket() instanceof C00PacketKeepAlive && mc.timer.timerSpeed > 1.1f){
+						event.setCancelled(true);
+					}
+				}
+				if(mc.thePlayer.hurtResistantTime > 1) {
+					if(packetcounter > 3) {
+						shouldBlink2 = false;
+					}
+				}else {
+					if(packetcounter > 1) {
+						shouldBlink2 = false;
+					}
+				}
+				
+				
+				if(shouldBlink2 = true) {
+					if (event.getPacket() instanceof C0FPacketConfirmTransaction){
+						packetcounter++;
+						if(mc.timer.timerSpeed > 1.1f) {
+						event.setCancelled(true);
+						}
+					}
+				}
+				
+				break;
+			}
+			case WatchdogStaff: {
+				
 				break;
 			}
 			case FakeLag: {
@@ -200,7 +225,9 @@ public class Disabler extends Module {
 				break;
 			}
 			case Test: {
-
+				if (event.getPacket() instanceof C14PacketTabComplete){
+					Logger.print("got packet1");
+				}
 				break;
 			}
 		}
@@ -209,7 +236,7 @@ public class Disabler extends Module {
 	@Handler
 	public void onMove(final EventMove event) {
 		switch (mode.getValue()) {
-		case WatchdogTimer:
+		case Watchdog:
 			break;
 		case FakeLag:
 			break;
@@ -239,7 +266,7 @@ public class Disabler extends Module {
 			break;
 		case Verus:
 			break;
-		case WatchdogTimer:
+		case Watchdog:
 			break;
 		case FakeLag:
 			timer.reset();

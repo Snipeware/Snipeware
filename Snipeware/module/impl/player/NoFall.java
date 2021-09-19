@@ -129,7 +129,7 @@ public class NoFall extends Module {
 	}
 	
 	@Handler
-	public void nigger(EventPacketSend event) {
+	public void onPacketSend(EventPacketSend event) {
 		switch (nofallMode.getValue()) {
 		case Watchdog:
 		   if (canNegate) {

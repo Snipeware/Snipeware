@@ -76,7 +76,7 @@ public class Criticals extends Module {
         final KillAura killAura = (KillAura) Client.INSTANCE.getModuleManager().getModule(KillAura.class);
     	switch (mode.getValue()) {
     	case Watchdog:
-    		 if (event.isPost() && mc.thePlayer.onGround && killAura.target != null) {
+    		 if (event.isPre() && mc.thePlayer.onGround && killAura.target != null) {
     			
     			 WatchdogY = MathUtils.getRandomInRange(0.01, 0.03);
     			   event.setPosY(mc.thePlayer.posY + WatchdogY);
