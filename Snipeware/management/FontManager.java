@@ -60,12 +60,24 @@ public class FontManager {
 				myFont = myFont.deriveFont(Font.PLAIN, i);
 				fonts.put("Snipeware " + i, unicode ? new UnicodeFontRenderer(myFont) : new TTFFontRenderer(myFont));
 			}
+			for (int i : new int[] { 2, 4, 6, 8, 10, 12, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 34, 35, 36, 38,
+					40, 42, 44, 46, 48, 50, 52, 54, 56,58,60,62,64,66,68,70,72,74,76,78,80,82,84,86,88,90,92,94,96,98,100 }) {
+				InputStream istream = getClass().getResourceAsStream("/assets/minecraft/fonts/calibri-594.ttf");
+				Font myFont = Font.createFont(Font.PLAIN, istream);
+				myFont = myFont.deriveFont(Font.PLAIN, i);
+				fonts.put("Calibri " + i, unicode ? new UnicodeFontRenderer(myFont) : new TTFFontRenderer(myFont));
+			}
 			
 		
 
 			for (int i : new int[] { 2, 4, 6, 8, 10, 12, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40,
 					42, 44, 46, 48, 50, 52 }) {
 				fonts.put("Tahoma " + i, unicode ? new UnicodeFontRenderer(new Font("Tahoma", Font.PLAIN, i)) : new TTFFontRenderer(new Font("Tahoma", Font.PLAIN, i)));
+			}
+			
+			for (int i : new int[] { 2, 4, 6, 8, 10, 12, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40,
+					42, 44, 46, 48, 50, 52 }) {
+				fonts.put("Arial " + i, unicode ? new UnicodeFontRenderer(new Font("Arial", Font.PLAIN, i)) : new TTFFontRenderer(new Font("Arial", Font.PLAIN, i)));
 			}
 
 

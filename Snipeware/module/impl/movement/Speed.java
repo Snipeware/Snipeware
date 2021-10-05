@@ -83,7 +83,34 @@ public class Speed extends Module {
 	        Test
 	    }
 	 
-	 
+	 @Handler
+	 public void aa(EventPacketSend event){
+		 /*
+			if(mode.getValueAsString() == "Strafe") {
+				if (event.getPacket() instanceof C03PacketPlayer) {
+		            C03PacketPlayer packetPlayer = (C03PacketPlayer) event.getPacket();
+		            double x = mc.thePlayer.posX;
+		            double y = mc.thePlayer.posY;
+		            double z = mc.thePlayer.posZ;
+		            float yaw = mc.thePlayer.rotationYaw;
+		            float pitch = mc.thePlayer.rotationPitch;
+		            boolean ground = packetPlayer.onGround;
+		            if (packetPlayer.isMoving()) {
+		                x = packetPlayer.getPositionX();
+		                y = packetPlayer.getPositionY();
+		                z = packetPlayer.getPositionZ();
+		            }
+
+		            if (packetPlayer.getRotating()) {
+		                yaw = packetPlayer.getYaw();
+		                pitch = packetPlayer.getPitch();
+		            }
+
+		            event.setPacket(new C03PacketPlayer.C06PacketPlayerPosLook(x, y, z, yaw, pitch, ground));
+		        }
+			}
+			*/
+	 }
 
 	@Handler
 	public void onMove(final EventMove event) {
@@ -435,6 +462,7 @@ public class Speed extends Module {
 			toggle();
 			Notifications.getManager().post("Disabled Modules", "Speed was disabled to prevent flags/errors.");
 		}
+
 	}
 	
 

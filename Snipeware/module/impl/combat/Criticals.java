@@ -23,8 +23,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C03PacketPlayer.C04PacketPlayerPosition;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
@@ -45,6 +47,7 @@ public class Criticals extends Module {
     private boolean c;
     private long ms2;
     private long ms3;
+    private int WatchdogCounter;
 	private double WatchdogY;
 	public Criticals() {
 		super("Criticals", 0, ModuleCategory.COMBAT);
@@ -76,15 +79,6 @@ public class Criticals extends Module {
         final KillAura killAura = (KillAura) Client.INSTANCE.getModuleManager().getModule(KillAura.class);
     	switch (mode.getValue()) {
     	case Watchdog:
-    		 if (event.isPre() && mc.thePlayer.onGround && killAura.target != null) {
-    			
-    			 WatchdogY = MathUtils.getRandomInRange(0.01, 0.03);
-    			   event.setPosY(mc.thePlayer.posY + WatchdogY);
-    			   mc.thePlayer.fallDistance = (float) WatchdogY;
-    			   event.setOnGround(false);
-    			
-    		 }
-    		 
     		break;
     		
     	
@@ -143,11 +137,29 @@ public class Criticals extends Module {
         }
             break;
             }case Watchdog:{
-             break;
-           	 }
-
-    	}
-       
+            	if(mc.thePlayer.onGround) {
+            		if(killAura.target != null) {
+            			Packet<?> packet  = event.getPacket();
+	            			if(packet instanceof C03PacketPlayer.C04PacketPlayerPosition) {
+	            				C03PacketPlayer.C04PacketPlayerPosition c04 = (C03PacketPlayer.C04PacketPlayerPosition) event.getPacket();
+	            				Logger.print(String.valueOf(WatchdogCounter));
+	            					mc.thePlayer.onGround = false;
+	            					
+		            				c04.onGround = false;
+		            				c04.setY(mc.thePlayer.posY + MathUtils.getRandomInRange(0.002, 0.005));
+	            				
+	            				WatchdogCounter++;
+	            			}
+	            			if(WatchdogCounter > 7){
+	            				WatchdogCounter = 0;
+	            			}
+            			
+            			}
+            	}
+            break;
+    	
+            }
+      	}
     }
 
     private boolean hasTarget() {

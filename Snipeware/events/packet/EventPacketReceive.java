@@ -6,7 +6,7 @@ import net.minecraft.network.Packet;
 
 public final class EventPacketReceive extends Cancellable implements Event {
 	
-    private final Packet packet;
+    private Packet packet;
 
     public EventPacketReceive(Packet packet) {
         this.packet = packet;
@@ -14,5 +14,8 @@ public final class EventPacketReceive extends Cancellable implements Event {
 
     public Packet getPacket() {
         return this.packet;
+    }
+    public void setPacket(Packet packet) {
+    	this.packet = packet;
     }
 }

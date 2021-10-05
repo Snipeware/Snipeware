@@ -1,5 +1,6 @@
 package Snipeware.module.impl.world;
 
+import java.io.StringBufferInputStream;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import Snipeware.util.other.TimeHelper;
 import Snipeware.value.impl.EnumValue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.PlayerCapabilities;
@@ -60,7 +62,7 @@ public class Disabler extends Module {
 	private boolean shouldBlink;
 	private boolean shouldBlink2;
 	private int packetcounter;
-
+	public EntityLivingBase entity;
 
 	public Disabler() {
 		super("Disabler", 0, ModuleCategory.WORLD);
@@ -68,7 +70,7 @@ public class Disabler extends Module {
 	}
 
 	private enum Mode {
-		FakeLag, Watchdog, WatchdogStaff, Horizon, Verus, Ghostly, Test;
+		Mineplex, FakeLag, Watchdog, WatchdogStaff, Horizon, Verus, Ghostly, Test;
 	}
 
 	@Handler
@@ -102,11 +104,16 @@ public class Disabler extends Module {
 
 				break;
 			}
+			case Mineplex: {
+				
+				break;
+			}
 			case WatchdogStaff: {
 				mc.getNetHandler().addToSendQueueNoEvent(new C18PacketSpectate(UUID.randomUUID()));
 				break;
 			}
 			case Test: {
+				
 				break;
 			}
 		}
@@ -127,6 +134,14 @@ public class Disabler extends Module {
 			}
 			case Watchdog: {
 		
+				break;
+			}
+			case Mineplex: {
+		         Packet packet = event.getPacket();
+	                if (packet instanceof C00PacketKeepAlive) {
+	                	Logger.print("nigger");
+	                    ((C00PacketKeepAlive) packet).key -= MathUtils.getRandomInRange(1000, 2147483647);
+	                }
 				break;
 			}
 			case FakeLag: {
@@ -207,6 +222,10 @@ public class Disabler extends Module {
 				
 				break;
 			}
+			case Mineplex: {
+				
+				break;
+			}
 			case FakeLag: {
 				if (PlayerUtil.isOnServer("hypixel") || PlayerUtil.isOnServer("ilovecatgirls")) {
 					if (event.getPacket() instanceof C0FPacketConfirmTransaction) {
@@ -225,9 +244,16 @@ public class Disabler extends Module {
 				break;
 			}
 			case Test: {
-				if (event.getPacket() instanceof C14PacketTabComplete){
-					Logger.print("got packet1");
-				}
+				Packet<?> packet  = event.getPacket();
+				if(packet instanceof C03PacketPlayer.C04PacketPlayerPosition) {
+    				C03PacketPlayer.C04PacketPlayerPosition c04 = (C03PacketPlayer.C04PacketPlayerPosition) event.getPacket();
+    				if(mc.thePlayer.motionX > 0.1f && !mc.thePlayer.onGround) {
+    					double value = mc.thePlayer.motionX ;
+    					System.out.println(value);
+    					c04.setX(mc.thePlayer.posX - value);
+    				}
+    			}
+			
 				break;
 			}
 		}

@@ -132,7 +132,7 @@ public final class ESP2D extends Module {
         	int color1 = new Color(healthColor).getRed();
         	int color2 = new Color(healthColor).getGreen();
         	int color3 = new Color(healthColor).getBlue();
-        	int color = new Color(color1, color2, color3, 135).getRGB();
+        	int color = new Color(120, 120, 120, 135).getRGB();
             double x = RenderUtil.interpolateScale(entity.posX, entity.lastTickPosX, (float)partialTicks);
             double y = RenderUtil.interpolateScale(entity.posY, entity.lastTickPosY, (float)partialTicks);
             double z = RenderUtil.interpolateScale(entity.posZ, entity.lastTickPosZ, (float)partialTicks);

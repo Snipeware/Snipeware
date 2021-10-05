@@ -50,6 +50,7 @@ import Snipeware.module.impl.player.InvManager;
 import Snipeware.module.impl.player.KillSay;
 import Snipeware.module.impl.player.NoFall;
 import Snipeware.module.impl.player.NoRotate;
+import Snipeware.module.impl.player.Notifier;
 import Snipeware.module.impl.player.Safewalk;
 import Snipeware.module.impl.player.SessionInfo;
 import Snipeware.module.impl.player.Zoot;
@@ -142,7 +143,7 @@ public class ModuleManager {
 		modules.put(AutoBreaker.class, new AutoBreaker());
 		modules.put(FastBreak.class, new FastBreak());
 		modules.put(AutoGG.class, new AutoGG());
-		modules.put(DMGParticles.class, new DMGParticles());
+		//modules.put(DMGParticles.class, new DMGParticles());
 		modules.put(Blink.class, new Blink());
 		modules.put(Tracers.class, new Tracers());
 		modules.put(BowAimbot.class, new BowAimbot());
@@ -158,8 +159,8 @@ public class ModuleManager {
 		modules.put(ItemESP.class, new ItemESP());
 		modules.put(OutlineESP.class, new OutlineESP());
 		modules.put(PenisESP.class, new PenisESP());
-		modules.put(Skyblock.class, new Skyblock());
-
+		//modules.put(Skyblock.class, new Skyblock());
+		//modules.put(Notifier.class, new Notifier());
 	}
 
 	public Collection<Module> getModules() {

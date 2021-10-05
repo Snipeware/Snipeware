@@ -100,12 +100,18 @@ public class KillAura extends Module {
 	
 	public int tick;
 	
+	private int AutismYaw;
+	private int AutismPitch;
+	
+	private boolean shouldminus;
+	
 	public boolean rar = false;
 	
 	public TimeHelper attackTimer = new TimeHelper();
 	public boolean block;
 
 	private final TimeHelper packetsTimer = new TimeHelper();
+	private final TimeHelper RotationTimer = new TimeHelper();
 	
 	public KillAura() {
 		super("KillAura", Keyboard.KEY_K, ModuleCategory.COMBAT);
@@ -114,7 +120,7 @@ public class KillAura extends Module {
 	
 	public void onEnable() {
 		super.onEnable();
-
+		RotationTimer.reset();
 		target = null;
 		attackTimer.reset();
 		tick = 100;
@@ -232,16 +238,29 @@ public class KillAura extends Module {
 				block = false;
 			}
 			
-			final float penis = 90;
+		
+			if(RotationTimer.isDelayComplete(5)) {
+				AutismYaw += 20;
+				if(!shouldminus) {
+					AutismPitch += 15;
+				}else {
+					AutismPitch -= 15;
+				}
+				if(AutismPitch >= 85) {
+					shouldminus = true;
+				}else if(AutismPitch <= 5){
+					shouldminus = false;
+				}
+				RotationTimer.reset();
+			}
 			
-		if(!rar) {
-					
+		if(!rar) {	
 			if (lockview.isEnabled()) {
 				mc.thePlayer.rotationYaw = yaw;
-				mc.thePlayer.rotationPitch = shouldAutism ? penis : pitch;
+				mc.thePlayer.rotationPitch = shouldAutism ? AutismPitch : pitch;
 			} else {
-				event.setYaw(yaw);
-				event.setPitch(shouldAutism ? penis : pitch);
+				event.setYaw(shouldAutism ? AutismYaw : yaw);
+				event.setPitch(shouldAutism ? AutismPitch : pitch);
 			
 			}
 			

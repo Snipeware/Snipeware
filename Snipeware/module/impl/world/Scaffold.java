@@ -23,6 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C03PacketPlayer.C04PacketPlayerPosition;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
@@ -36,6 +37,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.lwjgl.opengl.GL11;
 
 import Snipeware.api.annotations.Handler;
+import Snipeware.events.packet.EventPacketReceive;
 import Snipeware.events.packet.EventPacketSend;
 import Snipeware.events.player.EventCollide;
 import Snipeware.events.player.EventMotionUpdate;
@@ -109,6 +111,11 @@ private EnumValue<TowerMode> towerMode  = new EnumValue<>("TowerMode", TowerMode
 private EnumValue<Mode> mode  = new EnumValue<>("Mode", Mode.Normal);
 private float RandomY;
 private final TimeHelper Random = new TimeHelper();
+private final TimeHelper RotationTimer = new TimeHelper();
+private int smothYaw;
+private float differenceMinus;
+private float differencePlus;
+
 
 public Scaffold() {
     super("Scaffold", 0, ModuleCategory.WORLD);
@@ -163,9 +170,21 @@ public void fakeJump() {
 int ticks = 0;
 
 
-
-
-
+@Handler
+public void aa(EventPacketSend event){
+    switch (towerMode.getValueAsString ()) { 
+    	case "Hypixel":
+    		Packet<?> packet  = event.getPacket();
+    		if(!towerTimer.reach(200) && mc.gameSettings.keyBindJump.pressed == true) {
+				if(packet instanceof C03PacketPlayer) {
+					C03PacketPlayer c04 = (C03PacketPlayer) event.getPacket();
+					c04.onGround = false;
+					c04.setY(mc.thePlayer.posY + MathUtils.getRandomInRange(0.002, 0.005));
+				}
+    		}
+    	break;
+    }
+}
 
 @Handler
 public void onMotionUpdate(final EventMotionUpdate event) {
@@ -190,11 +209,7 @@ public void onMotionUpdate(final EventMotionUpdate event) {
             int slot = this.getSlot ();
      
             isPlaceTick = keeprots.getValue ().booleanValue () ? blockData != null && slot != -1 : blockData != null && slot != -1 && mc.theWorld.getBlockState ( new BlockPos ( mc.thePlayer ).add ( 0, -1, 0 ) ).getBlock () == Blocks.air;
-            if (slot == -1) {
-                moveBlocksToHotbar ();
-
-                return;
-            }
+        
             if(Jump.isEnabled()) {
             if(mc.thePlayer.isMoving2()) {
             	mc.gameSettings.keyBindJump.pressed = true;
@@ -214,16 +229,18 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 switch (towerMode.getValueAsString ()) { 
                     case "Hypixel":
                         EntityPlayerSP player = mc.thePlayer;
-                        if (!MovementUtils.isOnGround ( 0.79 ) || mc.thePlayer.onGround) {
-                            player.motionY = 0.41985;
+                        if (!MovementUtils.isOnGround (0.8) || mc.thePlayer.onGround && !mc.thePlayer.isMoving()) {
+                        	event.setOnGround(false);
+                        	player.motionY = 0.42;
                             stage = 1;
                         }
-                        if (towerTimer.reach ( 1500 )) {
-                        
-                            player.motionY = -1;
-                            towerTimer.reset();
+                        if(mc.gameSettings.keyBindJump.pressed == false) {
+                        	towerTimer.reset();
                         }
-
+                        if(towerTimer.isDelayComplete(150)) {
+                        	event.setOnGround(true);
+                        	mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, true));
+                        }
 
                     case "Packet":
                         if (mc.thePlayer.onGround) {
@@ -243,13 +260,23 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 Rotation limitedRotation = setBlockAndFacing.BlockUtil.limitAngleChange ( new Rotation ( yaw, event.getPitch () ), targetRotation, (float) ThreadLocalRandom.current ().nextDouble ( 20, 30 ) );
                 yaw = getRotations(blockData.getPosition(), blockData.getFacing())[0];
                 pitch = limitedRotation.getPitch ();
-                
                 	 if(mode.getValueAsString() == "Watchdog"){
-                		 event.setYaw((float) (yaw + MathUtils.getRandomInRange(0, 3))); 
-                		 if(mc.thePlayer.onGround) {
+                	  		if(RotationTimer.isDelayComplete(5)) {
+                       			if(smothYaw <= yaw) {
+                       				smothYaw += 15;
+                       			}
+                       			if(smothYaw >= yaw) {
+                       				smothYaw -= 15;
+                       			}
+                       			RotationTimer.reset();
+                       		}
+
+                	  		event.setYaw((float) (smothYaw + MathUtils.getRandomInRange(0, 3))); 
+                	  	
+                	  		if(mc.thePlayer.onGround) {
                     		 event.setPitch(87);
                        		 }else {
-                       			event.setPitch(83);
+                       			event.setPitch(90);
                        		 }
                 	 
                 	 }else if(mode.getValueAsString() == "Normal") {
@@ -288,11 +315,11 @@ public void onMotionUpdate(final EventMotionUpdate event) {
             		if (keeprots.getValue ().booleanValue ()) {
 
                    	 if(mode.getValueAsString() == "Watchdog"){
-                   		 event.setYaw((float) (yaw + MathUtils.getRandomInRange(0, 3))); 
+                   		 event.setYaw((float) (smothYaw + MathUtils.getRandomInRange(0, 3))); 
                    		 if(mc.thePlayer.onGround) {
                 		 event.setPitch(87);
                    		 }else {
-                   			event.setPitch(83);
+                   			event.setPitch(90);
                    		 }
                    	 }else if(mode.getValueAsString() == "Normal") {
                    		 event.setYaw(yaw);
@@ -700,7 +727,7 @@ private boolean isValid(ItemStack itemStack) {
 }
 
 public int getBlockCount() {
-    int count = 0;
+    int count = -1;
     for (int k = 0; k < mc.thePlayer.inventory.mainInventory.length; ++k) {
         final ItemStack itemStack = mc.thePlayer.inventory.mainInventory[k];
         if (itemStack != null && this.isValid(itemStack) && itemStack.stackSize >= 1) {

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Snipeware.Client;
 import Snipeware.api.annotations.Handler;
+import Snipeware.events.packet.EventPacketReceive;
 import Snipeware.events.player.EventKeyPress;
 import Snipeware.events.player.EventMotionUpdate;
 import Snipeware.module.Module;
@@ -31,10 +32,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
+import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.util.BlockPos;
 
@@ -103,11 +106,27 @@ public class Skyblock extends Module {
 				  mc.gameSettings.keyBindLeft.pressed = false;
 				  mc.gameSettings.keyBindRight.pressed = false;
 			 }else {
+				 mc.thePlayer.rotationPitch = 0;
+				 mc.thePlayer.rotationYaw = -90;
+				 
 				 Logger.print("The macro was turned on");
 			 }
 		 }
 	 }
 	 }
+	 
+		@Handler
+		public void onReceivePacket(final EventPacketReceive event) {
+			if(start) {
+				if (event.getPacket() instanceof S02PacketChat) {
+					final S02PacketChat packet = (S02PacketChat) event.getPacket();
+					String text = packet.getChatComponent().getUnformattedText();
+					if (text.contains("You were spawned in Limbo")) {			
+						mc.thePlayer.sendChatMessage("/lobby");
+					}
+				}
+			}
+		}
 	
 	@Handler
 	public void onMotionUpdate(final EventMotionUpdate event){
@@ -154,13 +173,17 @@ public class Skyblock extends Module {
 								Root root = om.readValue(s1, Root.class);
 								if(!root.session.gameType.contains("SKYBLOCK")) {
 									if(Delay4.isDelayComplete(900)) {
+										mc.gameSettings.keyBindAttack.pressed = false;
 										mc.thePlayer.sendChatMessage("/play skyblock");
+										mc.gameSettings.keyBindAttack.pressed = true;
 										Delay4.reset();
 									}
 								}
 								if(!root.session.mode.contains("dynamic") && root.session.gameType.contains("SKYBLOCK")) {
 									if(Delay4.isDelayComplete(900)) {
+										mc.gameSettings.keyBindAttack.pressed = false;
 										mc.thePlayer.sendChatMessage("/is");
+										mc.gameSettings.keyBindAttack.pressed = true;
 										Delay4.reset();
 									}
 								}
@@ -168,12 +191,27 @@ public class Skyblock extends Module {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							Delay2.reset();
 							}
 						 }
 					});
 					thread.start();
 				      mc.gameSettings.keyBindAttack.pressed = true;
+				      if(mc.thePlayer.capabilities.isFlying == true) {
+				    	  mc.gameSettings.keyBindJump.pressed = true;
+				    	  if(Delay5.isDelayComplete(100)) {
+				    		  mc.gameSettings.keyBindJump.pressed = false;
+				    		  
+				    	  }
+				    	  if(Delay5.isDelayComplete(150)) {
+				    		  mc.gameSettings.keyBindJump.pressed = true;
+				    	  }
+				    	  if(Delay5.isDelayComplete(200)) {
+				    		  mc.gameSettings.keyBindJump.pressed = false;
+				    		  Delay5.reset();
+				    	  }
+				      }else {
+				    	  mc.gameSettings.keyBindJump.pressed = false;
+				      }
 				      if(stage == 0) {
 				    	  if(!Delay3.isDelayComplete(500)) {
 				    		  mc.gameSettings.keyBindForward.pressed = true;

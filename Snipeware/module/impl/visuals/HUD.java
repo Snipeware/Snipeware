@@ -180,12 +180,12 @@ private float hue = 1.0F;
       boolean vanilla = fontMode.getValue().equals(FontMode.Vanilla);
       if (watermark.isEnabled()) {
     	  if (vanilla) {
+ 
+    		  mc.fontRendererObj.drawStringWithShadow("Snipeware" + fps, 1, 1, -1);
     		  
-    			  mc.fontRendererObj.drawStringWithShadow("S" + ChatFormatting.WHITE + "nipeware" + fps,  1, 1, color);
-    		 
     	  } else {
-    
-    		  font.drawStringWithShadow("S" + ChatFormatting.WHITE + "nipeware" + fps, 1, 1, color);
+ 
+    		  font.drawStringWithShadow("Snipeware" + fps, 1, 1, -1);
     	  }
       }
   	color = RenderUtil.getRainbow(6000, (int) (1 * 30), rainbowSaturation.getValue());
@@ -252,7 +252,7 @@ private float hue = 1.0F;
   private void drawTabGui() {
 		final ScaledResolution scaledResolution2;
 		final ScaledResolution scaledResolution = scaledResolution2 = new ScaledResolution(mc);
-		final FontRenderer font = Client.INSTANCE.getFontManager().getFont("Aquire 28", false);
+		final FontRenderer font = Client.INSTANCE.getFontManager().getFont("Display 20", false);
 	    double x = scaledResolution2.getScaledWidth() / 2;
 		double y = scaledResolution2.getScaledHeight() / 2;
 		double rectwidth = 65;
@@ -283,29 +283,29 @@ private float hue = 1.0F;
 		RenderUtil.drawRect(rectX - 2.5f, rectY - 2.5f, rectwidth + 5, rectheight + 5,new Color(10,10,10,195).getRGB());
 		RenderUtil.drawRect(rectX -2.5f,rectY - 2.5f + index * 15, rectwidth + 5, 16, new Color(38,43,226, 200).getRGB());
 		if(index == 0) {
-			font.drawString("Combat", rectX + 3, rectY - 1.5f, -1);
+			font.drawString("Combat", rectX + 3, rectY , -1);
 		}else {
-			font.drawString("Combat", rectX, rectY - 1.5f, -1);
+			font.drawString("Combat", rectX, rectY, -1);
 		}
 		if(index == 1) {
-			font.drawString("Movement", rectX + 3, rectY - 1.5f + 15, -1);
+			font.drawString("Movement", rectX + 3, rectY  + 15, -1);
 		}else {
-			font.drawString("Movement", rectX, rectY - 1.5f + 15, -1);
+			font.drawString("Movement", rectX, rectY + 15, -1);
 		}
 		if(index == 2) {
-			font.drawString("Player", rectX + 3, rectY - 1.5f + 30, -1);
+			font.drawString("Player", rectX + 3, rectY + 30, -1);
 		}else {
-			font.drawString("Player", rectX, rectY - 1.5f + 30, -1);
+			font.drawString("Player", rectX, rectY + 30, -1);
 		}
 		if(index == 3) {
-			font.drawString("World", rectX + 3, rectY - 1.5f + 45, -1);
+			font.drawString("World", rectX + 3, rectY  + 45, -1);
 		}else {
-			font.drawString("World", rectX, rectY - 1.5f + 45, -1);
+			font.drawString("World", rectX, rectY + 45, -1);
 		}
 		if(index == 4) {
-			font.drawString("Visuals", rectX + 5, rectY - 1.5f + 60, -1);
+			font.drawString("Visuals", rectX + 5, rectY  + 60, -1);
 		}else {
-			font.drawString("Visuals", rectX, rectY - 1.5f + 60, -1);
+			font.drawString("Visuals", rectX, rectY  + 60, -1);
 		}
 		
 		if(expanded) {
@@ -314,7 +314,7 @@ private float hue = 1.0F;
 				RenderUtil.drawRect(rectX + rectwidth + 3, rectY - 2.5f, rectwidth + 5, rectheight + 5 + 105,new Color(10,10,10,195).getRGB());
 				RenderUtil.drawRect(rectX + rectwidth + 3,rectY  + index2 * 12 - 1, rectwidth + 5, 12, new Color(38,43,226, 200).getRGB());
 				for(int i = 0; i < 15; i++) {
-					font.drawString(ModulesCombat.get(i), rectX + 5 + (int) rectwidth, rectY - 1.5f + i * 12, -1);
+					font.drawString(ModulesCombat.get(i), rectX + 5 + (int) rectwidth, rectY + i * 12, -1);
 				}
 			}
 			if(index == 1) {
@@ -322,7 +322,7 @@ private float hue = 1.0F;
 				RenderUtil.drawRect(rectX + rectwidth + 3, rectY - 2.5f, rectwidth + 5, rectheight + 5 + 35,new Color(10,10,10,195).getRGB());
 				RenderUtil.drawRect(rectX + rectwidth + 3,rectY  + index2 * 12 - 1, rectwidth + 5, 12, new Color(38,43,226, 200).getRGB());
 				for(int i = 0; i < 9; i++) {
-					font.drawString(ModulesMovement.get(i), rectX + 5 + (int) rectwidth, rectY - 1.5f + i * 12, -1);
+					font.drawString(ModulesMovement.get(i), rectX + 5 + (int) rectwidth, rectY + i * 12, -1);
 				}
 			}
 			if(index == 2) {
@@ -330,7 +330,7 @@ private float hue = 1.0F;
 				RenderUtil.drawRect(rectX + rectwidth + 3, rectY - 2.5f, rectwidth + 5, rectheight + 5 + 95,new Color(10,10,10,195).getRGB());
 				RenderUtil.drawRect(rectX + rectwidth + 3,rectY  + index2 * 12 - 1, rectwidth + 5, 12, new Color(38,43,226, 200).getRGB());
 				for(int i = 0; i < 14; i++) {
-					font.drawString(ModulesPlayer.get(i), rectX + 5 + (int) rectwidth, rectY - 1.5f + i * 12, -1);
+					font.drawString(ModulesPlayer.get(i), rectX + 5 + (int) rectwidth, rectY  + i * 12, -1);
 				}
 			}
 			if(index == 3) {
@@ -338,7 +338,7 @@ private float hue = 1.0F;
 				RenderUtil.drawRect(rectX + rectwidth + 3, rectY - 2.5f, rectwidth + 5, rectheight + 5 + 80,new Color(10,10,10,195).getRGB());
 				RenderUtil.drawRect(rectX + rectwidth + 3,rectY  + index2 * 12 - 1, rectwidth + 5, 12, new Color(38,43,226, 200).getRGB());
 				for(int i = 0; i < 13; i++) {
-					font.drawString(ModulesWorld.get(i), rectX + 5 + (int) rectwidth, rectY - 1.5f + i * 12, -1);
+					font.drawString(ModulesWorld.get(i), rectX + 5 + (int) rectwidth, rectY  + i * 12, -1);
 				}
 			}
 			if(index == 4) {
@@ -346,7 +346,7 @@ private float hue = 1.0F;
 				RenderUtil.drawRect(rectX + rectwidth + 3, rectY - 2.5f, rectwidth + 5, rectheight + 5 + 165,new Color(10,10,10,195).getRGB());
 				RenderUtil.drawRect(rectX + rectwidth + 3,rectY  + index2 * 12 - 1, rectwidth + 5, 12, new Color(38,43,226, 200).getRGB());
 				for(int i = 0; i < 20; i++) {
-					font.drawString(ModulesVisuals.get(i), rectX + 5 + (int) rectwidth, rectY - 1.5f + i * 12, -1);
+					font.drawString(ModulesVisuals.get(i), rectX + 5 + (int) rectwidth, rectY + i * 12, -1);
 				}
 			}
 		}

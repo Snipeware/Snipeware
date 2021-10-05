@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
@@ -39,21 +40,24 @@ public class ClientMainMenu extends GuiMainMenu {
     private double animated;
     private double animated2;
     private double animated3;
+    private GLSLSandboxShader backgroundShader;
     
     
     @Override
     public void initGui() {
     	Client.getInstance().getDiscordRP().update("idling", "Main Menu");
-        super.initGui();
-
+       
+    	try {
+			this.backgroundShader = new GLSLSandboxShader("noise.fsh");
+		} catch (IOException e) {
+			throw new IllegalStateException("Failed to load backgound shader", e);
+		}
         
     //   buttonList.add(new TextButton(3, xMid + width / 3, initHeight - 153, objWidth, objHeight, strLang));
       //  buttonList.add(new TextButton(2, xMid + width / 3 + 110, initHeight - 153, objWidth, objHeight, strOptions));
        
         //buttonList.add(new ExitButton(5, xMid + width / 3 + 192, initHeight - 157, 25, 25, strOptions));
-        
-   
-  
+    	 super.initGui();
     }
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
@@ -85,6 +89,18 @@ public class ClientMainMenu extends GuiMainMenu {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    	GlStateManager.disableCull();
+		this.backgroundShader.useShader(this.width, this.height, mouseX, mouseY,
+				(System.currentTimeMillis() -  System.currentTimeMillis()) / 1000f);
+		
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glVertex2f(-1f, -1f);
+		GL11.glVertex2f(-1f, 1f);
+		GL11.glVertex2f(1f, 1f);
+		GL11.glVertex2f(1f, -1f);
+		GL11.glEnd();
+		GL20.glUseProgram(0);
+		
     	int objWidth = 210;
         int objHeight = 183;
     	int xMid = width / 2 - objWidth / 2;
@@ -114,11 +130,7 @@ public class ClientMainMenu extends GuiMainMenu {
         buttonList.add(new Button(2, xMid2 ,  (int) Math.round(animated3) + 52 - 4 + 30 + 27, objWidth2, objHeight2, strOptions));
         buttonList.add(new Button(5, xMid2 , (int) Math.round(animated3)  + 69 - 5 + 30 + 36, objWidth2, objHeight2, strShutDown));
        // buttonList.add(new Button(6, xMid2 , (int) Math.round(animated3)  + 86 - 6 + 30 + 60, objWidth2, objHeight2, strProxy));
-    
-    	
-    	  
-    	mc.getTextureManager().bindTexture(new ResourceLocation("minecraft", "background.png"));
-    	Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0f, 0.0f, this.width, this.height, (float)this.width, (float)this.height);
+        
         this.drawGradientRect(0, height - 150, width, height, 0, -16777216);
         
        
@@ -166,11 +178,10 @@ public class ClientMainMenu extends GuiMainMenu {
         int index = 0;
         int AddY = 0;
         
-        changelogs.add("Added WatchdogTimer disabler");
-        changelogs.add("Added Watchdog speed");
-        changelogs.add("Added Watchdog nofall");
-        changelogs.add("Fixed bans and flags");
-        changelogs.add("Fixed Scaffold");
+        changelogs.add("Very big update");
+        changelogs.add("Added alot of hypixel bypasses");
+        changelogs.add("i forgor what i did");
+
         
 
         int color = new Color(250,250,250, 220).getRGB();
@@ -181,12 +192,7 @@ public class ClientMainMenu extends GuiMainMenu {
         	index++;
         	AddY += 10;
         	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
-          	index++;
-        	AddY += 10;
-        	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color);
-        	index++;
-        	AddY += 10;
-        	fr.drawString(changelogs.get(index).toString(), (float)(this.width - fr.getWidth(changelogs.get(index).toString())) / 180,  (float)(this.height / 50 + AddY),  color); 	
+ 	
     
         GlStateManager.popMatrix();
     }
