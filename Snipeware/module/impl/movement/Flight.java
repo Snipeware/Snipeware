@@ -102,7 +102,7 @@ public class Flight extends Module {
 	private double y;
 	private double z;
 	public ArrayList<Packet> packets = new ArrayList();
-
+	private boolean shouldstart = false;
 	private float glideAmount2 = 4f;
 
 	public Flight() {
@@ -194,6 +194,7 @@ public class Flight extends Module {
 		super.onEnable();
 		yrarr = mc.thePlayer.posZ;
 		Blinktimer.reset();
+		shouldstart = false;
 		WatchdogTimer.reset();
 		wasAir = false;
 		if (mc.thePlayer == null) return;
@@ -215,6 +216,7 @@ public class Flight extends Module {
 			case Vanilla:
 				break;
 			case Verus:
+				damage();
 				break;
 			case Taka:
 				break;
@@ -299,12 +301,18 @@ public class Flight extends Module {
 			case Vanilla:
 				break;
 			case Verus:
+				
+				if(mc.thePlayer.hurtTime > 1) {
+					shouldstart = true;
+				}
+				if(shouldstart) {
+					MovementUtils.setSpeed(event, 0.6);
+				}else {
+					mc.timer.timerSpeed = 1;
+					MovementUtils.setSpeed(event, 0);
+				}
 				break;
 			case Taka:	
-				
-			
-		
-				
 				MovementUtils.setSpeed(event, 1.08);
 				break;
 			case Gay:

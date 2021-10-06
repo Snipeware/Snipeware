@@ -174,48 +174,51 @@ public final class TargetHUD extends Module {
 			EntityLivingBase entityPlayer = killAura.target;
 			final String name = entityPlayer instanceof EntityPlayer ? ((EntityPlayer) entityPlayer).getGameProfile().getName() : killAura.target.getDisplayName().getFormattedText();
 			if(killAura.target != null) {
-				  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 - 1, scaledResolution.getScaledHeight() / 1.96f - 1, 147, 52, new Color(50,50,50).getRGB());
-				  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95, scaledResolution.getScaledHeight() / 1.96f, 145, 50, new Color(20,20,20).getRGB());
-				  GuiInventory.drawEntityOnScreen((int) (scaledResolution.getScaledWidth() / 1.95 + 17 + 4), (int) (scaledResolution.getScaledHeight() / 1.96f + 45), 19, (int)getX(), (int)getY(), killAura.target);
-				  fr.drawCenteredString(name, (float) (scaledResolution.getScaledWidth() / 1.84f + 3 + 8 + fr.getWidth(name) / 2), scaledResolution.getScaledHeight() / 1.93f , -855638017);
-				  String distance = String.format("%.1f", killAura.target.getDistanceToEntity(mc.thePlayer));
-				  String Health = String.format("%.1f", killAura.target.getHealth());
-				  fr2.drawCenteredString("HP:" + Health + " | Dist:" +  distance, (float) (scaledResolution.getScaledWidth() / 1.85 + 27.5f + 9), scaledResolution.getScaledHeight() / 1.84f + 7, -855638017);
+				//RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 - 8, scaledResolution.getScaledHeight() / 1.88f - 8, 161, 66, new Color(28,28,28).getRGB());
+				//RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 - 10, scaledResolution.getScaledHeight() / 1.88f - 10, 165, 70, new Color(35,35,35).getRGB());
+				//RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 - 6, scaledResolution.getScaledHeight() / 1.88f - 6, 157, 62, new Color(20,20,20).getRGB());
+				RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 - 1, scaledResolution.getScaledHeight() / 1.88f - 1, 147, 52, new Color(39,39,39).getRGB());
+				RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95, scaledResolution.getScaledHeight() / 1.88f, 145, 50, new Color(21,21,21).getRGB());
+				GuiInventory.drawEntityOnScreen((int) (scaledResolution.getScaledWidth() / 1.95 + 17 + 4), (int) (scaledResolution.getScaledHeight() / 1.88f + 45), 19, (int)getX(), (int)getY(), killAura.target);
+				fr.drawString(name, (float) (scaledResolution.getScaledWidth() / 1.96f) + 40.5f, scaledResolution.getScaledHeight() / 1.88f + 4, -855638017);
+				String distance = String.format("%.1f", killAura.target.getDistanceToEntity(mc.thePlayer));
+				String Health = String.format("%.1f", killAura.target.getHealth());
+				fr2.drawString("HP:" + Health + " | Dist:" +  distance, (float) (scaledResolution.getScaledWidth() / 1.96f + 42), scaledResolution.getScaledHeight() / 1.88f + 24, -855638017);
 				  
-				  if(killAura.target.getHealth() > 2) {
-					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 + 32 + 8, scaledResolution.getScaledHeight() / 1.84f, 9, 4, RenderUtil.drawHealth(killAura.target));
+				if(killAura.target.getHealth() > 2) {
+					  RenderUtil.drawRect(scaledResolution.getScaledWidth() /  1.96 + 42, scaledResolution.getScaledHeight() / 1.88f + 17, 9, 4, RenderUtil.drawHealth(killAura.target));
 				  }
 				  if(killAura.target.getHealth() > 4) {
-					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 + 32 + 10 + 8, scaledResolution.getScaledHeight() / 1.84f, 9, 4,  RenderUtil.drawHealth(killAura.target));
+					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.96 + 42 + 10, scaledResolution.getScaledHeight() / 1.88f + 17, 9, 4,  RenderUtil.drawHealth(killAura.target));
 				  }
 				  if(killAura.target.getHealth() > 6) {
-					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 + 32 + 20 + 8, scaledResolution.getScaledHeight() / 1.84f, 9, 4,  RenderUtil.drawHealth(killAura.target));
+					  RenderUtil.drawRect(scaledResolution.getScaledWidth() /  1.96 + 42 + 20, scaledResolution.getScaledHeight() / 1.88f + 17, 9, 4,  RenderUtil.drawHealth(killAura.target));
 				  }
 				  if(killAura.target.getHealth() > 8) {
-					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 + 32 + 30 + 8, scaledResolution.getScaledHeight() / 1.84f, 9, 4,  RenderUtil.drawHealth(killAura.target));
+					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.96 + 42 + 30,scaledResolution.getScaledHeight() / 1.88f + 17, 9, 4,  RenderUtil.drawHealth(killAura.target));
 				  }
 				  if(killAura.target.getHealth() > 10) {
-					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 + 32 + 40 + 8, scaledResolution.getScaledHeight() / 1.84f, 9, 4,  RenderUtil.drawHealth(killAura.target));
+					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.96 + 42 + 40, scaledResolution.getScaledHeight() / 1.88f + 17, 9, 4,  RenderUtil.drawHealth(killAura.target));
 				  }
 				  if(killAura.target.getHealth() > 12) {
-					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 + 32 + 50 + 8, scaledResolution.getScaledHeight() / 1.84f, 9, 4,  RenderUtil.drawHealth(killAura.target));
+					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.96 + 42 + 50, scaledResolution.getScaledHeight() / 1.88f + 17, 9, 4,  RenderUtil.drawHealth(killAura.target));
 				  }
 				  if(killAura.target.getHealth() > 14) {
-					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 + 32 + 60 + 8, scaledResolution.getScaledHeight() / 1.84f, 9, 4,  RenderUtil.drawHealth(killAura.target));
+					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.96 + 42 + 60, scaledResolution.getScaledHeight() / 1.88f + 17, 9, 4,  RenderUtil.drawHealth(killAura.target));
 				  }
 				  if(killAura.target.getHealth() > 16) {
-					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 + 32 + 70 + 8, scaledResolution.getScaledHeight() / 1.84f, 9, 4,  RenderUtil.drawHealth(killAura.target));
+					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.96 + 42 + 70, scaledResolution.getScaledHeight() / 1.88f + 17, 9, 4,  RenderUtil.drawHealth(killAura.target));
 				  }
 				  if(killAura.target.getHealth() > 18) {
-					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 + 32 + 80 + 8, scaledResolution.getScaledHeight() / 1.84f, 9, 4,  RenderUtil.drawHealth(killAura.target));
+					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.96 + 42 + 80, scaledResolution.getScaledHeight() / 1.88f + 17, 9, 4,  RenderUtil.drawHealth(killAura.target));
 				  }
 				  if(killAura.target.getHealth() > 20) {
-					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.95 + 32 + 90 + 8, scaledResolution.getScaledHeight() / 1.84f, 9, 4,  RenderUtil.drawHealth(killAura.target));
+					  RenderUtil.drawRect(scaledResolution.getScaledWidth() / 1.96 + 42 + 90, scaledResolution.getScaledHeight() / 1.88f + 17, 9, 4,  RenderUtil.drawHealth(killAura.target));
 				  }
 				  for(int index = 3; index >= 0; --index) {
-					  mc.getRenderItem().renderItemAndEffectIntoGUI(killAura.target.getCurrentArmor(index), (int) (scaledResolution.getScaledWidth() / 1.95 + 30 + 8 + index * 14), (int) (scaledResolution.getScaledHeight() / 1.84f + 12));
+					  mc.getRenderItem().renderItemAndEffectIntoGUI(killAura.target.getCurrentArmor(index), (int) (scaledResolution.getScaledWidth() / 1.95 + 30 + 8 + index * 14), (int) (scaledResolution.getScaledHeight() / 1.88f + 29));
 				  }
-				  //mc.getRenderItem().renderItemOverlays(mc.fontRendererObj,killAura.target.getEquipmentInSlot(1), (int) (scaledResolution.getScaledWidth() / 1.95), (int) (scaledResolution.getScaledHeight() / 1.84f + 10));
+				  //mc.getRenderItem().renderItemOverlays(mc.fontRendererObj,killAura.target.getHeldItem(), (int) (scaledResolution.getScaledWidth() / 1.95), (int) (scaledResolution.getScaledHeight() / 1.88f + 10));
 			}
 		}
     }

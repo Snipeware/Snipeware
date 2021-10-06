@@ -104,17 +104,14 @@ private static BlockPos currentPos;
 private EnumFacing currentFacing;
 private boolean rotated = false;
 private final TimeHelper timer = new TimeHelper();
-private boolean HasStoped;
 float oldPitch = 0;
 private RotationUtils RayCastUtil;
 private EnumValue<TowerMode> towerMode  = new EnumValue<>("TowerMode", TowerMode.Hypixel);
 private EnumValue<Mode> mode  = new EnumValue<>("Mode", Mode.Normal);
-private float RandomY;
 private final TimeHelper Random = new TimeHelper();
 private final TimeHelper RotationTimer = new TimeHelper();
 private int smothYaw;
-private float differenceMinus;
-private float differencePlus;
+
 
 
 public Scaffold() {
@@ -150,12 +147,11 @@ public void onEnable() {
     super.onEnable();
     timer.reset();
     slotTimer.reset();
+    Random.reset();
     ticks = 0;
     if (mc.thePlayer !=null) {
         startY = mc.thePlayer.posY;
     }
-    
-   
     
 }
 
@@ -184,6 +180,7 @@ public void aa(EventPacketSend event){
     		}
     	break;
     }
+
 }
 
 @Handler
@@ -201,10 +198,6 @@ public void onMotionUpdate(final EventMotionUpdate event) {
    	   setSuffix ("Normal"); 
    	 }
     
-    if(Random.isDelayComplete(80)){
-    	RandomY = (float) MathUtils.getRandomInRange(79, 84.5f);
-    	Random.reset();
-    }
    
             int slot = this.getSlot ();
      
@@ -272,7 +265,6 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                        		}
 
                 	  		event.setYaw((float) (smothYaw + MathUtils.getRandomInRange(0, 3))); 
-                	  	
                 	  		if(mc.thePlayer.onGround) {
                     		 event.setPitch(87);
                        		 }else {
@@ -332,7 +324,6 @@ public void onMotionUpdate(final EventMotionUpdate event) {
             
     }
     mc.thePlayer.rotationYawHead = event.getYaw ();
-  
     mc.thePlayer.renderYawOffset = event.getYaw ();
 
 }
