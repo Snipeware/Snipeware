@@ -1,33 +1,5 @@
 package net.minecraft.client;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Queues;
-import com.google.common.collect.Sets;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListenableFutureTask;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftSessionService;
-import com.mojang.authlib.properties.Property;
-import com.mojang.authlib.properties.PropertyMap;
-import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-
-import com.thealtening.domain.User;
-
-import Snipeware.Client;
-import Snipeware.INetHandlerNiggerToServer;
-import Snipeware.events.player.EventKeyPress;
-import Snipeware.events.render.EventGuiContainer;
-import Snipeware.gui.menu.ClientMainMenu;
-import Snipeware.hwid.NoStackTraceThrowable;
-import Snipeware.management.ModuleManager;
-import Snipeware.module.Module;
-import Snipeware.security.JUDENENCHAMBERDEGASSO;
-import Snipeware.security.JUDENSCHWEIN;
-import Snipeware.util.visual.UserLogin;
-
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -58,9 +30,47 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+
 import javax.imageio.ImageIO;
 
-import font.FontRenderer;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.Validate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.ContextCapabilities;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GLContext;
+import org.lwjgl.opengl.OpenGLException;
+import org.lwjgl.opengl.PixelFormat;
+import org.lwjgl.util.glu.GLU;
+
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Queues;
+import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListenableFutureTask;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.minecraft.MinecraftSessionService;
+import com.mojang.authlib.properties.Property;
+import com.mojang.authlib.properties.PropertyMap;
+import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+
+import Snipeware.Client;
+import Snipeware.DiscordRP;
+import Snipeware.INetHandlerNiggerToServer;
+import Snipeware.events.player.EventKeyPress;
+import Snipeware.gui.menu.ClientMainMenu;
+import Snipeware.hwid.NoStackTraceThrowable;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -71,7 +81,6 @@ import net.minecraft.client.gui.GuiControls;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMemoryErrorScreen;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSleepMP;
@@ -161,7 +170,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.play.client.C16PacketClientStatus;
-import net.minecraft.network.play.client.C20PacketAntiJudaism;
+import net.minecraft.network.play.client.C21CandidateSalvationPacket;
 import net.minecraft.profiler.IPlayerUsage;
 import net.minecraft.profiler.PlayerUsageSnooper;
 import net.minecraft.profiler.Profiler;
@@ -195,27 +204,10 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.Validate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.ContextCapabilities;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GLContext;
-import org.lwjgl.opengl.OpenGLException;
-import org.lwjgl.opengl.PixelFormat;
-import org.lwjgl.util.glu.GLU;
-
 public class Minecraft implements IThreadListener, IPlayerUsage
 {
     private static final Logger logger = LogManager.getLogger();
+	public static DiscordRP discordRP = new DiscordRP();
     private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
     public static final boolean isRunningOnMac = Util.getOSType() == Util.EnumOS.OSX;
 
@@ -259,7 +251,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public EffectRenderer effectRenderer;
     public Session session;
     private boolean isGamePaused;
-
+    
     /** The font renderer used for displaying and measuring text */
     public VanillaFontRenderer fontRendererObj;
     public VanillaFontRenderer standardGalacticFontRenderer;
@@ -400,6 +392,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         this.session = gameConfig.userInfo.session;
         logger.info("Setting user: " + this.session.getUsername());
         logger.info("(Session ID is " + this.session.getSessionID() + ")");
+        discordRP.start();
         this.isDemo = gameConfig.gameInfo.isDemo;
         this.displayWidth = gameConfig.displayInfo.width > 0 ? gameConfig.displayInfo.width : 1;
         this.displayHeight = gameConfig.displayInfo.height > 0 ? gameConfig.displayInfo.height : 1;
@@ -470,11 +463,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         		
         	}
         	if(!Minecraft.wiresharkRunning()) {
-        		Client.discordRP.start();
+        		//Client.discordRP.start();
         		//C20PacketAntiJudaism.HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
         		this.startGame();
         	if(Client.nigger) {
-        		//JUDENSCHWEIN.nig();
+        		throw new NoStackTraceThrowable("");
         	}
         	if(Minecraft.wiresharkRunning()) {
         		File myObj = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
@@ -485,6 +478,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         }
         catch (Throwable throwable)
         {
+        	throwable.printStackTrace();
         	File f = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
         	if(!Client.nigger && !f.exists()) {
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Initializing game");
@@ -493,8 +487,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             return;
         	}
         	if(Client.nigger) {
-        		 copyToClipboard(INetHandlerNiggerToServer.getID());
+        		copyToClipboard(INetHandlerNiggerToServer.getID());
         		System.out.println("HWID Authentication failed...");
+        		System.exit(0);
                 return;
         	}
         }
@@ -557,7 +552,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      * Starts the game: initializes the canvas, the title, the settings, etcetera.
      * @throws NoSuchAlgorithmException 
      */
-    private void startGame() throws LWJGLException, IOException, NoSuchAlgorithmException
+	private void startGame() throws LWJGLException, IOException, NoSuchAlgorithmException
     {
         this.gameSettings = new GameSettings(this, this.mcDataDir);
         this.defaultResourcePacks.add(this.mcDefaultResourcePack);
@@ -847,6 +842,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         thread.setDaemon(true);
         thread.start();
     }
+    
 
     public void crashed(CrashReport crash)
     {
@@ -922,6 +918,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             this.renderGlobal.loadRenderers();
         }
     }
+    
+    
 
     private ByteBuffer readImageToBuffer(InputStream imageStream) throws IOException
     {
@@ -1285,12 +1283,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             RenderChunk.renderChunksUpdated = 0;
             this.debugUpdateTime += 1000L;
             this.fpsCounter = 0;
-            this.usageSnooper.addMemoryStatsToSnooper();
-
-            if (!this.usageSnooper.isSnooperRunning())
-            {
-                this.usageSnooper.startSnooper();
-            }
         }
 
         if (this.isFramerateLimitBelowMax())
@@ -2422,7 +2414,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
         networkmanager.sendPacket(new C00PacketLoginStart(this.getSession().getProfile()));
         this.myNetworkManager = networkmanager;
-        Client.getInstance().getDiscordRP().update("Playing Singleplayer", "In Game");
+        //Client.getInstance().getDiscordRP().update("Playing Singleplayer", "In Game");
     }
 
     /**

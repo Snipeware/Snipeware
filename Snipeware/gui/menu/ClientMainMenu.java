@@ -52,6 +52,8 @@ public class ClientMainMenu extends GuiMainMenu {
 		} catch (IOException e) {
 			throw new IllegalStateException("Failed to load backgound shader", e);
 		}
+    	//Client.getInstance().getDiscordRP().update("idling", "Main Menu");
+        super.initGui();
         
     //   buttonList.add(new TextButton(3, xMid + width / 3, initHeight - 153, objWidth, objHeight, strLang));
       //  buttonList.add(new TextButton(2, xMid + width / 3 + 110, initHeight - 153, objWidth, objHeight, strOptions));
@@ -165,7 +167,7 @@ public class ClientMainMenu extends GuiMainMenu {
         
  
         
-        final String welcome = "Welcome back ";
+        final String welcome = "Welcome back "+Minecraft.getMinecraft().getSession().getUsername();
         final String Credits = "Made by Koljan, Tear, Napoleon, HeyaGlitz";
         final String Build = "Build 1.1";
        

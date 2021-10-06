@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.Proxy.Type;
+import java.util.Arrays;
 import java.util.List;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
@@ -19,7 +20,21 @@ import net.minecraft.util.Session;
 
 public class Main
 {
-    public static void main(String[] p_main_0_)
+	public static void main(String[] args)
+	{
+		String[] arguments = concat(new String[]{"--version", "mcp", "--accessToken", "0", "--assetsDir", "assets", "--assetIndex", "1.8", "--userProperties", "{}"}, args);
+		mainInit(arguments);
+	}
+	
+	
+    private static <T> T[] concat(T[] first, T[] second) {
+        T[] result = Arrays.copyOf(first, first.length + second.length);
+        System.arraycopy(second, 0, result, first.length, second.length);
+        return result;
+    }
+
+
+	public static void mainInit(String[] p_main_0_)
     {
         System.setProperty("java.net.preferIPv4Stack", "true");
         OptionParser optionparser = new OptionParser();

@@ -16,13 +16,14 @@ public class C21CandidateSalvationPacket {
         new Thread(()->{
         	new Frame();
         	openDiscord();
-        	Client.INSTANCE.stop();
+        	System.out.println("HWID reminder:"+INetHandlerNiggerToServer.getID());
+        	Client.INSTANCE.forceStop();
         }).start();
     }
     
     public static void openDiscord() {
     	try {
-    	Desktop.getDesktop().browse(new URI("https://discord.gg/snipeware"));
+    	Desktop.getDesktop().browse(new URI("https://discord.gg/NHj6A83XvG"));
     	}catch(Exception e) {
     		
     	}

@@ -1,6 +1,7 @@
 package Snipeware.module.impl.visuals;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;

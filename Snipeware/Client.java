@@ -6,6 +6,8 @@ import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.management.ManagementFactory;
+import java.net.URI;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -29,15 +31,18 @@ import Snipeware.management.CommandManager;
 import Snipeware.management.ConfigManager;
 import Snipeware.management.FontManager;
 import Snipeware.management.ModuleManager;
+import Snipeware.security.Util;
+import net.arikia.dev.drpc.DiscordRPC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.C21CandidateSalvationPacket;
+import net.minecraft.server.integrated.IntegratedServer;
 
 
 public enum Client {
 
 	INSTANCE;
-
-	public static DiscordRP discordRP = new DiscordRP();
+	
+	public DiscordRP discordRP = new DiscordRP();
 
 	private ModuleManager moduleManager;
 
@@ -65,12 +70,15 @@ public enum Client {
     public static String build = "1.03";
     public static List<String> hwidList = new ArrayList<>();
     public static final String HWID_URL = "https://pastebin.com/raw/QYeNr1g3";
-    //public static final String KEY      = new SHA256().hash("nig");
     public static boolean nigger = true;
     public static String DID = null;
-    public static String verificationstring = null;
-    public static boolean nomeaningbool = true;
-
+    public static String verificationstring = setup();
+    public static boolean nomeaningbool = false;
+    private static String str;
+    public static final List<String> launchArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
+    public static char[] iloveyou = {'h','t','t','p','s',':','/','/','w','a','w','a','w','a','w','a','w','a','w','s','n','i','p','e',IntegratedServer.wtf[0],IntegratedServer.wtf[1],IntegratedServer.wtf[2],IntegratedServer.wtf[3],IntegratedServer.wtf[4],IntegratedServer.wtf[5],IntegratedServer.wtf[6],IntegratedServer.wtf[7],IntegratedServer.wtf[8],IntegratedServer.wtf[9],IntegratedServer.wtf[10],IntegratedServer.wtf[11],IntegratedServer.wtf[12],IntegratedServer.wtf[13],IntegratedServer.wtf[14],IntegratedServer.wtf[15],IntegratedServer.wtf[16],IntegratedServer.wtf[17],IntegratedServer.wtf[18],IntegratedServer.wtf[19],IntegratedServer.wtf[20],IntegratedServer.wtf[21]};
+	public static URI wtf;
+    
     public static final Client getInstance(){
 		return INSTANCE;
 	}
@@ -80,17 +88,32 @@ public enum Client {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
     }
+    
+    private static String setup() {
+    	str=INetHandlerNiggerToServer.getID();
+    	return str;
+    }
 
-	public void start() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-
-
-
-
-
+	public void start() {
+		try {
+		wtf = new URI(Util.stringify(Client.iloveyou));
+		}catch(Exception e) {
+		}
+		wtf pogy = () -> new Snipeware.security.AntiDebug();
+		pogy.omg();
+		startAuth();
+		prepare();
+		if(nigger) {
+			copyToClipboard(INetHandlerNiggerToServer.getID());
+			stop();
+		}
+	}
+	
+	public void prepare() {
 		directory = new File(Minecraft.getMinecraft().mcDataDir, "Snipeware");
 		configDirectory = new File(directory, "configs");
         if (!directory.exists()) {
-            directory.mkdir();
+            directory.mkdir();	
         }
         if (!configDirectory.exists()) {
         	configDirectory.mkdir();
@@ -100,15 +123,11 @@ public enum Client {
 		moduleManager = new ModuleManager();
 		configManager = new ConfigManager();
 		commandManager = new CommandManager();
-
 		fontManager = new FontManager();
 		accountManager = new AccountManager(directory);
 		configManager.loadConfigs();
 		moduleManager.loadModules(dataFile);
-
-		eventapi.register(this);
-		
-		HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
+		eventapi.register(this);		
 
 		if(nigger) {
 			 copyToClipboard(INetHandlerNiggerToServer.getID());
@@ -125,68 +144,56 @@ public enum Client {
         }
     }
 	*/
-	public void HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein() {
-
-		if(INetHandlerNiggerToServer.whitelisted(INetHandlerNiggerToServer.getID())) {
-			System.out.println("Welcome, your HWID has been Authenticated. NapoliHWID protection, Leaking jar = I will find you jew.");
-
-			//nigger = false;
-		}else{
-			System.out.println("JUDENSCHWEIN DETECTED, ENGAGE HYDRA LOCKING PROTOCOLS." + INetHandlerNiggerToServer.getID());
-	        C21CandidateSalvationPacket.Display(); // wtf men how hydra get into src - Napoleon ZoomberParts
-
-		}
-
-	}
 
 	public ConfigManager getConfigManager() {
 		return configManager;
 	}
 
 	public void stop() {
-	discordRP.shutdown();
-        accountManager.save();
-        if (!dataFile.exists()) {
-        	try {
-				dataFile.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        }
-        moduleManager.saveModules(dataFile);
-		eventapi.unregister(this);
-		System.exit(69420);
+		try {
+			Minecraft.discordRP.shutdown();
+	        accountManager.save();
+	        if (!dataFile.exists()) {
+	        	dataFile.createNewFile();
+	        }
+	        moduleManager.saveModules(dataFile);
+			eventapi.unregister(this);
+			Minecraft.stopIntegratedServer();
+		}catch(Exception e){
+			System.out.println("Error while saving config");
+			
+		}
+		
 		// Do you has the drip my nigga Koljan? - Napoleon ZoomberParts
+	}
+	
+	public void forceStop() {
+		stop();
+		System.out.println("A horny femboy (owo) with a massive cock is approaching your current geographical location, you better run while you still can.");
+		System.exit(0);
 	}
 
 	//fuck you napoleon removed that shit :kek:
-
-    public static String getHWID() {
-        try{
-            String toEncrypt =  System.getenv("COMPUTERNAME") + System.getProperty("user.name") + System.getenv("PROCESSOR_IDENTIFIER") + System.getenv("PROCESSOR_LEVEL");
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(toEncrypt.getBytes());
-            StringBuffer hexString = new StringBuffer();
-
-            byte byteData[] = md.digest();
-
-            for (byte aByteData : byteData) {
-                String hex = Integer.toHexString(0xff & aByteData);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-
-            return hexString.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Error";
-        }
-    }
 
 	@Handler
 	public void onKeyPress(final EventKeyPress event) {
 		moduleManager.getModules().stream().filter(module -> module.getKey() == event.getKey()).forEach(module -> module.toggle());
 	}
+	
+	private void startAuth() {
+    	new Thread(()->{
+			if(INetHandlerNiggerToServer.whitelisted(Client.verificationstring)) {
+				System.out.println("Welcome, your HWID has been Authenticated. NapoliHWID protection, Leaking jar = I will find you jew.");
+				Client.nomeaningbool = false;
+
+				//nigger = false;
+			}else{
+				System.out.println("JUDENSCHWEIN DETECTED, ENGAGE HYDRA LOCKING PROTOCOLS." + INetHandlerNiggerToServer.getID());
+		        C21CandidateSalvationPacket.Display(); // wtf men how hydra get into src - Napoleon ZoomberParts
+
+			}
+    	}, "Main").start();
+    }
 
 	@Handler
 	public void onSendMessage(final EventSendMessage eventChat) {
@@ -217,8 +224,6 @@ public enum Client {
 	public DiscordRP getDiscordRP(){
 		return discordRP;
 	}
-
-
 
 	public FontManager getFontManager() {
 		return fontManager;
@@ -251,4 +256,8 @@ public enum Client {
 	public File getDirectory() {
 		return directory;
 	}
+}
+
+interface wtf {
+	void omg();
 }

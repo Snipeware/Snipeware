@@ -1,9 +1,6 @@
 package Snipeware;
 
-import java.net.URL;
 import java.security.MessageDigest;
-import java.util.Scanner;
-
 import Snipeware.security.Comparator;
 import Snipeware.security.Transmitter;
 
@@ -11,7 +8,7 @@ public class INetHandlerNiggerToServer { // When the util is sus
     public static boolean whitelisted(String verify)
     {
     	if(verify==Client.verificationstring) {
-    		Client.nomeaningbool = false;
+    		Client.nomeaningbool = true;
     	}
     	String napoleonfemboylover = Transmitter.sendToServer(getID());
     	if(verify==Client.verificationstring) {
