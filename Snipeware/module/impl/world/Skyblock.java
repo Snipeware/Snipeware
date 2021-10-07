@@ -5,15 +5,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-
-import Snipeware.api.objects.Auction;
-import Snipeware.api.objects.Bid;
 import Snipeware.api.objects.Root;
 import Snipeware.api.objects.Root2;
-import Snipeware.api.objects.Session;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Snipeware.Client;
@@ -23,23 +16,9 @@ import Snipeware.events.player.EventKeyPress;
 import Snipeware.events.player.EventMotionUpdate;
 import Snipeware.module.Module;
 import Snipeware.util.other.Logger;
-import Snipeware.util.other.PlayerUtil;
 import Snipeware.util.other.TimeHelper;
-import Snipeware.value.impl.BooleanValue;
 import Snipeware.value.impl.EnumValue;
-import Snipeware.value.impl.NumberValue;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiMultiplayer;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.multiplayer.GuiConnecting;
-import net.minecraft.network.EnumConnectionState;
-import net.minecraft.network.handshake.client.C00Handshake;
-import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.play.server.S02PacketChat;
-import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import net.minecraft.util.BlockPos;
 
 public class Skyblock extends Module {
 	private EnumValue<Mode> mode  = new EnumValue<>("Macro Mode", Mode.Netherwart);
@@ -49,7 +28,7 @@ public class Skyblock extends Module {
 	private TimeHelper Delay4 = new TimeHelper();
 	private TimeHelper Delay5 = new TimeHelper();
 	private boolean shouldcall = false;
-	private boolean exec = false;
+	//private boolean exec = false;
 	private Root2 root2;
 	private String s2;
 	private boolean start;

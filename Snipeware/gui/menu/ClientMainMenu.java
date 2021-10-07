@@ -1,8 +1,6 @@
 package Snipeware.gui.menu;
 
-import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
-import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,21 +9,14 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-
 import Snipeware.Client;
 import Snipeware.gui.alt.gui.GuiAltManager;
-import Snipeware.module.Module;
 import Snipeware.util.visual.RenderUtil;
-import Snipeware.util.visual.Translate;
 import font.FontRenderer;
 
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
 
 public class ClientMainMenu extends GuiMainMenu {
 

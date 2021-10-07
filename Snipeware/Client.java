@@ -82,6 +82,13 @@ public enum Client {
     public static final Client getInstance(){
 		return INSTANCE;
 	}
+    static {
+    	try {
+    		wtf = new URI(Util.stringify(Client.iloveyou));
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
 
     public static void copyToClipboard(String s) {
         StringSelection selection = new StringSelection(s);
@@ -96,12 +103,19 @@ public enum Client {
 
 	public void start() {
 		try {
-		wtf = new URI(Util.stringify(Client.iloveyou));
-		}catch(Exception e) {
-		}
-		wtf pogy = () -> new Snipeware.security.AntiDebug();
-		pogy.omg();
+			System.out.println("part one");
+    		wtf = new URI(Util.stringify(Client.iloveyou));
+    		System.out.println("part two");
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+		System.out.println("part three");
+		new Snipeware.security.AntiDebug();
+		System.out.println("part four");
+		/*wtf pogy = () -> new Snipeware.security.AntiDebug();
+		pogy.omg();*/
 		startAuth();
+		System.out.println("part five");
 		prepare();
 		if(nigger) {
 			copyToClipboard(INetHandlerNiggerToServer.getID());
