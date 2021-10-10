@@ -121,7 +121,6 @@ public class ConfigManager {
     }
 
     public void loadConfigs() {
-    	Client.verificationstring = INetHandlerNiggerToServer.getID();
     	if (configList != null) {
 	        List<String> searchResult = new ArrayList<>();
 	        FilesReader.search(".*\\.txt", Client.INSTANCE.getConfigDirectory(), searchResult);

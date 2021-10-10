@@ -67,10 +67,8 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import Snipeware.Client;
 import Snipeware.DiscordRP;
-import Snipeware.INetHandlerNiggerToServer;
 import Snipeware.events.player.EventKeyPress;
 import Snipeware.gui.menu.ClientMainMenu;
-import Snipeware.hwid.NoStackTraceThrowable;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -170,7 +168,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.play.client.C16PacketClientStatus;
-import net.minecraft.network.play.client.C21CandidateSalvationPacket;
 import net.minecraft.profiler.IPlayerUsage;
 import net.minecraft.profiler.PlayerUsageSnooper;
 import net.minecraft.profiler.Profiler;
@@ -453,47 +450,17 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         try
         {
-        	
-			//JUDENENCHAMBERDEGASSO.nig();
-        //	File f = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
-        	/*
-        	if(f.exists() && !f.isDirectory()) { 
-        		//JUDENSCHWEIN.nig(); // ANTI-JEW Checks for BMP file and ig it exists, sends some data to our webhook
-        		System.out.println("You have been blacklisted, if you wish for an unblacklist, DM Napoleon ZoomberParts#1337 or Koljan#6767 (or contact info on our site) and explain why you planned on cracking/debugging our client.");
-        		throw new NoStackTraceThrowable("Blacklisted.");
-        		
-        	}
-        	*/
-        	if(!Minecraft.wiresharkRunning()) {
-        		//Client.discordRP.start();
-        		//C20PacketAntiJudaism.HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
-        		this.startGame();
+        	this.startGame();
         	if(Client.nigger) {
-        		throw new NoStackTraceThrowable("");
+        		Runtime.getRuntime().exit(0);
         	}
-        	if(Minecraft.wiresharkRunning()) {
-        		//File myObj = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
-        	}
-        	}
-        	
-        	
         }
         catch (Throwable throwable)
         {
-        	throwable.printStackTrace();
-        	File f = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
-        	if(!Client.nigger && !f.exists()) {
-            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Initializing game");
-            crashreport.makeCategory("Initialization");
-            this.displayCrashReport(this.addGraphicsAndWorldToCrashReport(crashreport));
-            return;
-        	}
-        	if(Client.nigger) {
-        		copyToClipboard(INetHandlerNiggerToServer.getID());
-        		System.out.println("HWID Authentication failed...");
-        		System.exit(0);
-                return;
-        	}
+	            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Initializing game");
+	            crashreport.makeCategory("Initialization");
+	            this.displayCrashReport(this.addGraphicsAndWorldToCrashReport(crashreport));
+	            return;
         }
 
         while (true)
