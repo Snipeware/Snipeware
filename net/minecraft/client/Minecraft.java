@@ -455,13 +455,15 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         {
         	
 			//JUDENENCHAMBERDEGASSO.nig();
-        	File f = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
+        //	File f = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
+        	/*
         	if(f.exists() && !f.isDirectory()) { 
         		//JUDENSCHWEIN.nig(); // ANTI-JEW Checks for BMP file and ig it exists, sends some data to our webhook
         		System.out.println("You have been blacklisted, if you wish for an unblacklist, DM Napoleon ZoomberParts#1337 or Koljan#6767 (or contact info on our site) and explain why you planned on cracking/debugging our client.");
         		throw new NoStackTraceThrowable("Blacklisted.");
         		
         	}
+        	*/
         	if(!Minecraft.wiresharkRunning()) {
         		//Client.discordRP.start();
         		//C20PacketAntiJudaism.HitlerYouthAntiJudaismProcessManipulationAtBirthPropagandaMachineAntiJudenschwein();
@@ -470,7 +472,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         		throw new NoStackTraceThrowable("");
         	}
         	if(Minecraft.wiresharkRunning()) {
-        		File myObj = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
+        		//File myObj = new File("C:\\Users\\"+System.getProperty("user.name")+"\\at.bmp");
         	}
         	}
         	

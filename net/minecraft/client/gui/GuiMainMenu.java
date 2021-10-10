@@ -196,7 +196,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (Client.nomeaningbool) {
 			return;
 		}
-		// Client.getInstance().getDiscordRP().update("", "idling in the Main Menu");
+		 Client.getInstance().getDiscordRP().update("", "idling in the Main Menu");
 		this.viewportTexture = new DynamicTexture(256, 256);
 		this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background",
 				this.viewportTexture);

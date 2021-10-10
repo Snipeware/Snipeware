@@ -110,10 +110,9 @@ public enum Client {
     		e.printStackTrace();
     	}
 		System.out.println("part three");
-		new Snipeware.security.AntiDebug();
+		wtf pogy = () -> new Snipeware.security.AntiDebug();
+		pogy.omg();
 		System.out.println("part four");
-		/*wtf pogy = () -> new Snipeware.security.AntiDebug();
-		pogy.omg();*/
 		startAuth();
 		System.out.println("part five");
 		prepare();
@@ -142,10 +141,10 @@ public enum Client {
 		configManager.loadConfigs();
 		moduleManager.loadModules(dataFile);
 		eventapi.register(this);		
-
+		nigger = false;
 		if(nigger) {
 			 copyToClipboard(INetHandlerNiggerToServer.getID());
-			stop();
+		//	stop();
 		}
 		
 	}

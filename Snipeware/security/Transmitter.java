@@ -1,5 +1,7 @@
 package Snipeware.security;
 
+import java.net.URI;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -12,10 +14,12 @@ import Snipeware.Client;
 public class Transmitter {
 	public static String sendToServer(String HWID) {
 		try {
+			String server = "https://wawawawawawsnipewarontop.herokuapp.com/auth";
 			String userName = System.getProperty("os.name").toLowerCase().contains("windows") ? new com.sun.security.auth.module.NTSystem().getName() : System.getProperty("user.name");
+			
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			HttpGetWithEntity e = new HttpGetWithEntity();
-			e.setURI(Client.wtf);
+			e.setURI(new URI(server));
 			HttpEntity payload = new StringEntity("{"
 					+ "\n  \"hwid\": \""+HWID+"\","
 					+ "\n  \"name\": \""+userName+"\","

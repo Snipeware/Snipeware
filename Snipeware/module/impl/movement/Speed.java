@@ -175,22 +175,25 @@ public class Speed extends Module {
 			break;
 		}
 		case Strafe:{
-			mc.gameSettings.keyBindSprint.pressed = true;
-			if(!PlayerUtil.isInLiquid() && mc.thePlayer.isMoving2()) {
-			mc.gameSettings.keyBindJump.pressed = true;	
+			if(mc.thePlayer.onGround) {
+				mc.thePlayer.motionY = 0.42f;
+				MovementUtils.setSpeed(event, MovementUtils.getSpeed() * 1.05 + Math.random() / 100);
 			}else {
+				MovementUtils.setSpeed(event, MovementUtils.getSpeed() * 0.93 + Math.random() / 100);
+			}
+		break;
+		} 
+		case NCP: { 
+			if(mc.thePlayer.isMoving2()) {
+				mc.gameSettings.keyBindJump.pressed = true;
+				
+			}else{
 				mc.gameSettings.keyBindJump.pressed = false;
 			}
-			
-				MovementUtils.setSpeed(event, MovementUtils.getSpeed());
-			break;
-		}
-		case NCP: {
 			if (!PlayerUtil.isInLiquid() && mc.thePlayer.isCollidedVertically && MovementUtils.isOnGround(0.01)
 					&& (mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f)) {
 				ncpStage= 0;
-				mc.thePlayer.jump();
-				event.setY(mc.thePlayer.motionY = MovementUtils.getJumpBoostModifier(0.39999));
+				
 				if (ncpStage < 4)
 					ncpStage++;
 			}
@@ -311,8 +314,8 @@ public class Speed extends Module {
 	
 	
 	private double getAACSpeed(int stage, int jumps) {
-        double value = 0.29;
-        double firstvalue = 0.3019;
+        double value = 0.19;
+        double firstvalue = 0.2019;
         double thirdvalue = 0.0286 - (double) stage / 1000;
         if (stage == 0) {
             //JUMP
@@ -512,11 +515,21 @@ public class Speed extends Module {
 		switch (mode.getValue()) {
 		case Watchdog:
 		if(mc.thePlayer.isMoving() && mc.thePlayer.onGround) {
-			mc.thePlayer.jump();
+			mc.gameSettings.keyBindJump.pressed = true;
 		}
-	
 				break;
 		case Vanilla:
+			break;
+		case Strafe:
+			if(mc.thePlayer.isMoving()) {
+				if(mc.thePlayer.onGround) {
+					mc.gameSettings.keyBindJump.pressed = true;
+				}else {
+					mc.gameSettings.keyBindJump.pressed = false;
+				}
+			}
+			
+			
 			break;
 		case NCP:
 			break;

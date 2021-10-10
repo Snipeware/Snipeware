@@ -53,9 +53,11 @@ public class Disabler extends Module {
 	private TimeHelper timer = new TimeHelper();
 	private TimeHelper Watchdog = new TimeHelper();
 	private TimeHelper Watchdog2 = new TimeHelper();
+	private TimeHelper WatchdogDisabler = new TimeHelper();
+	private boolean shouldDisable;
 
 	private final ArrayDeque<Packet> list = new ArrayDeque<>();
-	
+	private ArrayList<Packet> packets = new ArrayList<>();
 	private int watchdogCounter, currentTrans;
 	private double watchdogMovement;
 	private boolean groundCheck, watchdogPacket;
@@ -63,7 +65,7 @@ public class Disabler extends Module {
 	private boolean shouldBlink2;
 	private int packetcounter;
 	public EntityLivingBase entity;
-
+	
 	public Disabler() {
 		super("Disabler", 0, ModuleCategory.WORLD);
 		addValues(mode);
@@ -78,11 +80,11 @@ public class Disabler extends Module {
 		super.setSuffix(mode.getValueAsString());
 		switch (mode.getValue()) {
 			case FakeLag: {
-				if (PlayerUtil.isOnServer("hypixel")) {
+				
 					if (mc.thePlayer.ticksExisted < .5) {
 						list.clear();
 					}
-					if (timer.reach(ThreadLocalRandom.current().nextInt(3000, 5000))) {
+					if (timer.reach(MathUtils.getRandomInRange(5300, 10500))) {
 						while (list.size() > 0) {
 							mc.getNetHandler().addToSendQueueNoEvent(list.removeLast());
 							timer.reset();
@@ -90,7 +92,7 @@ public class Disabler extends Module {
 					}
 				}
 				break;
-			}
+			
 			case Ghostly: {
 				break;
 			}
@@ -109,7 +111,6 @@ public class Disabler extends Module {
 				break;
 			}
 			case WatchdogStaff: {
-				mc.getNetHandler().addToSendQueueNoEvent(new C18PacketSpectate(UUID.randomUUID()));
 				break;
 			}
 			case Test: {
@@ -175,6 +176,7 @@ public class Disabler extends Module {
 				break;
 			}
 			case Watchdog: {
+				
 				if(Watchdog.isDelayComplete(MathUtils.getRandomInRange(300, 500))) {
 					shouldBlink = true;
 				}
@@ -208,7 +210,7 @@ public class Disabler extends Module {
 				
 				
 				if(shouldBlink2 = true) {
-					if (event.getPacket() instanceof C0FPacketConfirmTransaction){
+					if (event.getPacket() instanceof C03PacketPlayer.C06PacketPlayerPosLook){
 						packetcounter++;
 						if(mc.timer.timerSpeed > 1.1f) {
 						event.setCancelled(true);
@@ -219,6 +221,29 @@ public class Disabler extends Module {
 				break;
 			}
 			case WatchdogStaff: {
+				if(event.getPacket() instanceof C03PacketPlayer.C04PacketPlayerPosition) {
+		            float yaw = mc.thePlayer.rotationYaw;
+		            float pitch = mc.thePlayer.rotationPitch;
+		            double offsetX = 0;
+		            double offsetZ = 0;
+					if(mc.thePlayer.motionX > 0) {
+						offsetX = mc.thePlayer.motionX / 2;
+						yaw = -90;
+					}
+					if(mc.thePlayer.motionX < 0) {
+						offsetX = mc.thePlayer.motionX / 2;
+						yaw = 90;
+					}
+					if(mc.thePlayer.motionZ > 0) {
+						offsetZ = mc.thePlayer.motionZ / 2;
+						yaw = 0;
+					}
+					if(mc.thePlayer.motionZ < 0) {
+						offsetZ = mc.thePlayer.motionZ / 2;
+						yaw = -170;
+					}
+					event.setPacket(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX + offsetX, mc.thePlayer.posY, mc.thePlayer.posZ + offsetZ, yaw, pitch, mc.thePlayer.onGround));
+				}
 				
 				break;
 			}
@@ -227,7 +252,6 @@ public class Disabler extends Module {
 				break;
 			}
 			case FakeLag: {
-				if (PlayerUtil.isOnServer("hypixel") || PlayerUtil.isOnServer("ilovecatgirls")) {
 					if (event.getPacket() instanceof C0FPacketConfirmTransaction) {
 						final C0FPacketConfirmTransaction pp = (C0FPacketConfirmTransaction) event.getPacket();
 						if (pp.getUid() < 0) {
@@ -240,7 +264,7 @@ public class Disabler extends Module {
 						list.push(keepAlive);
 						event.setCancelled(true);
 					}
-				}
+				
 				break;
 			}
 			case Test: {
@@ -280,7 +304,9 @@ public class Disabler extends Module {
 	@Override
 	public void onEnable() {
 		super.onEnable();
+		packets.clear();
 		Watchdog.reset();
+		WatchdogDisabler.reset();
 		currentTrans = 0;
 		if (mc.thePlayer == null)
 			return;

@@ -15,4 +15,3 @@ public class Util {
 interface StringFunction {
 	String run(String str);
 }
-

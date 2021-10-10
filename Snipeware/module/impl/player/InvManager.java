@@ -182,6 +182,12 @@ public class InvManager extends Module {
         if (stack.getDisplayName().contains("���")) {
             return false;
         }
+        if (stack.getDisplayName().toLowerCase().contains("bow")) {
+            return false;
+        }
+        if (stack.getDisplayName().toLowerCase().contains("arrow")) {
+            return false;
+        }
         if (stack.getDisplayName().contains("�Ҽ�")) {
             return false;
         }

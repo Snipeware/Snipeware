@@ -107,9 +107,9 @@ public class GuiDisconnected extends GuiScreen
      */	
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-    	  if(Client.getInstance().getModuleManager().getModule("Skyblock").isEnabled()) {
-			  mc.displayGuiScreen(new GuiConnecting(new GuiMultiplayer(new GuiMainMenu()), mc, mc.lastServerData));
-			}
+    //	  if(Client.getInstance().getModuleManager().getModule("Skyblock").isEnabled()) {
+	//		  mc.displayGuiScreen(new GuiConnecting(new GuiMultiplayer(new GuiMainMenu()), mc, mc.lastServerData));
+	//		}
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, this.reason, this.width / 2, this.height / 2 - this.field_175353_i / 2 - this.fontRendererObj.FONT_HEIGHT * 2, 11184810);
         int i = this.height / 2 - this.field_175353_i / 2;

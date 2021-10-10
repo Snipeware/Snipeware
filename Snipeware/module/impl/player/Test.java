@@ -32,36 +32,17 @@ public class Test extends Module {
 	
 	@Handler
 	public void a(EventRender2D event) {
-		  final FontRenderer fr = Client.INSTANCE.getFontManager().getFont("Display 42", true);
-		  ScaledResolution sr = new ScaledResolution(mc);
 
-		 String test = "Penis";
-	
-		
-		   fr.drawString(test,  (sr.getScaledWidth() >> 1)  - mc.fontRendererObj.getStringWidth(test) / 2, (sr.getScaledHeight() >> 1) - rar, -1);
 	}
 	
 	@Handler
 	public void onMotionUpdate(final EventMotionUpdate event) {
-		
-		if(event.isPre() && mc.thePlayer.fallDistance > 2) {
-			Logger.print("pines");
-			mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
-;			mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, true));
-		}
+		mc.thePlayer.prevPosY = 0;
 	}
 	
 	@Handler
 	public void onMove(final EventMove event) {
 		
-	
-		if(!mc.thePlayer.isMoving2() && mc.thePlayer.fallDistance > 3) {
-		
-		
-	
-		}else {
-			mc.timer.timerSpeed = 1f;
-		}
 	}
 	
 	
@@ -72,7 +53,6 @@ public class Test extends Module {
 	
 	public void onDisable() {
 		mc.timer.timerSpeed = 1f;
-		rar = -50;
 		super.onDisable();
 	}
 	

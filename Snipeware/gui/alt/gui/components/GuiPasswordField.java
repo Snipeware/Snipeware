@@ -14,7 +14,7 @@ public class GuiPasswordField extends Gui {
     private final int width;
     private final int height;
     private String text = "";
-    private int maxStringLength = 50;
+    private int maxStringLength = 150;
     private int cursorCounter;
     private boolean enableBackgroundDrawing = true;
     private boolean canLoseFocus = true;

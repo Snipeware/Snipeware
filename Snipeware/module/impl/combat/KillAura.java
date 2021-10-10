@@ -109,7 +109,8 @@ public class KillAura extends Module {
 	
 	public TimeHelper attackTimer = new TimeHelper();
 	public boolean block;
-
+	private final TimeHelper RotationTimer2 = new TimeHelper();
+	private int smothYaw;
 	private final TimeHelper packetsTimer = new TimeHelper();
 	private final TimeHelper RotationTimer = new TimeHelper();
 	
@@ -181,7 +182,7 @@ public class KillAura extends Module {
 			unblock();
 			block = false;
 		}
-
+		
 
         if (index >= targets.size())
             index = 0;
@@ -210,6 +211,19 @@ public class KillAura extends Module {
 			
 			switch (rotationsMode.getValue()) {
 				case AAC: {
+					if(RotationTimer2.isDelayComplete(2)) {
+						pitch = (float) (RotationUtils.getNeededRotations(target)[1]);
+						yaw = (float) (RotationUtils.getNeededRotations(target)[0]);
+               			if(smothYaw <= yaw) {
+               				smothYaw += 5;
+               			}
+               			if(smothYaw >= yaw) {
+               				smothYaw -= 5;
+               			}
+               			RotationTimer.reset();
+               		}
+					
+				
 					break;
 				}
 				case Normal: {
@@ -256,11 +270,22 @@ public class KillAura extends Module {
 			
 		if(!rar) {	
 			if (lockview.isEnabled()) {
-				mc.thePlayer.rotationYaw = yaw;
-				mc.thePlayer.rotationPitch = shouldAutism ? AutismPitch : pitch;
+				if(rotationsMode.getValueAsString() == "AAC") {
+					mc.thePlayer.rotationYaw = smothYaw;
+					mc.thePlayer.rotationPitch = pitch;
+				}else {
+					mc.thePlayer.rotationYaw = yaw;
+					mc.thePlayer.rotationPitch = shouldAutism ? AutismPitch : pitch;
+				}
 			} else {
-				event.setYaw(shouldAutism ? AutismYaw : yaw);
-				event.setPitch(shouldAutism ? AutismPitch : pitch);
+				if(rotationsMode.getValueAsString() == "AAC") {
+					event.setYaw(smothYaw);
+					event.setPitch(pitch);
+				}else {
+					event.setYaw(shouldAutism ? AutismYaw : yaw);
+					event.setPitch(shouldAutism ? AutismPitch : pitch);
+				}
+	
 			
 			}
 			

@@ -46,6 +46,7 @@ import Snipeware.module.impl.player.Blink;
 import Snipeware.module.impl.player.ChestStealer;
 import Snipeware.module.impl.player.FastPlace;
 import Snipeware.module.impl.player.FastUse;
+import Snipeware.module.impl.player.HighJump;
 import Snipeware.module.impl.player.InvManager;
 import Snipeware.module.impl.player.KillSay;
 import Snipeware.module.impl.player.NoFall;
@@ -122,6 +123,7 @@ public class ModuleManager {
 		modules.put(ChestESP.class, new ChestESP());
 		modules.put(Freecam.class, new Freecam());
 		modules.put(TargetStrafe.class, new TargetStrafe());
+		modules.put(HighJump.class, new HighJump());
 		modules.put(Phase.class, new Phase());
 		modules.put(SessionInfo.class, new SessionInfo());
 		modules.put(ESP2D.class, new ESP2D());
@@ -159,6 +161,8 @@ public class ModuleManager {
 		modules.put(ItemESP.class, new ItemESP());
 		modules.put(OutlineESP.class, new OutlineESP());
 		modules.put(PenisESP.class, new PenisESP());
+		
+	
 		//modules.put(Skyblock.class, new Skyblock());
 		//modules.put(Notifier.class, new Notifier());
 	}

@@ -254,22 +254,12 @@ public void onMotionUpdate(final EventMotionUpdate event) {
                 yaw = getRotations(blockData.getPosition(), blockData.getFacing())[0];
                 pitch = limitedRotation.getPitch ();
                 	 if(mode.getValueAsString() == "Watchdog"){
-                	  		if(RotationTimer.isDelayComplete(5)) {
-                       			if(smothYaw <= yaw) {
-                       				smothYaw += 15;
-                       			}
-                       			if(smothYaw >= yaw) {
-                       				smothYaw -= 15;
-                       			}
-                       			RotationTimer.reset();
-                       		}
+               
 
-                	  		event.setYaw((float) (smothYaw + MathUtils.getRandomInRange(0, 3))); 
-                	  		if(mc.thePlayer.onGround) {
-                    		 event.setPitch(87);
-                       		 }else {
-                       			event.setPitch(90);
-                       		 }
+                	  		event.setYaw(yaw); 
+                	  		
+                    		 event.setPitch((float) (87 + MathUtils.getRandomInRange(0, 3)));
+                       		 
                 	 
                 	 }else if(mode.getValueAsString() == "Normal") {
                 		 event.setYaw(yaw);
@@ -307,15 +297,13 @@ public void onMotionUpdate(final EventMotionUpdate event) {
             		if (keeprots.getValue ().booleanValue ()) {
 
                    	 if(mode.getValueAsString() == "Watchdog"){
-                   		 event.setYaw((float) (smothYaw + MathUtils.getRandomInRange(0, 3))); 
+                   		 event.setYaw(yaw); 
                    		 if(mc.thePlayer.onGround) {
-                		 event.setPitch(87);
-                   		 }else {
-                   			event.setPitch(90);
+                   			 event.setPitch((float) (87 + MathUtils.getRandomInRange(0, 3)));
                    		 }
                    	 }else if(mode.getValueAsString() == "Normal") {
                    		 event.setYaw(yaw);
-                            event.setPitch(82); 
+                         event.setPitch(82); 
                    	 }
                   
                     }

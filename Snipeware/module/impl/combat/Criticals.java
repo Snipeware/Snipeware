@@ -79,6 +79,7 @@ public class Criticals extends Module {
         final KillAura killAura = (KillAura) Client.INSTANCE.getModuleManager().getModule(KillAura.class);
     	switch (mode.getValue()) {
     	case Watchdog:
+    		
     		break;
     		
     	
@@ -137,25 +138,11 @@ public class Criticals extends Module {
         }
             break;
             }case Watchdog:{
-            	if(mc.thePlayer.onGround) {
-            		if(killAura.target != null) {
-            			Packet<?> packet  = event.getPacket();
-	            			if(packet instanceof C03PacketPlayer.C04PacketPlayerPosition) {
-	            				C03PacketPlayer.C04PacketPlayerPosition c04 = (C03PacketPlayer.C04PacketPlayerPosition) event.getPacket();
-	            				Logger.print(String.valueOf(WatchdogCounter));
-	            					mc.thePlayer.onGround = false;
-	            					
-		            				c04.onGround = false;
-		            				c04.setY(mc.thePlayer.posY + MathUtils.getRandomInRange(0.002, 0.005));
-	            				
-	            				WatchdogCounter++;
-	            			}
-	            			if(WatchdogCounter > 7){
-	            				WatchdogCounter = 0;
-	            			}
-            			
-            			}
-            	}
+            	if(killAura.target != null) {
+					if(mc.thePlayer.onGround && !Client.INSTANCE.getModuleManager().getModule("Speed").isEnabled()) {
+						mc.thePlayer.motionY =+ 0.1;
+					}
+				}
             break;
     	
             }

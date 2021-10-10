@@ -17,15 +17,7 @@ public class Zoot extends Module {
 
 	@Handler
 	public void onMotionUpdate(final EventMotionUpdate event) {
-		for (Potion potion : Potion.potionTypes) {
-			PotionEffect effect;
-			if (event.isPre() && potion != null && ((effect = mc.thePlayer.getActivePotionEffect(potion)) != null && potion.isBadEffect()
-					|| mc.thePlayer.isBurning() && !mc.thePlayer.isInWater() && mc.thePlayer.onGround)) {
-				for (int i = 0; mc.thePlayer.isBurning() ? i < 20 : i < effect.getDuration() / 20; i++) {
-					mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
-				}
-			}
-		}
+		
 	}
 	
 	public void onEnable() {
