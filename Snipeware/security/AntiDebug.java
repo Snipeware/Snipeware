@@ -8,7 +8,7 @@ public class AntiDebug {
 	public AntiDebug() {
 		for(int i = 0; i < Client.launchArgs.size();i++) {
             String argument = Client.launchArgs.get(i);
-            if(argument.contains("-Xbootclasspath") || argument.contains("-Xdebug")/* || argument.contains("-agentlib") || argument.contains("-javaagent:") */|| argument.contains("-Xrunjdwp:") || argument.contains("-verbose") || debuggersAreRunning()){
+            if(argument.contains("-Xbootclasspath") || argument.contains("-Xdebug") || argument.contains("-agentlib") || argument.contains("-javaagent:") || argument.contains("-Xrunjdwp:") || argument.contains("-verbose") || debuggersAreRunning()){
                try{
             	   System.out.println(Client.launchArgs.get(i));
             	   Client.INSTANCE.forceStop();
